@@ -1,5 +1,18 @@
 export type AboutLang = 'uk' | 'en'
 
+interface PressItem {
+  href: string
+  title: string
+  publisher: string
+  date: string
+}
+
+interface CommunityItem {
+  href: string
+  title: string
+  platform: string
+}
+
 export const aboutContent = {
   uk: {
     slug: 'about',
@@ -65,9 +78,9 @@ export const aboutContent = {
       'Аспірантура (незакінчена) — Автоматизація та системи управління, ОНАХТ, 2002–2004',
     ],
     pressHeading: 'Публікації',
-    press: [],
+    press: [] as PressItem[],
     communityHeading: 'Спільнота',
-    community: [],
+    community: [] as CommunityItem[],
     faqHeading: 'Часті запитання',
     faq: [
       { q: 'Хто такий Андрій Роговський?', a: 'Senior AI Engineer з 25 роками досвіду в хмарній інфраструктурі та безпеці. Зараз повністю зосереджений на production GenAI системах — будує агентні воркфлоу та RAG-пайплайни на LangGraph, LangChain та Agno, розгорнуті в 5+ комерційних продуктах. Засновник Bablo Digital Agency та co-founder E-lli.com.' },
@@ -141,9 +154,9 @@ export const aboutContent = {
       'Postgraduate Studies (unfinished) — Automation and Control Systems, ONAFT, 2002–2004',
     ],
     pressHeading: 'Press',
-    press: [],
+    press: [] as PressItem[],
     communityHeading: 'Community',
-    community: [],
+    community: [] as CommunityItem[],
     faqHeading: 'Frequently Asked Questions',
     faq: [
       { q: 'Who is Andrey Rogovsky?', a: 'Senior AI Engineer with 25 years in cloud infrastructure and security, now fully focused on production GenAI systems. Builds agentic workflows and RAG pipelines using LangGraph, LangChain, and Agno — deployed across 5+ commercial products. Founder of Bablo Digital Agency and co-founder of E-lli.com.' },

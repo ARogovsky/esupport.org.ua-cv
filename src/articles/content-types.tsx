@@ -829,8 +829,8 @@ export function Accordion({ items, variant = 'simple', className, editorId }: Ac
                     {flow.summary && <p className="text-xs text-muted-foreground mt-1">{flow.summary}</p>}
                     {flow.tags && flow.tags.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 mt-2">
-                        {flow.tags.map(a => (
-                          <span key={a} className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary">{a}</span>
+                        {flow.tags.map((a, tagIdx) => (
+                          <span key={`${i}-${tagIdx}-${a}`} className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary">{a}</span>
                         ))}
                       </div>
                     )}

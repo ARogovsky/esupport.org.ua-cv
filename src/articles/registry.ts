@@ -26,17 +26,17 @@ export interface ArticleSeoMeta {
 
 export interface ArticleConfig {
   id: string
-  slugs: { es?: string; en: string; uk?: string }
-  titles: { es?: string; en: string; uk?: string }
-  seo: { es?: ArticleSeo; en: ArticleSeo; uk?: ArticleSeo }
-  sectionLabels: { es?: Record<string, string>; en: Record<string, string>; uk?: Record<string, string> }
+  slugs: { uk?: string; en: string }
+  titles: { uk?: string; en: string }
+  seo: { uk?: ArticleSeo; en: ArticleSeo }
+  sectionLabels: { uk?: Record<string, string>; en: Record<string, string> }
   type: 'collab' | 'case-study' | 'bridge'
   /** Absolute OG image URL for prerender (social cards: LinkedIn, Twitter) */
   ogImage?: string
   /** Hero image path for JSON-LD / GEO (what AI search engines see). Falls back to ogImage if not set. */
   heroImage?: string
-  component: () => Promise<{ default: ComponentType<{ lang?: 'es' | 'en' | 'uk' }> }>
-  /** x-default hreflang slug (defaults to ES slug) */
+  component: () => Promise<{ default: ComponentType<{ lang?: 'uk' | 'en' }> }>
+  /** x-default hreflang slug (defaults to UK slug) */
   xDefaultSlug?: string
   /** Whether this article is ready for RAG indexing (default: false) */
   ragReady?: boolean
@@ -53,11 +53,11 @@ export const articleRegistry: ArticleConfig[] = [
     titles: { uk: 'PerfectSquad', en: 'PerfectSquad' },
     seo: {
       uk: {
-        title: 'PerfectSquad: Геолокаційне дослідження вартості ігрового трафіку | Case Study',
+        title: 'PerfectSquad: Gaming Traffic Research | AI Engineer',
         description: 'GTM-експеримент з AI-генератором оголошень. 14 200 кліків, CTR 7-10%, $16 400 бюджет. Карта геолокацій для дешевого ігрового трафіку.',
       },
       en: {
-        title: 'PerfectSquad: Geo-location Research of Gaming Traffic Cost | Case Study',
+        title: 'PerfectSquad: Gaming Traffic Cost | AI Engineer',
         description: 'GTM experiment with AI ad generator. 14,200 clicks, 7-10% CTR, $16,400 budget. Geo map for cheap gaming traffic.',
       },
     },
@@ -126,11 +126,11 @@ export const articleRegistry: ArticleConfig[] = [
     titles: { uk: 'SmartCourses', en: 'SmartCourses' },
     seo: {
       uk: {
-        title: 'SmartCourses: EdTech платформа для підвищення кваліфікації вчителів | Case Study',
+        title: 'SmartCourses: EdTech Platform | AI Software Engineer',
         description: 'EdTech платформа з університетською акредитацією. 502 реєстрації, 500 бажаючих купити, CTR 13-17%. AI-driven GTM і автоматизований sales pipeline.',
       },
       en: {
-        title: 'SmartCourses: EdTech Platform for Teacher Professional Development | Case Study',
+        title: 'SmartCourses: EdTech Platform | AI Software Engineer',
         description: 'EdTech platform with university accreditation. 502 registrations, 500 willing to buy, 13-17% CTR. AI-driven GTM and automated sales pipeline.',
       },
     },
@@ -194,12 +194,12 @@ export const articleRegistry: ArticleConfig[] = [
     titles: { uk: 'Advogram GTM', en: 'Advogram GTM' },
     seo: {
       uk: {
-        title: 'Як я валідував нішу ATS-інструментів і знайшов ринок з CPA $0.32 за 6 тижнів | Advogram',
-        description: 'GTM кейс: як я валідував ринок HR-інструментів, визначив платоспроможні географії та побудував модель юніт-економіки для freemium SaaS — за 6 тижнів і $3,430.',
+        title: 'Advogram: ATS Tools Validation | AI Software Development',
+        description: 'ATS ніша валідована. 337 реєстрацій, $3,430, 6 тижнів. Франція $0.32 CPA, 9 гео відсіяно. CTR 15-19%. Юніт-економіка для західних ринків.',
       },
       en: {
-        title: 'How I Validated the ATS Tools Niche and Found a $0.32 CPA Market in 6 Weeks | Advogram',
-        description: 'GTM case study: how I validated the HR tools market, identified paying geographies, and built the unit economics model for a freemium SaaS — in 6 weeks and $3,430.',
+        title: 'Advogram: ATS Tools Validation | AI Software Development',
+        description: 'ATS niche validated. 337 sign-ups, $3,430, 6 weeks. France $0.32 CPA, 9 geos screened. CTR 15-19%. Unit economics built for Western markets.',
       },
     },
     sectionLabels: {
@@ -273,12 +273,12 @@ export const articleRegistry: ArticleConfig[] = [
     titles: { uk: 'offzmi GTM', en: 'offzmi GTM' },
     seo: {
       uk: {
-        title: 'Як AI знайшов нішу презентацій для маркетологів: 222 статті, $452 і ринковий сигнал | offzmi.com',
-        description: 'GTM-кейс: як за допомогою AI + MCP-browser було знайдено нішу, піднято мікросервіс для 222 статей і виявлено, що українські маркетологи масово шукають презентації.',
+        title: 'offzmi: AI Content for Marketers | AI Engineering',
+        description: 'AI + MCP-browser знайшов нішу. 222 статті, $452, 401 клік. Українські маркетологи шукають презентації. CTR 11.9%, +1000% зростання кліків.',
       },
       en: {
-        title: 'How AI Found the Presentation Niche for Marketers: 222 Articles, $452 and a Market Signal | offzmi.com',
-        description: 'GTM case study: how AI + MCP-browser niche surfing, a 222-article microservice pipeline, and paid traffic revealed that Ukrainian marketers are massively searching for presentation tools.',
+        title: 'offzmi: AI Content for Marketers | AI Engineering',
+        description: 'AI + MCP-browser found niche. 222 articles, $452, 401 clicks. Ukrainian marketers search presentations. CTR 11.9%, +1000% click growth.',
       },
     },
     sectionLabels: {
@@ -352,11 +352,11 @@ export const articleRegistry: ArticleConfig[] = [
     titles: { uk: 'AI Tool Insights', en: 'AI Tool Insights' },
     seo: {
       uk: {
-        title: 'AI Tool Insights: Маркетингове дослідження попиту на AI-інструменти | Case Study',
+        title: 'AI Tools Research | Artificial Intelligence Expert',
         description: 'Каталог 16 000+ AI-інструментів з автоматичною генерацією. 2 340 кліків, CTR 9.59%, 111 реєстрацій, retention 100%. Повна розробка через AI.',
       },
       en: {
-        title: 'AI Tool Insights: Marketing Research of AI Tools Demand | Case Study',
+        title: 'AI Tools Research | Artificial Intelligence Expert',
         description: 'Catalog of 16,000+ AI tools with auto-generation. 2,340 clicks, 9.59% CTR, 111 sign-ups, 100% retention. Full development via AI.',
       },
     },
@@ -495,11 +495,11 @@ export const articleRegistry: ArticleConfig[] = [
     titles: { uk: 'PII Removal', en: 'PII Removal' },
     seo: {
       uk: {
-        title: 'PII Removal: Fine-tuned RoBERTa для українських персональних даних | Case Study',
+        title: 'PII Removal: RoBERTa Ukrainian | AI ML Engineer',
         description: 'Fine-tuned RoBERTa модель для видалення персональних даних з українських текстів. 76-87% точність vs 14% AWS і 37% Azure. Knowledge distillation від OpenAI.',
       },
       en: {
-        title: 'PII Removal: Fine-tuned RoBERTa for Ukrainian Personal Data | Case Study',
+        title: 'PII Removal: RoBERTa Ukrainian | AI ML Engineer',
         description: 'Fine-tuned RoBERTa model for removing personal data from Ukrainian texts. 76-87% accuracy vs 14% AWS and 37% Azure. Knowledge distillation from OpenAI.',
       },
     },
@@ -566,17 +566,12 @@ export function getAltPaths(): Record<string, string> {
   const map: Record<string, string> = {
     '/': '/en',
     '/en': '/',
-    '/sobre-mi': '/about',
-    '/about': '/sobre-mi',
-    '/privacidad': '/privacy',
-    '/privacy': '/privacidad',
+    '/about': '/about-en',
+    '/about-en': '/about',
+    '/privacy': '/privacy-en',
+    '/privacy-en': '/privacy',
   }
   for (const article of articleRegistry) {
-    // Handle ES ↔ EN
-    if (article.slugs.es && article.slugs.en) {
-      map[`/${article.slugs.es}`] = `/${article.slugs.en}`
-      map[`/${article.slugs.en}`] = `/${article.slugs.es}`
-    }
     // Handle UK ↔ EN
     if (article.slugs.uk && article.slugs.en) {
       map[`/${article.slugs.uk}`] = `/${article.slugs.en}`
@@ -588,20 +583,17 @@ export function getAltPaths(): Record<string, string> {
 
 export function getPageTitles(): Record<string, string> {
   const map: Record<string, string> = {
-    '/': 'Portfolio de Santiago',
-    '/en': "Santiago's Portfolio",
-    '/sobre-mi': 'Sobre Mí',
-    '/about': 'About',
+    '/': 'Портфоліо Андрія',
+    '/en': "Andrey's Portfolio",
+    '/about': 'Про мене',
+    '/about-en': 'About',
   }
   for (const article of articleRegistry) {
-    if (article.slugs.es && article.titles.es) {
-      map[`/${article.slugs.es}`] = article.titles.es
+    if (article.slugs.uk && article.titles.uk) {
+      map[`/${article.slugs.uk}`] = article.titles.uk
     }
     if (article.slugs.en && article.titles.en) {
       map[`/${article.slugs.en}`] = article.titles.en
-    }
-    if (article.slugs.uk && article.titles.uk) {
-      map[`/${article.slugs.uk}`] = article.titles.uk
     }
   }
   return map
@@ -610,14 +602,11 @@ export function getPageTitles(): Record<string, string> {
 export function getSectionLabels(): Record<string, Record<string, string>> {
   const map: Record<string, Record<string, string>> = {}
   for (const article of articleRegistry) {
-    if (article.slugs.es && article.sectionLabels.es) {
-      map[`/${article.slugs.es}`] = article.sectionLabels.es
+    if (article.slugs.uk && article.sectionLabels.uk) {
+      map[`/${article.slugs.uk}`] = article.sectionLabels.uk
     }
     if (article.slugs.en && article.sectionLabels.en) {
       map[`/${article.slugs.en}`] = article.sectionLabels.en
-    }
-    if (article.slugs.uk && article.sectionLabels.uk) {
-      map[`/${article.slugs.uk}`] = article.sectionLabels.uk
     }
   }
   return map
@@ -625,7 +614,7 @@ export function getSectionLabels(): Record<string, Record<string, string>> {
 
 /** All UK slugs (for lang detection: if pathname matches a UK slug → lang is 'uk') */
 export function getUkSlugs(): Set<string> {
-  const slugs = new Set<string>(['/', '/privacidad', '/sobre-mi'])
+  const slugs = new Set<string>(['/', '/privacy', '/about'])
   for (const article of articleRegistry) {
     if (article.slugs.uk) {
       slugs.add(`/${article.slugs.uk}`)

@@ -6,7 +6,7 @@ export const advogramContent = {
     altSlug: 'advogram-gtm-case-study-en',
     readingTime: '8 хв читання',
     seo: {
-      title: 'Як я валідував нішу ATS-інструментів і знайшов ринок з CPA $0.32 за 6 тижнів | Advogram',
+      title: 'Advogram: ATS Tools Validation | AI Software Development',
       description: 'GTM кейс: як я валідував ринок HR-інструментів, визначив платоспроможні географії та побудував модель юніт-економіки для freemium SaaS — за 6 тижнів і $3,430.',
     },
     nav: {
@@ -367,8 +367,8 @@ export const advogramContent = {
     altSlug: 'advogram-gtm-case-study',
     readingTime: '8 min read',
     seo: {
-      title: 'How I Validated the ATS Tools Niche and Found a $0.32 CPA Market in 6 Weeks | Advogram',
-      description: 'GTM case study: how I validated the HR tools market, identified paying geographies, and built the unit economics model for a freemium SaaS — in 6 weeks and $3,430.',
+      title: 'Advogram: ATS Tools Validation | AI Software Development',
+      description: 'ATS niche validated. 337 sign-ups, $3,430, 6 weeks. France $0.32 CPA, 9 geos screened. CTR 15-19%. Unit economics built for Western markets.',
     },
     nav: {
       breadcrumbHome: 'Home',

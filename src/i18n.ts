@@ -1576,6 +1576,6 @@ export const translations = {
       },
     },
   },
-} as const;
+};
 
 export type Lang = 'uk' | 'en';

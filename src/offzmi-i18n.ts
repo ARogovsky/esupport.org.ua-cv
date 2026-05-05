@@ -6,8 +6,8 @@ export const offzmiContent = {
     altSlug: 'offzmi-gtm-case-study',
     readingTime: '7 хв читання',
     seo: {
-      title: 'Як AI знайшов нішу презентацій для маркетологів: 222 статті, $452 і ринковий сигнал | offzmi.com',
-      description: 'GTM-кейс: як за допомогою AI + MCP-browser було знайдено нішу, піднято мікросервіс для 222 статей і виявлено, що українські маркетологи масово шукають презентації.',
+      title: 'offzmi: AI Content for Marketers | AI Engineering',
+      description: 'AI + MCP-browser знайшов нішу. 222 статті, $452, 401 клік. Українські маркетологи шукають презентації. CTR 11.9%, +1000% зростання кліків.',
     },
     nav: {
       breadcrumbHome: 'Головна',
@@ -401,8 +401,8 @@ const niches = await mcpBrowser.searchTrends({
     altSlug: 'offzmi-gtm-doslidzhennia',
     readingTime: '7 min read',
     seo: {
-      title: 'How AI Found the Presentation Niche for Marketers: 222 Articles, $452 and a Market Signal | offzmi.com',
-      description: 'GTM case study: how AI + MCP-browser niche surfing, a 222-article microservice pipeline, and paid traffic revealed that Ukrainian marketers are massively searching for presentation tools.',
+      title: 'offzmi: AI Content for Marketers | AI Engineering',
+      description: 'AI + MCP-browser found niche. 222 articles, $452, 401 clicks. Ukrainian marketers search presentations. CTR 11.9%, +1000% click growth.',
     },
     nav: {
       breadcrumbHome: 'Home',

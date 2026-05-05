@@ -173,7 +173,7 @@ export default function Gala({ lang = 'uk' }: { lang?: Lang }) {
           const logoPath = getBrandLogo(item.name)
           return {
             icon: logoPath ? (
-              <img src={logoPath} alt={item.name} className="w-12 h-12 object-contain" />
+              <img src={logoPath} alt={item.name} className="w-12 h-12 object-contain" width={48} height={48} />
             ) : getTechIcon(item.name) ? (
               <svg viewBox="0 0 24 24" className="w-8 h-8" fill="currentColor" style={{ color: getTechIcon(item.name)!.color }}>
                 <path d={getTechIcon(item.name)!.path} />

@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route, useLocation, Link } from 'react-router-do
 import './index.css'
 import App from './App.tsx'
 import GlobalNav from './GlobalNav.tsx'
-import { articleRegistry, getUkSlugs } from './articles/registry'
+import { articleRegistry } from './articles/registry'
 
 const FloatingChat = lazy(() => import('./FloatingChat'))
 const MusicToggle = lazy(() => import('./MusicToggle'))
@@ -14,7 +14,7 @@ const PrivacyPolicy = lazy(() => import('./PrivacyPolicy'))
 const AboutPage = lazy(() => import('./AboutPage'))
 
 // Lazy-load article components from registry
-const articleComponents: Record<string, React.LazyExoticComponent<ComponentType<{ lang: 'es' | 'en' | 'uk' }>>> = {}
+const articleComponents: Record<string, React.LazyExoticComponent<ComponentType<{ lang?: 'uk' | 'en' }>>> = {}
 for (const article of articleRegistry) {
   articleComponents[article.id] = lazy(article.component)
 }
@@ -74,7 +74,6 @@ function GlobalChat() {
 
   if (!hydrated || pathname.startsWith('/ops')) return null
 
-  const ukSlugs = getUkSlugs()
   // Use English for chat even on Ukrainian pages (no UK translations for chat yet)
   const lang = 'en'
 
@@ -174,12 +173,12 @@ const app = (
             <Route path="/about" element={<AboutPage lang="uk" />} />
             <Route path="/about-en" element={<AboutPage lang="en" />} />
             <Route path="/ops" element={<OpsDashboard />} />
-            <Route path="/privacidad" element={<PrivacyPolicy lang="es" />} />
+            <Route path="/privacidad" element={<PrivacyPolicy lang="uk" />} />
             <Route path="/privacy" element={<PrivacyPolicy lang="en" />} />
             {articleRegistry.map((article) => {
               const ArticleComponent = articleComponents[article.id]
-              const primaryLang: 'uk' | 'es' | 'en' = article.slugs.uk ? 'uk' : 'es'
-              const primarySlug = article.slugs.uk ?? article.slugs.es
+              const primaryLang: 'uk' | 'en' = article.slugs.uk ? 'uk' : 'en'
+              const primarySlug = article.slugs.uk ?? article.slugs.en
               return [
                 primarySlug && <Route key={`${article.id}-primary`} path={`/${primarySlug}`} element={<ArticleComponent lang={primaryLang} />} />,
                 <Route key={`${article.id}-en`} path={`/${article.slugs.en}`} element={<ArticleComponent lang="en" />} />,

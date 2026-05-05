@@ -1,5 +1,5 @@
 import {
-  ChevronRight, Target, Globe, Users, TrendingUp, DollarSign, BarChart3, Calendar, MapPin, Lightbulb,
+  Target, Globe, Users, TrendingUp, DollarSign, BarChart3, Calendar, MapPin, Lightbulb,
 } from 'lucide-react'
 import { type AdvogramLang as Lang } from './advogram-i18n'
 import { buildJsonLdFromRegistry } from './articles/json-ld'
@@ -17,7 +17,7 @@ import {
 } from './articles/components'
 import {
   H2, H3, Prose, Callout, BulletList, StepList, CardStack, CardGrid, StackGrid,
-  Photo1, Photo2, DataTable, Accordion, Timeline, StoryBridge, FloatingToc,
+  DataTable, Accordion, Timeline, StoryBridge, FloatingToc,
 } from './articles/content-types'
 import { advogramContent } from './advogram-i18n'
 

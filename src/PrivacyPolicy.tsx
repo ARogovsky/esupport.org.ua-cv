@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { ArticleLayout } from './articles/components'
 
 const content = {
-  es: {
+  uk: {
     title: 'Politica de Privacidad',
     lastUpdated: 'Ultima actualizacion: 15 de marzo de 2026',
     intro: 'Esta politica describe como se recopilan y utilizan los datos cuando visitas esupport.org.ua.',
@@ -104,7 +104,7 @@ interface PrivacySection {
   email?: string
 }
 
-export default function PrivacyPolicy({ lang = 'es' }: { lang?: 'es' | 'en' }) {
+export default function PrivacyPolicy({ lang = 'uk' }: { lang?: 'uk' | 'en' }) {
   const t = content[lang]
 
   useEffect(() => {
@@ -121,11 +121,11 @@ export default function PrivacyPolicy({ lang = 'es' }: { lang?: 'es' | 'en' }) {
 
     // Fix canonical (SPA fallback serves homepage canonical — override it)
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement
-    if (canonical) canonical.href = `https://esupport.org.ua/${lang === 'es' ? 'privacidad' : 'privacy'}`
+    if (canonical) canonical.href = `https://esupport.org.ua/${lang === 'uk' ? 'privacidad' : 'privacy'}`
 
     // Fix meta description
     let desc = document.querySelector('meta[name="description"]') as HTMLMetaElement
-    if (desc) desc.content = lang === 'es'
+    if (desc) desc.content = lang === 'uk'
       ? 'Politica de privacidad de esupport.org.ua. Como se recopilan y utilizan los datos del chatbot y la web.'
       : 'Privacy policy for esupport.org.ua. How chatbot and website data is collected and used.'
 
@@ -186,7 +186,7 @@ export default function PrivacyPolicy({ lang = 'es' }: { lang?: 'es' | 'en' }) {
 
         <div className="mt-12 pt-8 border-t border-border">
           <Link
-            to={lang === 'es' ? '/' : '/en'}
+            to={lang === 'uk' ? '/' : '/en'}
             className="inline-flex items-center gap-2 text-primary hover:underline font-medium"
           >
             {'← '}{t.backHome}

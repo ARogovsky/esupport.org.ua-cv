@@ -6,7 +6,7 @@ export const aiToolsContent = {
     altSlug: 'ai-tools-catalog-research',
     readingTime: '8 хв читання',
     seo: {
-      title: 'AI Tool Insights: Маркетингове дослідження попиту на AI-інструменти | Case Study',
+      title: 'AI Tools Research | Artificial Intelligence Expert',
       description: 'Каталог 16 000+ AI-інструментів з автоматичною генерацією. 2 340 кліків, CTR 9.59%, 111 реєстрацій, retention 100%. Повна розробка через AI.',
     },
     nav: {

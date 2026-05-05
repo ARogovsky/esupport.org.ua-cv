@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useMemo, useReducer, useRef } from 'react'
 import { useLocation, Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'motion/react'
-import { Mail, ExternalLink, Briefcase, GraduationCap, Award, Code, Users, Globe, Bot, Zap, Database, Layout, BadgeCheck, FolderGit2, Sparkles, Download, Github, Package, MessageSquare, Receipt, CalendarCheck, FileText, GitBranch, GitFork, Star, Network, Calendar, Percent, UserCheck, Image, TrendingUp, Timer, SkipForward, ThumbsUp, MessageCircle, Share2, ChevronRight, List, ArrowUp, Brain, Target, Inbox, Compass, GitMerge } from 'lucide-react'
+import { Mail, ExternalLink, Briefcase, GraduationCap, Award, Code, Users, Globe, Bot, Zap, Database, Layout, BadgeCheck, FolderGit2, Sparkles, Download, Github, Package, MessageSquare, Receipt, CalendarCheck, FileText, GitBranch, GitFork, Star, Network, Calendar, Percent, UserCheck, Image, TrendingUp, Timer, SkipForward, MessageCircle, Share2, ChevronRight, List, Brain, Target, Inbox, Compass, GitMerge } from 'lucide-react'
 import { translations, seo, type Lang } from './i18n'
 import { useHomeSeo } from './articles/use-article-seo'
 import { getTechIcon } from './tech-icons'
@@ -43,42 +43,44 @@ function useInView(threshold = 0.1) {
   return { ref: setRef, isInView }
 }
 
-const HEAL_PARTICLES = [
-  { char: '+', left: '10%', delay: '0s', dur: '2.8s', size: '24px' },
-  { char: '·', left: '30%', delay: '0.6s', dur: '2.2s', size: '20px' },
-  { char: '✦', left: '55%', delay: '1.2s', dur: '3s', size: '18px' },
-  { char: '0', left: '75%', delay: '0.3s', dur: '2.5s', size: '22px' },
-  { char: '+', left: '90%', delay: '1.8s', dur: '2.6s', size: '20px' },
-  { char: '1', left: '20%', delay: '2.1s', dur: '2.4s', size: '22px' },
-  { char: '·', left: '65%', delay: '0.9s', dur: '3.2s', size: '18px' },
-  { char: '✦', left: '45%', delay: '1.5s', dur: '2.7s', size: '20px' },
-]
+// Unused - kept for future use
+// const HEAL_PARTICLES: Array<{ char: string; left: string; delay: string; dur: string; size: string }> = [
+//   { char: '+', left: '10%', delay: '0s', dur: '2.8s', size: '24px' },
+//   { char: '·', left: '30%', delay: '0.6s', dur: '2.2s', size: '20px' },
+//   { char: '✦', left: '55%', delay: '1.2s', dur: '3s', size: '18px' },
+//   { char: '0', left: '75%', delay: '0.3s', dur: '2.5s', size: '22px' },
+//   { char: '+', left: '90%', delay: '1.8s', dur: '2.6s', size: '20px' },
+//   { char: '1', left: '20%', delay: '2.1s', dur: '2.4s', size: '22px' },
+//   { char: '·', left: '65%', delay: '0.9s', dur: '3.2s', size: '18px' },
+//   { char: '✦', left: '45%', delay: '1.5s', dur: '2.7s', size: '20px' },
+// ]
 
-function BeamPill({ children }: { children: React.ReactNode }) {
-  const hydrated = useHydrated()
-  return (
-    <span className={`relative inline-block pl-0 pr-0 ${hydrated ? 'beam-pill' : ''}`}>
-      <span className="relative z-10">{children}</span>
-      {hydrated && HEAL_PARTICLES.map((p, i) => (
-        <span
-          key={i}
-          className="absolute pointer-events-none select-none"
-          style={{
-            left: p.left,
-            bottom: '50%',
-            fontSize: p.size,
-            color: '#4ade80',
-            opacity: 0,
-            animation: `heal-float ${p.dur} ease-out ${p.delay} infinite`,
-          }}
-          aria-hidden="true"
-        >
-          {p.char}
-        </span>
-      ))}
-    </span>
-  )
-}
+// Unused - kept for future use
+// function BeamPill({ children }: { children: React.ReactNode}) {
+//   const hydrated = useHydrated()
+//   return (
+//     <span className={`relative inline-block pl-0 pr-0 ${hydrated ? 'beam-pill' : ''}`}>
+//       <span className="relative z-10">{children}</span>
+//       {hydrated && HEAL_PARTICLES.map((p, i) => (
+//         <span
+//           key={i}
+//           className="absolute pointer-events-none select-none"
+//           style={{
+//             left: p.left,
+//             bottom: '50%',
+//             fontSize: p.size,
+//             color: '#4ade80',
+//             opacity: 0,
+//             animation: `heal-float ${p.dur} ease-out ${p.delay} infinite`,
+//           }}
+//           aria-hidden="true"
+//         >
+//           {p.char}
+//         </span>
+//       ))}
+//     </span>
+//   )
+// }
 
 // Inject animation styles once (avoids hydration mismatch from inline <style> in h1)
 const HERO_STYLES_ID = 'hero-beam-styles'
@@ -273,12 +275,12 @@ function useTypewriterRotation(roles: readonly string[], { typeSpeed = 80, delet
 }
 
 const HOME_TOC_SECTIONS = [
-  { id: 'experience', es: 'Experiencia', en: 'Experience' },
-  { id: 'projects', es: 'Proyectos', en: 'Projects' },
-  { id: 'speaking', es: 'Compartiendo', en: 'Sharing' },
-  { id: 'education', es: 'Formación', en: 'Education' },
-  { id: 'tech', es: 'Skills & Stack', en: 'Skills & Stack' },
-  { id: 'contact', es: 'Contacto', en: 'Contact' },
+  { id: 'experience', uk: 'Досвід', en: 'Experience', es: 'Experiencia' },
+  { id: 'projects', uk: 'Проєкти', en: 'Projects', es: 'Proyectos' },
+  { id: 'speaking', uk: 'Виступи', en: 'Sharing', es: 'Compartiendo' },
+  { id: 'education', uk: 'Освіта', en: 'Education', es: 'Formación' },
+  { id: 'tech', uk: 'Навички та Стек', en: 'Skills & Stack', es: 'Skills & Stack' },
+  { id: 'contact', uk: 'Контакт', en: 'Contact', es: 'Contacto' },
 ] as const
 
 function HomeToc({ lang }: { lang: Lang }) {
@@ -2103,12 +2105,12 @@ function App() {
             // Fila 4: Claude Pulse
             const claudePulse = allProjects.find(p => p.title === 'Advogram')!
 
-            // Helper para parsear **bold** a elementos con estilo
-            const parseBold = (text: string): React.ReactNode[] => {
-              return text.split(/\*\*(.*?)\*\*/g).map((part, i) =>
-                i % 2 === 1 ? <strong key={i} className="text-tool font-semibold">{part}</strong> : part
-              )
-            }
+            // Unused - kept for future use
+            // const parseBold = (text: string): React.ReactNode[] => {
+            //   return text.split(/\*\*(.*?)\*\*/g).map((part, i) =>
+            //     i % 2 === 1 ? <strong key={i} className="text-tool font-semibold">{part}</strong> : part
+            //   )
+            // }
 
             // Refs para cada tarjeta (para calcular posiciones de conexiones)
             const containerRef = useRef<HTMLDivElement>(null)
@@ -2688,7 +2690,11 @@ function App() {
               </AnimatedSection>
 
               <div className="space-y-4">
-                {t.education.items.map((item, i) => (
+                {t.education.items.map((item: any, i) => {
+                  const desc = item.desc as string
+                  const projectLabel = ('projectLabel' in item ? item.projectLabel : '') as string
+                  const quote = ('testimonial' in item && item.testimonial ? item.testimonial.quote : '') as string
+                  return (
                   <AnimatedSection key={i} delay={0.1 + i * 0.1}>
                     <div className="p-5 rounded-2xl bg-card border border-border hover:border-primary/30 transition-colors duration-200 group">
                       <div className="flex items-start justify-between">
@@ -2696,7 +2702,7 @@ function App() {
                           <span className="text-xs text-primary font-medium">{item.year} · {item.org}</span>
                           <h3 className="font-display font-semibold mt-1 group-hover:text-primary transition-colors">{item.title}</h3>
                           <p className="text-sm text-muted-foreground mt-1">
-                            {item.desc}
+                            {desc}
                             {('projectLink' in item && item.projectLink) && (
                               <>
                                 {' '}
@@ -2706,7 +2712,7 @@ function App() {
                                   rel="noopener noreferrer"
                                   className="inline-flex items-center gap-1 text-primary hover:underline"
                                 >
-                                  {item.projectLabel}
+                                  {projectLabel}
                                   <ExternalLink className="w-3 h-3" aria-hidden="true" />
                                 </a>
                               </>
@@ -2715,11 +2721,11 @@ function App() {
                         </div>
                       </div>
                       {/* Testimonial if exists */}
-                      {'testimonial' in item && item.testimonial && (
+                      {'testimonial' in item && item.testimonial && typeof item.testimonial === 'object' && 'quote' in item.testimonial && (
                         <a href="https://www.linkedin.com/in/santifer/details/recommendations/" target="_blank" rel="noopener noreferrer" className="block group">
                           <blockquote className="mt-4 p-4 rounded-xl bg-primary/5 border border-primary/10 group-hover:border-[hsl(var(--linkedin)/0.3)] transition-colors">
                             <p className="text-sm text-muted-foreground italic mb-4">
-                              "{item.testimonial.quote}"
+                              "{quote}"
                             </p>
                             <footer className="flex items-center gap-3">
                               <picture>
@@ -2737,7 +2743,8 @@ function App() {
                       )}
                     </div>
                   </AnimatedSection>
-                ))}
+                  )
+                })}
 
               </div>
             </div>
@@ -2759,23 +2766,36 @@ function App() {
                   const group = i < 4 ? 0 : i < 8 ? 1 : i < 11 ? 2 : 3
                   const isAlt = group % 2 === 1
                   return (
-                  <AnimatedSection key={i} delay={0.1 + i * 0.05}>
-                    <a
-                      href={cert.url}
-                      target="_blank"
-                      rel="noopener noreferrer nofollow"
-                      className={`flex items-center gap-4 p-4 hover:border-accent/30 transition-colors duration-200 group cursor-pointer ${isAlt ? 'bg-muted/40' : 'bg-card'}`}
-                    >
-                      <span className="text-sm font-mono text-accent font-medium">{cert.year}</span>
-                      <div className="flex-1">
-                        <p className="font-medium group-hover:text-accent transition-colors">{cert.title}</p>
-                        <p className="text-sm text-muted-foreground">{cert.org}</p>
-                      </div>
-                      <div className="opacity-60 group-hover:opacity-100 transition-opacity">
-                        <CertLogo logo={cert.logo} />
-                      </div>
-                    </a>
-                  </AnimatedSection>
+                    <AnimatedSection key={i} delay={0.1 + i * 0.05}>
+                      {'url' in cert && cert.url ? (
+                        <a
+                          href={(cert as any).url}
+                          target="_blank"
+                          rel="noopener noreferrer nofollow"
+                          className={`flex items-center gap-4 p-4 hover:border-accent/30 transition-colors duration-200 group cursor-pointer ${isAlt ? 'bg-muted/40' : 'bg-card'}`}
+                        >
+                          <span className="text-sm font-mono text-accent font-medium">{cert.year}</span>
+                          <div className="flex-1">
+                            <p className="font-medium group-hover:text-accent transition-colors">{cert.title}</p>
+                            <p className="text-sm text-muted-foreground">{cert.org}</p>
+                          </div>
+                          <div className="opacity-60 group-hover:opacity-100 transition-opacity">
+                            <CertLogo logo={cert.logo} />
+                          </div>
+                        </a>
+                      ) : (
+                        <div className={`flex items-center gap-4 p-4 ${isAlt ? 'bg-muted/40' : 'bg-card'}`}>
+                          <span className="text-sm font-mono text-accent font-medium">{cert.year}</span>
+                          <div className="flex-1">
+                            <p className="font-medium">{cert.title}</p>
+                            <p className="text-sm text-muted-foreground">{cert.org}</p>
+                          </div>
+                          <div className="opacity-60">
+                            <CertLogo logo={cert.logo} />
+                          </div>
+                        </div>
+                      )}
+                    </AnimatedSection>
                   )
                 })}
               </div>

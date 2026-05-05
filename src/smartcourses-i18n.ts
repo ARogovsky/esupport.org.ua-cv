@@ -6,7 +6,7 @@ export const smartCoursesContent = {
     altSlug: 'smartcourses-edtech-platform',
     readingTime: '8 хв читання',
     seo: {
-      title: 'SmartCourses: EdTech платформа для підвищення кваліфікації вчителів | Case Study',
+      title: 'SmartCourses: EdTech Platform | AI Software Engineer',
       description: 'EdTech платформа з університетською акредитацією. 502 реєстрації, 500 бажаючих купити, CTR 13-17%. AI-driven GTM і автоматизований sales pipeline.',
     },
     nav: {
@@ -195,7 +195,7 @@ export const smartCoursesContent = {
     altSlug: 'smartcourses-edtech-platforma',
     readingTime: '8 min read',
     seo: {
-      title: 'SmartCourses: EdTech Platform for Teacher Professional Development | Case Study',
+      title: 'SmartCourses: Teacher Platform | AI Software Engineer',
       description: 'EdTech platform with university accreditation. 502 registrations, 500 willing to buy, 13-17% CTR. AI-driven GTM and automated sales pipeline.',
     },
     nav: {

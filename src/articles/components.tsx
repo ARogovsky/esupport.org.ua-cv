@@ -109,7 +109,7 @@ export function ArticleHeader({
   avatarSrc = '/foto-avatar-sm.webp',
   lang,
 }: ArticleHeaderProps) {
-  const resolvedAuthorUrl = authorUrl ?? (lang === 'uk' ? '/pro-mene' : '/about')
+  const resolvedAuthorUrl = authorUrl ?? (lang === 'uk' ? '/about' : lang === 'en' ? '/about-en' : '/about')
   return (
     <header className="mb-10">
       <p className="text-primary font-medium text-sm mb-3 tracking-wide uppercase">
@@ -197,7 +197,7 @@ const FOOTER_I18N = {
   },
 } as const
 
-export function ArticleFooter({ lang, utmCampaign }: ArticleFooterProps) {
+export function ArticleFooter({ lang }: ArticleFooterProps) {
   const f = FOOTER_I18N[lang]
   return (
     <footer className="mt-16 pt-8 border-t border-border">

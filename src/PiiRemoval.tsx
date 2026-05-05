@@ -85,7 +85,7 @@ export default function PiiRemoval({ lang = 'uk' }: { lang?: Lang }) {
         <CardStack
           items={s.role.responsibilities.map(r => ({
             title: `${r.percentage} — ${r.title}`,
-            body: r.desc,
+            detail: r.desc,
           }))}
         />
 

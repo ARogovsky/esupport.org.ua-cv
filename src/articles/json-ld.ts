@@ -48,10 +48,8 @@ const PERSON = {
   url: 'https://esupport.org.ua',
   jobTitle: 'Senior AI Engineer',
   sameAs: [
-    'https://www.linkedin.com/in/andreyrogovsky',
-    'https://github.com/andreyrogovsky',
-    'https://t.me/andreyrogovsky',
     'https://esupport.org.ua',
+    'https://t.me/andreyrogovsky',
   ],
 }
 

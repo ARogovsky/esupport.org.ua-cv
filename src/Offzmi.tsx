@@ -20,7 +20,6 @@ import {
   StepList,
   CodeBlock,
   DataTable,
-  Timeline,
   FloatingToc,
 } from './articles/content-types'
 import { offzmiContent } from './offzmi-i18n'
@@ -73,12 +72,15 @@ export default function Offzmi({ lang = 'uk' }: { lang?: Lang }) {
       <H2 id="genesis">{s.genesis.heading}</H2>
       <Callout>{s.genesis.hook}</Callout>
       <Prose>{s.genesis.firstCommit}</Prose>
-      <CodeBlock code={s.genesis.code} caption={s.genesis.codeCaption} />
+      <CodeBlock>
+        {s.genesis.code}
+      </CodeBlock>
+      <Prose className="text-sm text-muted-foreground italic">{s.genesis.codeCaption}</Prose>
       <Callout>{s.genesis.punchline}</Callout>
 
       {/* Evolution */}
       <H2 id="evolution">{s.evolution.heading}</H2>
-      <Timeline items={s.evolution.timeline} />
+      <CardStack items={s.evolution.timeline.map(t => ({ title: `${t.date} — ${t.title}`, detail: t.detail }))} />
       <Callout>{s.evolution.callout}</Callout>
       
       <H3 id="before-after">{s.evolution.beforeAfter.heading}</H3>
@@ -149,9 +151,9 @@ export default function Offzmi({ lang = 'uk' }: { lang?: Lang }) {
       <H2 id="timeline">{s.platformEvolution.heading}</H2>
       <Prose className="text-lg text-muted-foreground italic">{s.platformEvolution.tagline}</Prose>
       {s.platformEvolution.bridge.map((line, i) => (
-        <Prose key={i} dangerouslySetInnerHTML={{ __html: line }} />
+        <div key={i} className="prose prose-invert max-w-none mb-4" dangerouslySetInnerHTML={{ __html: line }} />
       ))}
-      <Timeline items={s.platformEvolution.steps} />
+      <CardStack items={s.platformEvolution.steps.map(t => ({ title: `${t.year} — ${t.event}`, detail: t.detail }))} />
 
       {/* Replicability */}
       <H2 id="replicability">{s.replicability.heading}</H2>

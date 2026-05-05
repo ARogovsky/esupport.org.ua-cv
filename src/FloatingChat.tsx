@@ -39,7 +39,7 @@ interface Message {
 }
 
 interface FloatingChatProps {
-  lang: 'es' | 'en';
+  lang: 'uk' | 'en';
 }
 
 const PromptIcon = ({ icon }: { icon: string }) => {
@@ -788,7 +788,7 @@ export default function FloatingChat({ lang }: FloatingChatProps) {
                           {message.role === 'assistant' && message.ragSources && message.ragSources.length > 0 && !isLoading && !isStreaming && (
                             <div className="flex flex-wrap gap-1.5 mt-2 px-1">
                               {message.ragSources.map((source, si) => {
-                                const targetPath = lang === 'es' ? source.page_path_es : source.page_path_en;
+                                const targetPath = lang === 'uk' ? source.page_path_es : source.page_path_en;
                                 const sectionLabels = getSectionLabels()[targetPath] || {};
                                 const anchorId = source.section_anchor.replace(/^#/, '');
                                 const sectionName = sectionLabels[anchorId] || '';
@@ -932,7 +932,7 @@ export default function FloatingChat({ lang }: FloatingChatProps) {
             {mode === 'voice' && voiceMode.voiceSources.length > 0 && (
               <div className="flex flex-wrap justify-center gap-1.5 px-4 py-2 border-t border-border/50 bg-card/80">
                 {voiceMode.voiceSources.map((source, si) => {
-                  const targetPath = lang === 'es' ? source.page_path_es : source.page_path_en;
+                  const targetPath = lang === 'uk' ? source.page_path_es : source.page_path_en;
                   const sectionLabels = getSectionLabels()[targetPath] || {};
                   const anchorId = source.section_anchor.replace(/^#/, '');
                   const sectionName = sectionLabels[anchorId] || '';

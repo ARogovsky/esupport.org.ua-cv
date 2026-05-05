@@ -29,7 +29,7 @@ interface Issue { severity: Severity; msg: string; skill?: string }
 // Per-article HTML checks
 // ---------------------------------------------------------------------------
 
-function validatePrerenderHtml(id: string, slug: string, lang: 'es' | 'en'): Issue[] {
+function validatePrerenderHtml(id: string, slug: string, lang: 'uk' | 'en'): Issue[] {
   const issues: Issue[] = []
   const htmlPath = resolve(dist, slug, 'index.html')
 
@@ -108,8 +108,8 @@ function validatePrerenderHtml(id: string, slug: string, lang: 'es' | 'en'): Iss
   }
 
   // 6. Hreflang
-  if (!html.includes('hreflang="en"') || !html.includes('hreflang="es"')) {
-    issues.push({ severity: 'warn', msg: 'Hreflang incomplete (need en + es)', skill: '/seo hreflang' })
+  if (!html.includes('hreflang="en"') || !html.includes('hreflang="uk"')) {
+    issues.push({ severity: 'warn', msg: 'Hreflang incomplete (need en + uk)', skill: '/seo hreflang' })
   }
 
   // 7. OG image
@@ -278,7 +278,7 @@ function validateRegistryConfig(config: ArticleConfig): Issue[] {
     issues.push({ severity: 'warn', msg: 'Fewer than 3 article tags', skill: '/seo content' })
   }
 
-  for (const lang of ['es', 'en'] as const) {
+  for (const lang of ['uk', 'en'] as const) {
     if (!config.seo[lang]?.description) {
       issues.push({ severity: 'error', msg: `SEO description missing [${lang}]`, skill: '/seo content' })
     }
@@ -449,11 +449,11 @@ for (const article of articleRegistry) {
 
 // Per-article HTML checks + collect data for cross-article validation
 const metaDescriptions: Map<string, string[]> = new Map() // description -> [labels]
-const wordCounts: Map<string, { es: number; en: number }> = new Map()
+const wordCounts: Map<string, { uk: number; en: number }> = new Map()
 
 for (const article of articleRegistry) {
   if (article.type === 'bridge') continue
-  for (const [lang, slug] of Object.entries(article.slugs) as ['es' | 'en', string][]) {
+  for (const [lang, slug] of Object.entries(article.slugs) as ['uk' | 'en', string][]) {
     const issues = validatePrerenderHtml(article.id, slug, lang)
     if (issues.length > 0) {
       printIssues(issues, `${article.id} [${lang}]`)
@@ -473,7 +473,7 @@ for (const article of articleRegistry) {
 
     // Collect word count
     const wc = extractWordCount(htmlPath)
-    const counts = wordCounts.get(article.id) || { es: 0, en: 0 }
+    const counts = wordCounts.get(article.id) || { uk: 0, en: 0 }
     counts[lang] = wc
     wordCounts.set(article.id, counts)
   }
@@ -493,17 +493,17 @@ for (const [desc, labels] of metaDescriptions) {
   }
 }
 
-// 18. ES/EN content parity
+// 18. UK/EN content parity
 for (const article of articleRegistry) {
   if (article.type === 'bridge') continue
   const counts = wordCounts.get(article.id)
-  if (!counts || counts.es === 0 || counts.en === 0) continue
-  const ratio = Math.min(counts.es, counts.en) / Math.max(counts.es, counts.en)
+  if (!counts || counts.uk === 0 || counts.en === 0) continue
+  const ratio = Math.min(counts.uk, counts.en) / Math.max(counts.uk, counts.en)
   if (ratio < 0.7) {
-    const shorter = counts.es < counts.en ? 'ES' : 'EN'
+    const shorter = counts.uk < counts.en ? 'UK' : 'EN'
     crossIssues.push({
       severity: 'warn',
-      msg: `${article.id}: ${shorter} version has ${Math.round(ratio * 100)}% of the other's word count (ES: ${counts.es}, EN: ${counts.en}).`,
+      msg: `${article.id}: ${shorter} version has ${Math.round(ratio * 100)}% of the other's word count (UK: ${counts.uk}, EN: ${counts.en}).`,
       skill: '/seo hreflang',
     })
   }
@@ -565,7 +565,7 @@ function validateStructural(): Issue[] {
   // S3. FAQ answers >= 100 words
   for (const article of articleRegistry) {
     if (article.type === 'bridge' || !article.seoMeta) continue
-    for (const [lang, slug] of Object.entries(article.slugs) as ['es' | 'en', string][]) {
+    for (const [lang, slug] of Object.entries(article.slugs) as ['uk' | 'en', string][]) {
       const htmlPath = resolve(dist, slug, 'index.html')
       if (!existsSync(htmlPath)) continue
       const html = readFileSync(htmlPath, 'utf-8')
@@ -621,7 +621,7 @@ function validateStructural(): Issue[] {
     const vjData = JSON.parse(vj)
     const rewriteSources = new Set((vjData.rewrites || []).map((r: { source: string }) => r.source))
     for (const article of articleRegistry) {
-      for (const [lang, slug] of Object.entries(article.slugs) as ['es' | 'en', string][]) {
+      for (const [lang, slug] of Object.entries(article.slugs) as ['uk' | 'en', string][]) {
         if (!rewriteSources.has(`/${slug}`)) {
           issues.push({
             severity: 'warn',

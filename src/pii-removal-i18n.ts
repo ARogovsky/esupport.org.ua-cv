@@ -6,7 +6,7 @@ export const piiRemovalContent = {
     altSlug: 'pii-removal-roberta-ukrainian',
     readingTime: '10 хв читання',
     seo: {
-      title: 'PII Removal: Fine-tuned RoBERTa для українських персональних даних | Case Study',
+      title: 'PII Removal: RoBERTa Ukrainian | AI ML Engineer',
       description: 'Fine-tuned RoBERTa модель для видалення персональних даних з українських текстів. 76-87% точність vs 14% AWS і 37% Azure. Knowledge distillation від OpenAI.',
     },
     nav: {
@@ -178,7 +178,7 @@ export const piiRemovalContent = {
     altSlug: 'pii-removal-roberta-ukrainska',
     readingTime: '10 min read',
     seo: {
-      title: 'PII Removal: Fine-tuned RoBERTa for Ukrainian Personal Data | Case Study',
+      title: 'PII Removal: RoBERTa Model | AI ML Engineer',
       description: 'Fine-tuned RoBERTa model for removing personal data from Ukrainian texts. 76-87% accuracy vs 14% AWS and 37% Azure. Knowledge distillation from OpenAI.',
     },
     nav: {
