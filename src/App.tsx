@@ -2097,7 +2097,6 @@ function App() {
             const lifeOS = allProjects.find(p => p.title === 'PerfectSquad')!
             const gala = allProjects.find(p => p.title === 'GALA')!
             const santiferIo = allProjects.find(p => p.title === 'esupport.org.ua')!
-            const selfHealingChatbot = allProjects.find(p => p.title === 'offzmi')!
             // Tools que dependen de esupport.org.ua
             const claudeEye = allProjects.find(p => p.title === 'SmartCourses')!
             const claudeable = allProjects.find(p => p.title === 'PII Removal')!
@@ -2118,7 +2117,6 @@ function App() {
               lifeOS: useRef<HTMLDivElement>(null),
               gala: useRef<HTMLDivElement>(null),
               santiferIo: useRef<HTMLDivElement>(null),
-              selfHealingChatbot: useRef<HTMLDivElement>(null),
               claudeEye: useRef<HTMLDivElement>(null),
               claudeable: useRef<HTMLDivElement>(null),
               claudePulse: useRef<HTMLDivElement>(null),
@@ -2165,8 +2163,7 @@ function App() {
                   // Móvil: flujo vertical simple
                   { from: cardRefs.lifeOS, fromEdge: 'bottom', to: cardRefs.gala, toEdge: 'top' },
                   { from: cardRefs.gala, fromEdge: 'bottom', to: cardRefs.santiferIo, toEdge: 'top' },
-                  { from: cardRefs.santiferIo, fromEdge: 'bottom', to: cardRefs.selfHealingChatbot, toEdge: 'top' },
-                  { from: cardRefs.selfHealingChatbot, fromEdge: 'bottom', to: cardRefs.claudeEye, toEdge: 'top' },
+                  { from: cardRefs.santiferIo, fromEdge: 'bottom', to: cardRefs.claudeEye, toEdge: 'top' },
                   { from: cardRefs.claudeEye, fromEdge: 'bottom', to: cardRefs.claudeable, toEdge: 'top' },
                   { from: cardRefs.claudeable, fromEdge: 'bottom', to: cardRefs.claudePulse, toEdge: 'top' },
                   { from: cardRefs.claudePulse, fromEdge: 'bottom', to: cardRefs.contentDigest, toEdge: 'top' },
@@ -2174,14 +2171,12 @@ function App() {
                   // Desktop: grafo complejo
                   // Fila 1: Life OS ↔ GALA (horizontal)
                   { from: cardRefs.lifeOS, fromEdge: 'right', to: cardRefs.gala, toEdge: 'left' },
-                  // Fila 1 → Fila 2: diagonales hacia esupport.org.ua + chatbot
+                  // Fila 1 → Fila 2: hacia esupport.org.ua
                   { from: cardRefs.lifeOS, fromEdge: 'bottom', to: cardRefs.santiferIo, toEdge: 'top' },
-                  { from: cardRefs.gala, fromEdge: 'bottom', to: cardRefs.selfHealingChatbot, toEdge: 'top' },
-                  // Fila 2: esupport.org.ua ↔ chatbot (horizontal)
-                  { from: cardRefs.santiferIo, fromEdge: 'right', to: cardRefs.selfHealingChatbot, toEdge: 'left' },
+                  { from: cardRefs.gala, fromEdge: 'bottom', to: cardRefs.santiferIo, toEdge: 'top' },
                   // Fila 2 → Fila 3: hacia tools
                   { from: cardRefs.santiferIo, fromEdge: 'bottom', to: cardRefs.claudeEye, toEdge: 'top' },
-                  { from: cardRefs.selfHealingChatbot, fromEdge: 'bottom', to: cardRefs.claudeable, toEdge: 'top' },
+                  { from: cardRefs.santiferIo, fromEdge: 'bottom', to: cardRefs.claudeable, toEdge: 'top' },
                   // Fila 3 → Fila 4
                   { from: cardRefs.claudeEye, fromEdge: 'bottom', to: cardRefs.claudePulse, toEdge: 'top' },
                   { from: cardRefs.claudeable, fromEdge: 'bottom', to: cardRefs.contentDigest, toEdge: 'top' },
@@ -2369,13 +2364,10 @@ function App() {
                   </AnimatedSection>
                 </div>
 
-                {/* Fila 2: esupport.org.ua + Self-Healing Chatbot (highlight) */}
-                <div className="grid md:grid-cols-2 gap-6 mb-6 relative z-10">
+                {/* Fila 2: esupport.org.ua (highlight) */}
+                <div className="mb-6 relative z-10">
                   <AnimatedSection delay={0.2}>
                     <ProjectCard project={santiferIo} variant="highlight" cardRef={cardRefs.santiferIo} />
-                  </AnimatedSection>
-                  <AnimatedSection delay={0.25}>
-                    <ProjectCard project={selfHealingChatbot} variant="highlight" cardRef={cardRefs.selfHealingChatbot} />
                   </AnimatedSection>
                 </div>
 

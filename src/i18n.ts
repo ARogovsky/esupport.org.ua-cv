@@ -466,7 +466,7 @@ export const translations = {
           title: 'GALA',
           desc: 'Автономний B2B lead generation агент. Пік 85 дзвінків/день, RoBERTa classifier.',
           metric: '85 дзвінків/день',
-          caseStudyUrl: '/gala-b2b-lead-generation',
+          caseStudyUrl: '/gala-b2b-lidogeneratsiya',
           testimonial: {
             quote: 'Велике спасибі за розробку GALA з нуля!',
             author: 'Дарина Кравчук',
@@ -485,7 +485,7 @@ export const translations = {
           title: 'E-lli.com Preview',
           desc: 'Асистент для саморефлексії: психологічні сесії → Vector DB + RAG',
           metric: 'В розробці',
-          caseStudyUrl: '#',
+          caseStudyUrl: 'https://e-lli.com/',
         },
       },
       avid: {
@@ -1189,7 +1189,7 @@ export const translations = {
             { icon: 'trendingUp', text: '100% user retention rate' },
           ],
           footer: 'Case Study: AI Tool Insights',
-          caseStudyUrl: '/ai-tool-insights-case-study',
+          caseStudyUrl: '/ai-tools-catalog-research',
         },
         jacobo: {
           title: 'offzmi',
@@ -1247,7 +1247,7 @@ export const translations = {
           title: 'GALA',
           desc: 'Autonomous B2B lead generation agent. 85 calls/day peak, RoBERTa classifier.',
           metric: '85 calls/day',
-          caseStudyUrl: '/gala-b2b-lead-generation',
+          caseStudyUrl: '/gala-b2b-lead-generation-en',
           testimonial: {
             quote: 'Thanks a lot for building GALA from scratch!',
             author: 'Darina Kravchuk',
@@ -1266,7 +1266,7 @@ export const translations = {
           title: 'E-lli.com Preview',
           desc: 'Self-reflection assistant: psychology sessions → Vector DB + RAG',
           metric: 'In development',
-          caseStudyUrl: '#',
+          caseStudyUrl: 'https://e-lli.com/',
         },
       },
       avid: {
