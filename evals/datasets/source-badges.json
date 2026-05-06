@@ -1,40 +1,40 @@
 {
   "name": "source_badges",
-  "description": "Tests that source badges are accurate: correct articles linked, no badges on greetings, correct language paths",
+  "description": "Тестує, що source badges точні: правильні статті прилінковані, немає badges на привітаннях, правильні мовні шляхи",
   "tests": [
     {
-      "id": "badge-jacobo-es",
-      "description": "Question about Jacobo in ES should include jacobo badge",
-      "input": "Cuéntame sobre el agente Jacobo y cómo funciona",
-      "lang": "es",
+      "id": "badge-gala-uk",
+      "description": "Питання про GALA українською має включати gala badge",
+      "input": "Розкажи про агента GALA і як він працює",
+      "lang": "uk",
       "assertions": [
         { "type": "rag_used" },
-        { "type": "source_includes", "value": "jacobo" }
+        { "type": "source_includes", "value": "gala" }
       ]
     },
     {
       "id": "badge-greeting-none",
-      "description": "Greeting should have zero badges",
-      "input": "Hey",
-      "lang": "es",
+      "description": "Привітання має мати нуль badges",
+      "input": "Привіт",
+      "lang": "uk",
       "assertions": [
         { "type": "rag_not_used" }
       ]
     },
     {
-      "id": "badge-pseo-en",
-      "description": "Question about SEO in EN should include programmatic-seo badge",
-      "input": "Tell me about your programmatic SEO project",
+      "id": "badge-ai-tools-en",
+      "description": "Питання про AI Tool Insights англійською має включати ai-tools badge",
+      "input": "Tell me about your AI Tool Insights project",
       "lang": "en",
       "assertions": [
         { "type": "rag_used" },
-        { "type": "source_includes", "value": "programmatic-seo" }
+        { "type": "source_includes", "value": "ai-tools" }
       ]
     },
     {
       "id": "badge-offzmi-gtm",
-      "description": "Question about offzmi GTM research should include offzmi badge",
-      "input": "Tell me about the offzmi GTM research project",
+      "description": "Питання про offzmi GTM research має включати offzmi badge",
+      "input": "Tell me about the offzmi niche discovery project",
       "lang": "en",
       "assertions": [
         { "type": "rag_used" },
@@ -42,13 +42,23 @@
       ]
     },
     {
-      "id": "badge-business-os",
-      "description": "Question about Business OS / ERP should include business-os badge",
-      "input": "Tell me about your ERP system",
+      "id": "badge-smartcourses",
+      "description": "Питання про SmartCourses має включати smartcourses badge",
+      "input": "Tell me about the SmartCourses EdTech platform",
       "lang": "en",
       "assertions": [
         { "type": "rag_used" },
-        { "type": "source_includes", "value": "business-os" }
+        { "type": "source_includes", "value": "smartcourses" }
+      ]
+    },
+    {
+      "id": "badge-pii-removal",
+      "description": "Питання про PII Removal має включати pii-removal badge",
+      "input": "Tell me about your PII Removal project for Ukrainian text",
+      "lang": "en",
+      "assertions": [
+        { "type": "rag_used" },
+        { "type": "source_includes", "value": "pii-removal" }
       ]
     }
   ]

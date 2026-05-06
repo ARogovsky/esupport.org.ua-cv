@@ -1,47 +1,47 @@
 {
   "name": "multi_turn",
-  "description": "Tests conversation continuity across multiple turns: context retention, topic switching, drill-down",
+  "description": "Тестує безперервність розмови через кілька реплік: збереження контексту, перемикання тем, поглиблення",
   "tests": [
     {
       "id": "multi-context-retention",
-      "description": "Bot retains context from previous turn (Jacobo details)",
-      "input": "¿Qué modelo de IA usa?",
-      "lang": "es",
+      "description": "Бот зберігає контекст з попередньої репліки (деталі GALA)",
+      "input": "Яку модель AI він використовує?",
+      "lang": "uk",
       "conversation": [
-        { "role": "user", "content": "Háblame del agente Jacobo" },
-        { "role": "assistant", "content": "Jacobo es mi agente de IA omnicanal para atención al cliente. Funciona vía WhatsApp y web, con sub-agentes especializados que manejan presupuestos, citas y pedidos usando tool calling." },
-        { "role": "user", "content": "¿Qué modelo de IA usa?" }
+        { "role": "user", "content": "Розкажи про агента GALA" },
+        { "role": "assistant", "content": "GALA - це мій B2B агент для лідогенерації. Він обробляв до 85 дзвінків на день, автоматизуючи процес генерації лідів для бізнесу." },
+        { "role": "user", "content": "Яку модель AI він використовує?" }
       ],
       "assertions": [
-        { "type": "contains_any", "values": ["claude", "sonnet", "haiku", "gpt", "modelo", "model", "llm"] }
+        { "type": "contains_any", "values": ["claude", "sonnet", "haiku", "модель", "model", "llm", "AI"] }
       ]
     },
     {
       "id": "multi-topic-switch",
-      "description": "Bot handles topic switch from Jacobo to Business OS",
-      "input": "Y el Business OS, ¿qué es?",
-      "lang": "es",
+      "description": "Бот обробляє перемикання теми з GALA на AI Tool Insights",
+      "input": "А що таке AI Tool Insights?",
+      "lang": "uk",
       "conversation": [
-        { "role": "user", "content": "¿Qué es Jacobo?" },
-        { "role": "assistant", "content": "Jacobo es mi agente de IA omnicanal para atención al cliente. Lo construí para Santifer iRepair." },
-        { "role": "user", "content": "Y el Business OS, ¿qué es?" }
+        { "role": "user", "content": "Що таке GALA?" },
+        { "role": "assistant", "content": "GALA - це мій B2B агент для лідогенерації, який я створив для автоматизації дзвінків." },
+        { "role": "user", "content": "А що таке AI Tool Insights?" }
       ],
       "assertions": [
-        { "type": "contains_any", "values": ["business os", "erp", "airtable", "operativo", "sistema"] },
-        { "type": "not_contains", "value": "jacobo" }
+        { "type": "contains_any", "values": ["ai tool insights", "16000", "16K", "tools", "інструментів", "каталог", "retention"] },
+        { "type": "not_contains", "value": "gala" }
       ]
     },
     {
       "id": "multi-drilldown",
-      "description": "Bot provides deeper detail on progressive drill-down",
-      "input": "¿Cómo funciona exactamente el pipeline de SEO?",
-      "lang": "es",
+      "description": "Бот надає глибші деталі при послідовному поглибленні",
+      "input": "Як саме працює система лідогенерації?",
+      "lang": "uk",
       "conversation": [
-        { "role": "user", "content": "¿Qué proyectos has hecho?" },
-        { "role": "assistant", "content": "He construido varios sistemas: un agente IA llamado Jacobo, un Business OS con 12 bases en Airtable, una web programática con SEO automatizado, y este portfolio con chatbot y RAG." },
-        { "role": "user", "content": "Cuéntame más del SEO programático" },
-        { "role": "assistant", "content": "Construí una arquitectura de SEO programático para generar páginas indexables automáticamente usando un decision engine que evalúa volumen de búsqueda y competencia." },
-        { "role": "user", "content": "¿Cómo funciona exactamente el pipeline de SEO?" }
+        { "role": "user", "content": "Які проєкти ти робив?" },
+        { "role": "assistant", "content": "Я створив кілька систем: GALA - B2B агент для лідогенерації, AI Tool Insights - каталог 16K+ інструментів, PerfectSquad для дослідження ігрового трафіку, та цей портфоліо з чатботом і RAG." },
+        { "role": "user", "content": "Розкажи більше про GALA" },
+        { "role": "assistant", "content": "GALA - це B2B агент для автоматизації лідогенерації, який обробляв до 85 дзвінків на день, використовуючи AI для кваліфікації лідів." },
+        { "role": "user", "content": "Як саме працює система лідогенерації?" }
       ],
       "assertions": [
         { "type": "rag_used" },
@@ -50,32 +50,32 @@
     },
     {
       "id": "multi-no-repeat",
-      "description": "Bot doesn't repeat the same formulation across turns",
-      "input": "¿Y qué más puedes contarme?",
-      "lang": "es",
+      "description": "Бот не повторює ту саму формулювання через репліки",
+      "input": "А що ще можеш розповісти?",
+      "lang": "uk",
       "conversation": [
-        { "role": "user", "content": "¿Qué experiencia tienes con IA?" },
-        { "role": "assistant", "content": "Llevo más de 2 años construyendo sistemas de IA en producción. Desde Jacobo, un agente omnicanal, hasta pipelines de RAG y evals automatizados." },
-        { "role": "user", "content": "¿Y qué más puedes contarme?" }
+        { "role": "user", "content": "Який у тебе досвід з AI?" },
+        { "role": "assistant", "content": "Маю понад 25 років досвіду в розробці, останні роки активно працюю з AI. Від GALA - B2B агента для лідогенерації, до AI Tool Insights з каталогом 16K+ інструментів." },
+        { "role": "user", "content": "А що ще можеш розповісти?" }
       ],
       "assertions": [
-        { "type": "llm_judge", "criteria": "The response should provide NEW information not already mentioned in the previous assistant message. It should NOT simply restate the same points about Jacobo being omnichannel or mentioning RAG/evals in the same way." }
+        { "type": "llm_judge", "criteria": "Відповідь має надавати НОВУ інформацію, яка ще не згадувалася в попередньому повідомленні асистента. Вона НЕ повинна просто переформулювати ті самі пункти про GALA або AI Tool Insights тим самим способом." }
       ]
     },
     {
       "id": "multi-return-topic",
-      "description": "Bot returns to previous topic correctly",
-      "input": "Volviendo a Jacobo, ¿cuántos clientes atiende?",
-      "lang": "es",
+      "description": "Бот правильно повертається до попередньої теми",
+      "input": "Повертаючись до GALA, скільки лідів він генерував?",
+      "lang": "uk",
       "conversation": [
-        { "role": "user", "content": "Háblame de Jacobo" },
-        { "role": "assistant", "content": "Jacobo es mi agente de IA omnicanal para atención al cliente, funciona vía WhatsApp y web." },
-        { "role": "user", "content": "¿Qué stack usas?" },
-        { "role": "assistant", "content": "Mi stack principal es React, TypeScript, Vite, Tailwind, y para IA uso Claude de Anthropic con RAG sobre Supabase." },
-        { "role": "user", "content": "Volviendo a Jacobo, ¿cuántos clientes atiende?" }
+        { "role": "user", "content": "Розкажи про GALA" },
+        { "role": "assistant", "content": "GALA - це мій B2B агент для лідогенерації, який обробляв до 85 дзвінків на день." },
+        { "role": "user", "content": "Який стек ти використовуєш?" },
+        { "role": "assistant", "content": "Мій основний стек - React, TypeScript, Vite, Tailwind, а для AI використовую Claude через AWS Bedrock та Azure OpenAI для embeddings." },
+        { "role": "user", "content": "Повертаючись до GALA, скільки лідів він генерував?" }
       ],
       "assertions": [
-        { "type": "contains_any", "values": ["jacobo", "agente", "autoservicio", "self-service", "90%", "cliente"] }
+        { "type": "contains_any", "values": ["gala", "агент", "85", "дзвінків", "calls", "leads", "лідів", "B2B"] }
       ]
     }
   ]

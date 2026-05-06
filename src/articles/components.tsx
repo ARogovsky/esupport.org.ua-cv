@@ -103,7 +103,7 @@ export function ArticleHeader({
   dateISO,
   dateModifiedISO,
   readingTime,
-  authorName = 'Santiago Fernández de Valderrama',
+  authorName = 'Andrey Rogovsky',
   authorUrl,
   authorBio,
   avatarSrc = '/foto-avatar-sm.webp',

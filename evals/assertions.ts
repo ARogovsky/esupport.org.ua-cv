@@ -74,38 +74,48 @@ export function assertRegex(
 
 /**
  * Detecta el idioma de la respuesta (heurística simple)
- * Busca palabras comunes en español vs inglés
+ * Busca palabras comunes en ucraniano vs inglés
  */
-export function assertLanguage(response: string, expected: 'es' | 'en'): boolean {
-  const spanishWords = [
-    'el',
-    'la',
-    'los',
-    'las',
-    'de',
-    'en',
-    'que',
-    'es',
-    'un',
-    'una',
-    'mi',
-    'con',
-    'para',
-    'por',
-    'del',
-    'al',
-    'como',
-    'más',
-    'pero',
-    'su',
-    'sus',
-    'este',
-    'esta',
-    'estos',
-    'estas',
-    'he',
-    'ha',
-    'años',
+export function assertLanguage(response: string, expected: 'uk' | 'en'): boolean {
+  const ukrainianWords = [
+    'я',
+    'ти',
+    'він',
+    'вона',
+    'ми',
+    'ви',
+    'вони',
+    'це',
+    'що',
+    'як',
+    'де',
+    'коли',
+    'чому',
+    'який',
+    'яка',
+    'які',
+    'мій',
+    'твій',
+    'його',
+    'її',
+    'наш',
+    'ваш',
+    'їх',
+    'та',
+    'але',
+    'або',
+    'для',
+    'від',
+    'до',
+    'на',
+    'в',
+    'з',
+    'про',
+    'років',
+    'року',
+    'маю',
+    'має',
+    'мають',
   ]
   const englishWords = [
     'the',
@@ -134,18 +144,18 @@ export function assertLanguage(response: string, expected: 'es' | 'en'): boolean
 
   const words = response.toLowerCase().split(/\s+/)
 
-  let spanishCount = 0
+  let ukrainianCount = 0
   let englishCount = 0
 
   for (const word of words) {
-    if (spanishWords.includes(word)) spanishCount++
+    if (ukrainianWords.includes(word)) ukrainianCount++
     if (englishWords.includes(word)) englishCount++
   }
 
-  if (expected === 'es') {
-    return spanishCount > englishCount
+  if (expected === 'uk') {
+    return ukrainianCount > englishCount
   } else {
-    return englishCount > spanishCount
+    return englishCount > ukrainianCount
   }
 }
 
@@ -210,7 +220,7 @@ export function runAssertion(
       break
 
     case 'language':
-      passed = assertLanguage(response, assertion.expected as 'es' | 'en')
+      passed = assertLanguage(response, assertion.expected as 'uk' | 'en')
       reason = passed
         ? `Language detected as ${assertion.expected}`
         : `Language is not ${assertion.expected}`

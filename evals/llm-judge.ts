@@ -1,14 +1,15 @@
 /**
  * LLM Judge usando Claude Haiku para evaluaciones subjetivas
+ * Usa AWS Bedrock через model router (lee credenciales de .env.local)
  */
 
-import Anthropic from '@anthropic-ai/sdk'
+import { createClaudeClient } from '../api/_shared/claude-client.js'
 
 // Cliente lazy - se inicializa cuando se usa, no al importar el módulo
-let client: Anthropic | null = null
-function getClient(): Anthropic {
+let client: ReturnType<typeof createClaudeClient> | null = null
+function getClient() {
   if (!client) {
-    client = new Anthropic()
+    client = createClaudeClient()
   }
   return client
 }
@@ -32,19 +33,19 @@ export async function judgeTone(
       messages: [
         {
           role: 'user',
-          content: `Evalúa si esta respuesta de un chatbot cumple el criterio especificado.
+          content: `Оціни чи ця відповідь чатбота відповідає вказаному критерію.
 
-Criterio: ${criteria}
+Критерій: ${criteria}
 
-Respuesta a evaluar:
+Відповідь для оцінки:
 """
 ${response}
 """
 
-Responde SOLO con JSON válido en este formato exacto (sin markdown):
-{"pass": true, "reason": "explicación breve de por qué pasa"}
-o
-{"pass": false, "reason": "explicación breve de por qué no pasa"}`,
+Відповідай ТІЛЬКИ валідним JSON у цьому точному форматі (без markdown):
+{"pass": true, "reason": "коротке пояснення чому проходить"}
+або
+{"pass": false, "reason": "коротке пояснення чому не проходить"}`,
         },
       ],
     })

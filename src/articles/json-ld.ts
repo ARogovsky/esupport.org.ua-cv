@@ -44,7 +44,7 @@ interface JsonLdOptions {
 const PERSON = {
   '@type': 'Person',
   '@id': 'https://esupport.org.ua/#person',
-  name: 'Santiago Fernández de Valderrama Aparicio',
+  name: 'Andrey Rogovsky',
   url: 'https://esupport.org.ua',
   jobTitle: 'Senior AI Engineer',
   sameAs: [

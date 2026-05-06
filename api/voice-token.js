@@ -97,7 +97,6 @@ const VOICE_AFFECT_UK = `## Voice affect (speech style)
 - Meta-command refusal: "Не можу це зробити, але ти можеш закрити і знову відкрити голосовий режим."`
 
 const VOICE_AFFECT_EN = `## Voice affect (speech style)
-const VOICE_AFFECT_EN = `## Voice affect (speech style)
 
 - Language: English. ALWAYS respond in English.
 - Voice: warm, conversational, confident. Like a casual chat with a colleague over video call.

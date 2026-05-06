@@ -1,136 +1,164 @@
-# Evals Suite - Chatbot "Santi"
+# Evals Suite - Chatbot "Andrey"
 
-Suite de evaluaciones profesionales para el chatbot de CV que habla como Santiago.
+Професійна система оцінювання для AI чатбота, який представляє Andrey Rogovsky.
 
-## Qué son los Evals
+## Що таке Evals
 
-Los **evals** son tests sistemáticos para medir la calidad de un sistema de IA:
+**Evals** — це систематичні тести для вимірювання якості AI системи:
 
-- **Accuracy** - ¿Responde con información correcta?
-- **Persona adherence** - ¿Mantiene el personaje?
-- **Safety** - ¿Rechaza lo que debe rechazar?
-- **Quality** - ¿Las respuestas son útiles y concisas?
+- **Accuracy** - Чи відповідає з правильною інформацією?
+- **Persona adherence** - Чи підтримує персону?
+- **Safety** - Чи відмовляє від того, від чого має?
+- **Quality** - Чи відповіді корисні та стислі?
 
-## Categorías de Tests
+## Категорії тестів
 
-| Categoría | Tests | Target |
-|-----------|-------|--------|
-| `factual_accuracy` | 7 | 100% |
+| Категорія | Тести | Ціль |
+|-----------|-------|------|
+| `factual_accuracy` | 9 | 100% |
 | `persona_adherence` | 4 | 95%+ |
-| `boundary_testing` | 5 | 100% |
+| `boundary_testing` | 7 | 100% |
 | `language_handling` | 5 | 100% |
 | `response_quality` | 5 | 90%+ |
-| `safety_jailbreak` | 5 | 100% |
+| `safety_jailbreak` | 7 | 100% |
 
-## Cómo Ejecutar
+## Як запустити
 
-**Opción 1: Local con Vercel Dev** (recomendado para desarrollo)
+**Опція 1: Локально з Vercel Dev** (рекомендовано для розробки)
 ```bash
-# Terminal 1: Iniciar servidor con edge functions
+# Термінал 1: Запустити сервер з edge functions
 vercel dev
 
-# Terminal 2: Ejecutar evals
+# Термінал 2: Запустити evals
 npm run evals
 ```
 
-**Opción 2: Contra producción** (para validar el deploy)
+**Опція 2: Проти production** (для валідації deploy)
 ```bash
-CHAT_API_URL=https://santifer.io/api/chat npm run evals
+CHAT_API_URL=https://esupport.org.ua/api/chat npm run evals
 ```
 
-> **Nota:** `npm run dev` (Vite) no sirve las edge functions de `/api/chat`. Usa `vercel dev` para desarrollo local.
+## Setup
 
-## Estructura
+**Змінні середовища:**
+
+Evals використовують AWS Bedrock для LLM Judge (Claude Haiku). Ключі читаються з кореневого `.env.local`:
+
+```bash
+# У кореневому .env.local
+AWS_BEDROCK_KEY=your-bedrock-api-key
+AWS_REGION=eu-central-1
+```
+
+Альтернативно, можна створити `evals/.env.local` для перевизначення:
+```bash
+cp evals/.env.example evals/.env.local
+# Відредагувати evals/.env.local
+```
+
+> **Примітка:** Model router автоматично вибирає AWS Bedrock якщо є `AWS_BEDROCK_KEY`, або Anthropic API якщо є `ANTHROPIC_API_KEY`.
+
+> **Примітка:** `npm run dev` (Vite) не обслуговує edge functions з `/api/chat`. Використовуйте `vercel dev` для локальної розробки.
+
+## Структура
 
 ```
 evals/
-├── README.md           # Esta documentación
-├── datasets/           # Tests en formato JSON
-│   ├── factual.json    # Precisión factual
-│   ├── persona.json    # Consistencia de personaje
-│   ├── boundaries.json # Tests de límites
-│   ├── languages.json  # Comportamiento bilingüe
-│   ├── quality.json    # Calidad de respuestas
-│   └── safety.json     # Seguridad y jailbreaks
-├── assertions.ts       # Funciones de assertion
-├── llm-judge.ts        # Evaluador con Haiku
-├── runner.ts           # Script principal
-└── results/            # Reportes generados
+├── README.md           # Ця документація
+├── datasets/           # Тести у форматі JSON
+│   ├── factual.json    # Фактична точність
+│   ├── persona.json    # Консистентність персони
+│   ├── boundaries.json # Тести меж
+│   ├── languages.json  # Двомовна поведінка
+│   ├── quality.json    # Якість відповідей
+│   └── safety.json     # Безпека та jailbreaks
+├── assertions.ts       # Функції assertion
+├── llm-judge.ts        # Оцінювач з Haiku
+├── runner.ts           # Головний скрипт
+└── results/            # Згенеровані звіти
 ```
 
-## Tipos de Assertions
+## Типи Assertions
 
-### Deterministas (90% de tests)
+### Детерміністичні (90% тестів)
 
-| Tipo | Descripción |
-|------|-------------|
-| `contains` | Contiene texto exacto |
-| `contains_any` | Contiene al menos uno de los valores |
-| `not_contains` | NO contiene el texto |
-| `max_words` | Máximo N palabras |
-| `min_words` | Mínimo N palabras |
-| `regex` | Match de patrón regex |
-| `language` | Detecta idioma (ES/EN) |
+| Тип | Опис |
+|------|------|
+| `contains` | Містить точний текст |
+| `contains_any` | Містить принаймні одне зі значень |
+| `not_contains` | НЕ містить текст |
+| `max_words` | Максимум N слів |
+| `min_words` | Мінімум N слів |
+| `regex` | Відповідає regex патерну |
+| `language` | Визначає мову (UK/EN) |
 
-### Con LLM Judge (10% de tests)
+### З LLM Judge (10% тестів)
 
-| Tipo | Descripción |
-|------|-------------|
-| `llm_judge` | Haiku evalúa según criterio subjetivo |
+| Тип | Опис |
+|------|------|
+| `llm_judge` | Haiku оцінює за суб'єктивним критерієм |
 
-## Formato de Dataset
+## Формат Dataset
 
 ```json
 {
-  "name": "categoria_nombre",
-  "description": "Descripción de qué evalúa",
+  "name": "category_name",
+  "description": "Опис що оцінюється",
   "tests": [
     {
       "id": "test-id",
-      "description": "Qué verifica este test",
-      "input": "Pregunta al chatbot",
-      "lang": "es",
+      "description": "Що перевіряє цей тест",
+      "input": "Питання до чатбота",
+      "lang": "uk",
       "assertions": [
-        { "type": "contains", "value": "texto esperado" },
-        { "type": "llm_judge", "criteria": "criterio subjetivo" }
+        { "type": "contains", "value": "очікуваний текст" },
+        { "type": "llm_judge", "criteria": "суб'єктивний критерій" }
       ]
     }
   ]
 }
 ```
 
-## Reporte de Resultados
+## Звіт результатів
 
-Después de cada ejecución se genera un reporte en `results/report-YYYY-MM-DD.md` con:
+Після кожного запуску генерується звіт у `results/report-YYYY-MM-DD.md` з:
 
-- Resumen general
-- Pass rate por categoría
-- Detalle de cada test con input, response y assertions
+- Загальне резюме
+- Pass rate по категоріях
+- Деталі кожного тесту з input, response та assertions
 
-## Variables de Entorno
+## Змінні оточення
 
-| Variable | Default | Descripción |
-|----------|---------|-------------|
-| `CHAT_API_URL` | `http://localhost:3000/api/chat` | URL del API del chat |
-| `ANTHROPIC_API_KEY` | (requerido para LLM judge) | API key de Anthropic |
+| Змінна | Default | Опис |
+|----------|---------|------|
+| `CHAT_API_URL` | `http://localhost:3000/api/chat` | URL API чату |
+| `ANTHROPIC_API_KEY` | (потрібен для LLM judge) | API key Anthropic |
 
-### Configurar API Key (para LLM Judge)
+### Налаштувати API Key (для LLM Judge)
 
 ```bash
-# Copia el ejemplo y añade tu key
+# Скопіюйте приклад і додайте свій key
 cp evals/.env.example evals/.env.local
 
-# Edita el archivo con tu key real
-# El archivo .env.local está en .gitignore (no se sube a GitHub)
+# Відредагуйте файл зі справжнім key
+# Файл .env.local у .gitignore (не завантажується на GitHub)
 ```
 
-**Nota:** Sin `ANTHROPIC_API_KEY`, el test `tone-quality` fallará. Los demás 30 tests (deterministas) funcionan sin esta variable.
+**Примітка:** Без `ANTHROPIC_API_KEY` тест `tone-quality` провалиться. Інші 30+ тестів (детерміністичні) працюють без цієї змінної.
 
-## Valor para el CV
+## Цінність для CV
 
-Esta suite demuestra competencias en:
+Ця система демонструє компетенції в:
 
-- **AI Product Discovery** - Definición de métricas de calidad
-- **LLMOps Foundations** - Testing sistemático de LLMs
-- **Reliability & Ops** - Garantía de calidad en producción
-- **Forward-Deployed Delivery** - Soluciones completas y medibles
+- **AI Product Discovery** - Визначення метрик якості
+- **LLMOps Foundations** - Систематичне тестування LLM
+- **Reliability & Ops** - Гарантія якості в production
+- **Forward-Deployed Delivery** - Повні та вимірювані рішення
+
+## Технічний стек
+
+- **Runtime:** Node.js + TypeScript
+- **Testing:** Custom eval framework
+- **LLM Judge:** Claude Haiku 4 (AWS Bedrock)
+- **API:** Vercel Edge Functions
+- **Assertions:** Детерміністичні + LLM-based

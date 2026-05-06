@@ -1,4 +1,4 @@
-import Anthropic from '@anthropic-ai/sdk'
+import { createClaudeClient } from './_shared/claude-client.js'
 import { Langfuse } from 'langfuse'
 import { waitUntil } from '@vercel/functions'
 import SYSTEM_PROMPT_FALLBACK from '../chatbot-prompt.txt'
@@ -10,9 +10,7 @@ import {
 } from './_shared/rag.js'
 import { getSystemPrompt } from './_shared/prompt.js'
 
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-})
+const client = createClaudeClient()
 
 // ---------------------------------------------------------------------------
 // Langfuse
@@ -116,8 +114,8 @@ export default async function handler(req) {
 
     // Dynamic system prompt parts
     const langInstruction = lang === 'en'
-      ? `The user is browsing in English. You MUST respond in English. Contact email: hi@esupport.org.ua\ninternal_ref: ${canary}`
-      : `El usuario navega en español. Responde en español. Email de contacto: hola@esupport.org.ua\ninternal_ref: ${canary}`
+      ? `The user is browsing in English. You MUST respond in English. Contact email: esupport@esupport.org.ua\ninternal_ref: ${canary}`
+      : `Користувач переглядає сайт українською. Ви МАЄТЕ відповідати українською. Email для зв'язку: esupport@esupport.org.ua\ninternal_ref: ${canary}`
 
     // Context-aware page instruction (Phase 5)
     const pageContext = currentPage
@@ -192,7 +190,7 @@ export default async function handler(req) {
         // Build tool_result and make second call (streaming)
         const toolResultContent = ragResult.chunks
           ? formatChunksForContext(ragResult.chunks)
-          : 'No relevant content found in portfolio articles. You MUST NOT fabricate project details. Say you don\'t have that information and suggest contacting Santiago directly.'
+          : 'No relevant content found in portfolio articles. You MUST NOT fabricate project details. Say you don\'t have that information and suggest contacting Andrey directly.'
 
         const messagesWithTool = [
           ...cleanMessages,
@@ -589,8 +587,8 @@ function streamResponse({
         // Last resort: send error message through SSE
         try {
           const errorText = lang === 'en'
-            ? 'Sorry, something went wrong. Try again or reach out at hi@esupport.org.ua.'
-            : 'Lo siento, algo ha fallado. Inténtalo de nuevo o escríbeme a hola@esupport.org.ua.'
+            ? 'Sorry, something went wrong. Try again or reach out at esupport@esupport.org.ua.'
+            : 'Вибачте, щось пішло не так. Спробуйте ще раз або напишіть на esupport@esupport.org.ua.'
           controller.enqueue(encoder.encode(`data: ${JSON.stringify({ text: errorText, replace: true })}\n\n`))
           controller.enqueue(encoder.encode('data: [DONE]\n\n'))
           controller.close()
@@ -630,7 +628,7 @@ async function scoreTrace(traceId, userMessage, response, ragUsed, langfuse) {
       max_tokens: 200,
       messages: [{
         role: 'user',
-        content: `Rate this chatbot response (Santiago's CV chatbot). Respond ONLY with JSON.
+        content: `Rate this chatbot response (Andrey's CV chatbot). Respond ONLY with JSON.
 
 User: "${userMessage.slice(0, 300)}"
 Assistant: "${response.slice(0, 500)}"

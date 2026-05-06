@@ -36,7 +36,7 @@ export default function Advogram({ lang = 'en' }: { lang?: Lang }) {
     description: t.seo.description,
     image: 'https://esupport.org.ua/advogram/og-advogram-gtm.webp',
     publishedTime: '2026-04-27',
-    modifiedTime: '2026-05-05',
+    modifiedTime: '2026-05-06',
     articleTags: 'GTM,market validation,ATS,CPA,Google Ads,unit economics,freemium,SaaS',
     jsonLd: buildJsonLd(lang),
     xDefaultSlug: 'advogram-gtm-case-study',
@@ -53,7 +53,7 @@ export default function Advogram({ lang = 'en' }: { lang?: Lang }) {
         subtitle={t.header.subtitle}
         date={t.header.date}
         dateISO="2026-04-27"
-        dateModifiedISO="2026-04-27"
+        dateModifiedISO="2026-05-06"
         readingTime={t.readingTime}
       />
 

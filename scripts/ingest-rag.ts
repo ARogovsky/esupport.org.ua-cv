@@ -5,12 +5,13 @@
  *   - Change detection via content hashing (skip unchanged articles)
  *   - Chunk splitting for large sections (1000 chars, 200 overlap)
  *   - Contextual retrieval: prepend summary via Haiku before embedding
- *   - OpenAI text-embedding-3-small for embeddings (1536 dims)
+ *   - Model Router for embeddings (Azure OpenAI or OpenAI, 1536 dims)
  *   - Upsert to Supabase `documents` table
  *
  * Requires env vars:
- *   OPENAI_API_KEY, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY
- *   ANTHROPIC_API_KEY (optional, for contextual retrieval)
+ *   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY
+ *   AZURE_OPENAI_* or OPENAI_API_KEY (for embeddings)
+ *   AWS_BEDROCK_KEY or ANTHROPIC_API_KEY (optional, for contextual retrieval)
  *
  * Usage:
  *   npx tsx --tsconfig tsconfig.app.json scripts/ingest-rag.ts
@@ -24,10 +25,9 @@ import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs'
 import { resolve, dirname, basename } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { createHash } from 'node:crypto'
-import OpenAI from 'openai'
 import { createClient } from '@supabase/supabase-js'
-import Anthropic from '@anthropic-ai/sdk'
 import { articleRegistry } from '../src/articles/registry.ts'
+import { createEmbedding, isEmbeddingAvailable } from '../api/_shared/model-router.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = resolve(__dirname, '..')
@@ -47,13 +47,6 @@ const EMBEDDING_BATCH_SIZE = 20 // OpenAI allows up to 2048, but we batch for sa
 // Clients
 // ---------------------------------------------------------------------------
 
-function getOpenAI(): OpenAI {
-  if (!process.env.OPENAI_API_KEY) {
-    throw new Error('OPENAI_API_KEY is required')
-  }
-  return new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
-}
-
 function getSupabase() {
   if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
     throw new Error('SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are required')
@@ -61,9 +54,15 @@ function getSupabase() {
   return createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
 }
 
-function getAnthropic(): Anthropic | null {
-  if (!process.env.ANTHROPIC_API_KEY) return null
-  return new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+function getClaudeClient() {
+  // Check if Claude is available (Bedrock or Anthropic)
+  const hasBedrock = !!(process.env.AWS_BEDROCK_KEY && process.env.AWS_REGION)
+  const hasAnthropic = !!process.env.ANTHROPIC_API_KEY
+  
+  if (!hasBedrock && !hasAnthropic) return null
+  
+  // Import dynamically to avoid errors if not available
+  return import('../api/_shared/claude-client.js').then(m => m.createClaudeClient())
 }
 
 // ---------------------------------------------------------------------------
@@ -180,10 +179,10 @@ function splitChunk(chunk: Chunk): Chunk[] {
 async function addContextualSummaries(
   chunks: Chunk[],
   articleTitle: string,
-  anthropic: Anthropic | null,
+  claudeClient: any,
 ): Promise<string[]> {
-  if (!anthropic) {
-    console.log('    (no ANTHROPIC_API_KEY — skipping contextual retrieval)')
+  if (!claudeClient) {
+    console.log('    (no Claude provider — skipping contextual retrieval)')
     return chunks.map(c => c.content)
   }
 
@@ -191,7 +190,7 @@ async function addContextualSummaries(
 
   for (const chunk of chunks) {
     try {
-      const response = await anthropic.messages.create({
+      const response = await claudeClient.messages.create({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 100,
         messages: [{
@@ -215,17 +214,16 @@ async function addContextualSummaries(
 // Embedding
 // ---------------------------------------------------------------------------
 
-async function embedTexts(texts: string[], openai: OpenAI): Promise<number[][]> {
+async function embedTexts(texts: string[]): Promise<number[][]> {
   const allEmbeddings: number[][] = []
 
   for (let i = 0; i < texts.length; i += EMBEDDING_BATCH_SIZE) {
     const batch = texts.slice(i, i + EMBEDDING_BATCH_SIZE)
-    const response = await openai.embeddings.create({
-      model: EMBEDDING_MODEL,
-      input: batch,
-    })
-    for (const item of response.data) {
-      allEmbeddings.push(item.embedding)
+    
+    // Embed each text in batch using model-router
+    for (const text of batch) {
+      const result = await createEmbedding(text, { model: EMBEDDING_MODEL })
+      allEmbeddings.push(result.embedding)
     }
   }
 
@@ -275,16 +273,23 @@ async function insertChunks(
 async function main() {
   console.log('🔄 RAG Ingestion starting...\n')
 
-  // Check for env vars
-  if (!process.env.OPENAI_API_KEY || !process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    console.log('⚠️  Missing env vars (OPENAI_API_KEY, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)')
-    console.log('   Skipping RAG ingestion. Set env vars to enable.\n')
+  // Check for embedding availability (Azure or OpenAI)
+  if (!isEmbeddingAvailable()) {
+    console.log('⚠️  Missing embedding provider configuration')
+    console.log('   Set AZURE_OPENAI_* or OPENAI_API_KEY env vars to enable.')
+    console.log('   Skipping RAG ingestion.\n')
     process.exit(0) // Exit gracefully so build continues
   }
 
-  const openai = getOpenAI()
+  // Check for Supabase
+  if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    console.log('⚠️  Missing Supabase configuration (SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)')
+    console.log('   Skipping RAG ingestion.\n')
+    process.exit(0)
+  }
+
   const supabase = getSupabase()
-  const anthropic = getAnthropic()
+  const claudeClient = await getClaudeClient()
 
   const hashes = await loadHashes(supabase)
   const newHashes = { ...hashes }
@@ -331,11 +336,11 @@ async function main() {
 
     // Contextual retrieval summaries
     const articleTitle = article?.titles.en || articleId
-    const enrichedTexts = await addContextualSummaries(splitChunks, articleTitle, anthropic)
+    const enrichedTexts = await addContextualSummaries(splitChunks, articleTitle, claudeClient)
 
     // Embed
     console.log(`     → Embedding ${enrichedTexts.length} chunks...`)
-    const embeddings = await embedTexts(enrichedTexts, openai)
+    const embeddings = await embedTexts(enrichedTexts)
 
     // Delete old + insert new
     console.log(`     → Upserting to Supabase...`)

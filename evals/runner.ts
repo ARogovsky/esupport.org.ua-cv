@@ -1,7 +1,7 @@
 #!/usr/bin/env npx tsx
 
 /**
- * Runner principal para la suite de evals del chatbot Santi
+ * Runner principal para la suite de evals del chatbot Andrey
  *
  * Uso: npm run evals
  */
@@ -9,16 +9,32 @@
 import * as fs from 'fs'
 import * as path from 'path'
 
-// Cargar .env.local si existe (para ANTHROPIC_API_KEY del LLM Judge)
-const envLocalPath = path.join(import.meta.dirname, '.env.local')
-if (fs.existsSync(envLocalPath)) {
-  const envContent = fs.readFileSync(envLocalPath, 'utf-8')
+// Завантажити .env.local з кореневої директорії проєкту (для AWS Bedrock ключів)
+const rootEnvPath = path.join(import.meta.dirname, '..', '.env.local')
+if (fs.existsSync(rootEnvPath)) {
+  const envContent = fs.readFileSync(rootEnvPath, 'utf-8')
   for (const line of envContent.split('\n')) {
     const trimmed = line.trim()
     if (trimmed && !trimmed.startsWith('#')) {
       const [key, ...valueParts] = trimmed.split('=')
       const value = valueParts.join('=').replace(/^["']|["']$/g, '')
       if (key && value && !process.env[key]) {
+        process.env[key] = value
+      }
+    }
+  }
+}
+
+// Також завантажити локальний .env.local якщо є (може перевизначити)
+const localEnvPath = path.join(import.meta.dirname, '.env.local')
+if (fs.existsSync(localEnvPath)) {
+  const envContent = fs.readFileSync(localEnvPath, 'utf-8')
+  for (const line of envContent.split('\n')) {
+    const trimmed = line.trim()
+    if (trimmed && !trimmed.startsWith('#')) {
+      const [key, ...valueParts] = trimmed.split('=')
+      const value = valueParts.join('=').replace(/^["']|["']$/g, '')
+      if (key && value) {
         process.env[key] = value
       }
     }
@@ -37,7 +53,7 @@ interface Test {
   id: string
   description: string
   input: string
-  lang: 'es' | 'en'
+  lang: 'uk' | 'en'
   assertions: Assertion[]
   conversation?: ConversationMessage[]
   mode?: 'voice'
@@ -101,7 +117,7 @@ const colors = {
 /**
  * Llama al API del chat y obtiene la respuesta completa (sin streaming)
  */
-async function callChat(input: string, lang: 'es' | 'en', conversation?: ConversationMessage[]): Promise<ChatResult> {
+async function callChat(input: string, lang: 'uk' | 'en', conversation?: ConversationMessage[]): Promise<ChatResult> {
   const messages = conversation || [{ role: 'user', content: input }]
   const response = await fetch(CHAT_API_URL, {
     method: 'POST',
@@ -161,7 +177,7 @@ async function callChat(input: string, lang: 'es' | 'en', conversation?: Convers
 /**
  * Llama al endpoint /api/rag-search para tests de voice mode
  */
-async function callVoiceRag(input: string, lang: 'es' | 'en'): Promise<ChatResult> {
+async function callVoiceRag(input: string, lang: 'uk' | 'en'): Promise<ChatResult> {
   const response = await fetch(RAG_SEARCH_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -364,7 +380,7 @@ function generateReport(datasetResults: DatasetResult[]): string {
 async function main() {
   console.log(`${colors.bold}`)
   console.log(`╔═══════════════════════════════════════════╗`)
-  console.log(`║     Santi Chatbot Evals Suite             ║`)
+  console.log(`║     Andrey Chatbot Evals Suite           ║`)
   console.log(`╚═══════════════════════════════════════════╝`)
   console.log(`${colors.reset}`)
 
@@ -377,7 +393,7 @@ async function main() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         messages: [{ role: 'user', content: 'test' }],
-        lang: 'es',
+        lang: 'uk',
       }),
     })
     if (!testResponse.ok && testResponse.status === 404) {
@@ -389,7 +405,7 @@ async function main() {
     )
     console.log(`${colors.dim}   Options:${colors.reset}`)
     console.log(`${colors.dim}   1. Run 'vercel dev' (serves edge functions on port 3000)${colors.reset}`)
-    console.log(`${colors.dim}   2. Test against production: CHAT_API_URL=https://santifer.io/api/chat npm run evals${colors.reset}`)
+    console.log(`${colors.dim}   2. Test against production: CHAT_API_URL=https://esupport.org.ua/api/chat npm run evals${colors.reset}`)
     process.exit(1)
   }
 

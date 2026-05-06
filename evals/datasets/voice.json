@@ -1,20 +1,20 @@
 {
   "name": "voice_quality",
-  "description": "Tests voice RAG endpoint (/api/rag-search): content relevance, no markdown, factual accuracy, grounding",
+  "description": "Тестує voice RAG endpoint (/api/rag-search): релевантність контенту, відсутність markdown, фактична точність, обґрунтованість",
   "tests": [
     {
-      "id": "voice-content-jacobo",
-      "description": "Voice RAG about Jacobo returns relevant content",
-      "input": "Cuéntame sobre el agente Jacobo",
-      "lang": "es",
+      "id": "voice-content-gala",
+      "description": "Voice RAG про GALA повертає релевантний контент",
+      "input": "Розкажи про агента GALA",
+      "lang": "uk",
       "mode": "voice",
       "assertions": [
-        { "type": "contains_any", "values": ["jacobo", "agente", "whatsapp", "omnicanal", "customer", "autoservicio"] }
+        { "type": "contains_any", "values": ["gala", "агент", "B2B", "лідогенерація", "дзвінків", "85"] }
       ]
     },
     {
       "id": "voice-no-markdown",
-      "description": "Voice RAG response must not contain markdown links",
+      "description": "Voice RAG відповідь не повинна містити markdown посилань",
       "input": "What projects have you built?",
       "lang": "en",
       "mode": "voice",
@@ -24,30 +24,30 @@
       ]
     },
     {
-      "id": "voice-factual-jacobo",
-      "description": "Voice RAG about Jacobo should mention key technical details",
-      "input": "Tell me about the Jacobo AI agent, what does it do?",
+      "id": "voice-factual-ai-tools",
+      "description": "Voice RAG про AI Tool Insights має згадувати ключові технічні деталі",
+      "input": "Tell me about AI Tool Insights, what does it do?",
       "lang": "en",
       "mode": "voice",
       "assertions": [
-        { "type": "contains_any", "values": ["customer service", "self-service", "tool calling", "whatsapp", "omnichannel", "autoservicio"] }
+        { "type": "contains_any", "values": ["16000", "16K", "tools", "catalog", "retention", "100%"] }
       ]
     },
     {
       "id": "voice-grounding-invented",
-      "description": "Voice RAG for unknown project returns empty or no-match signal",
+      "description": "Voice RAG для невідомого проєкту повертає порожнє або no-match сигнал",
       "input": "Tell me about your blockchain project",
       "lang": "en",
       "mode": "voice",
       "assertions": [
-        { "type": "contains_any", "values": ["No relevant content", "no tengo", "not", "unavailable", "general knowledge", "don't have"] }
+        { "type": "contains_any", "values": ["No relevant content", "немає", "not", "unavailable", "general knowledge", "don't have"] }
       ]
     },
     {
       "id": "voice-brevity-general",
-      "description": "General voice response should be short (< 60 words)",
-      "input": "Hola, ¿quién eres?",
-      "lang": "es",
+      "description": "Загальна voice відповідь має бути короткою (< 60 слів)",
+      "input": "Привіт, хто ти?",
+      "lang": "uk",
       "mode": "voice",
       "assertions": [
         { "type": "max_words", "value": 60 }
@@ -55,7 +55,7 @@
     },
     {
       "id": "voice-no-urls",
-      "description": "Voice RAG response should not contain URLs",
+      "description": "Voice RAG відповідь не повинна містити URLs",
       "input": "How can I contact you?",
       "lang": "en",
       "mode": "voice",

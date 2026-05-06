@@ -1,171 +1,159 @@
 {
   "name": "rag_quality",
-  "description": "Verifica calidad del RAG: retrieval, tool use, citación, alucinaciones y disambiguación",
+  "description": "Перевіряє якість RAG: retrieval, використання інструментів, цитування, галюцинації та розрізнення",
   "tests": [
     {
-      "id": "retrieval-jacobo-subagents",
-      "description": "Debe usar RAG y traer info de Jacobo sobre sub-agentes",
-      "input": "What sub-agents does Jacobo use and what model does each one run on?",
+      "id": "retrieval-gala-details",
+      "description": "Має використовувати RAG і отримувати інформацію про GALA",
+      "input": "Tell me about the GALA project and how many calls it handled",
       "lang": "en",
       "assertions": [
         { "type": "rag_used" },
-        { "type": "source_includes", "value": "jacobo" },
-        { "type": "llm_judge", "criteria": "The response must mention at least 2 specific sub-agents or specialized components of Jacobo (e.g., quotes/presupuestos, bookings/citas, orders/pedidos, router, calculator, HITL handoff). Generic answers like 'it has several sub-agents' without naming them fail." }
+        { "type": "source_includes", "value": "gala" },
+        { "type": "contains_any", "values": ["85", "calls", "дзвінків", "B2B", "lead generation"] }
       ]
     },
     {
-      "id": "retrieval-pseo-pipeline",
-      "description": "Debe usar RAG para detalles del pipeline SEO",
-      "input": "How does the SEO decision engine determine which pages to index?",
+      "id": "retrieval-ai-tools-metrics",
+      "description": "Має використовувати RAG для деталей AI Tool Insights",
+      "input": "What metrics did AI Tool Insights achieve?",
       "lang": "en",
       "assertions": [
         { "type": "rag_used" },
-        { "type": "source_includes", "value": "programmatic-seo" },
-        { "type": "contains_any", "values": ["volume", "volumen", "indexable", "crawl", "DataForSEO"] }
+        { "type": "source_includes", "value": "ai-tools" },
+        { "type": "contains_any", "values": ["16000", "16K", "100%", "retention"] }
       ]
     },
     {
-      "id": "retrieval-bos-erp",
-      "description": "Debe usar RAG para detalles del ERP que solo están en el artículo",
-      "input": "¿Qué validaciones automáticas tiene el ERP del Business OS?",
-      "lang": "es",
+      "id": "retrieval-advogram-details",
+      "description": "Має використовувати RAG для деталей Advogram",
+      "input": "Що таке Advogram і як він працює?",
+      "lang": "uk",
       "assertions": [
         { "type": "rag_used" },
-        { "type": "source_includes", "value": "business-os" }
+        { "type": "source_includes", "value": "advogram" }
       ]
     },
     {
-      "id": "retrieval-n8n-workflows",
-      "description": "Debe usar RAG para detalles del workflow Automatable Friday",
-      "input": "How does the Automatable Friday n8n workflow work step by step?",
+      "id": "retrieval-offzmi-gtm",
+      "description": "Має використовувати RAG для деталей offzmi GTM research",
+      "input": "How does the offzmi niche discovery work?",
       "lang": "en",
       "assertions": [
         { "type": "rag_used" },
-        { "type": "source_includes", "value": "n8n-for-pms" },
-        { "type": "contains_any", "values": ["Friday", "Slack", "sprint", "schedule", "Airtable"] }
+        { "type": "source_includes", "value": "offzmi" },
+        { "type": "contains_any", "values": ["MCP", "browser", "niche", "GTM", "research"] }
       ]
     },
     {
       "id": "no-rag-greeting",
-      "description": "No debe usar RAG para un saludo",
-      "input": "Hola",
-      "lang": "es",
+      "description": "Не повинен використовувати RAG для привітання",
+      "input": "Привіт",
+      "lang": "uk",
       "assertions": [
         { "type": "rag_not_used" }
       ]
     },
     {
       "id": "no-rag-contact",
-      "description": "No debe usar RAG para preguntas de contacto",
+      "description": "Не повинен використовувати RAG для питань про контакти",
       "input": "What's your email?",
       "lang": "en",
       "assertions": [
         { "type": "rag_not_used" },
-        { "type": "contains_any", "values": ["hi@santifer.io", "santifer.io"] }
+        { "type": "contains_any", "values": ["esupport@esupport.org.ua", "esupport.org.ua"] }
       ]
     },
     {
       "id": "rag-architecture-detail",
-      "description": "Debe usar RAG cuando piden detalles de arquitectura",
-      "input": "Explain the architecture of Jacobo's voice AI system",
+      "description": "Має використовувати RAG коли запитують деталі архітектури",
+      "input": "Explain the architecture of GALA's B2B lead generation system",
       "lang": "en",
       "assertions": [
         { "type": "rag_used" },
-        { "type": "source_includes", "value": "jacobo" },
-        { "type": "contains_any", "values": ["ElevenLabs", "voice", "voz", "tool"] }
+        { "type": "source_includes", "value": "gala" },
+        { "type": "contains_any", "values": ["B2B", "lead", "calls", "agent", "AI"] }
       ]
     },
     {
-      "id": "citation-quotes-model",
-      "description": "Debe citar el modelo correcto del sub-agente de presupuestos",
-      "input": "¿Qué modelo de LLM usa el sub-agente de presupuestos de Jacobo?",
-      "lang": "es",
-      "assertions": [
-        { "type": "rag_used" },
-        { "type": "contains_any", "values": ["GPT-4.1 mini", "gpt-4.1-mini", "GPT-4.1 Mini", "4.1 mini"] },
-        { "type": "not_contains", "value": "GPT-4o" }
-      ]
-    },
-    {
-      "id": "citation-bos-crm",
-      "description": "Debe usar RAG para detalles del CRM (gamificación) que solo están en el artículo",
-      "input": "How does the lead scoring gamification work in your CRM?",
+      "id": "citation-ai-tools-stack",
+      "description": "Має цитувати правильний стек AI Tool Insights",
+      "input": "What technology stack does AI Tool Insights use?",
       "lang": "en",
       "assertions": [
         { "type": "rag_used" },
-        { "type": "source_includes", "value": "business-os" },
-        { "type": "contains_any", "values": ["Bronze", "Silver", "Gold", "Diamond", "Platinum", "level", "tier", "gamif"] }
+        { "type": "source_includes", "value": "ai-tools" }
       ]
     },
     {
-      "id": "no-hallucinate-jacobo-rag",
-      "description": "NO debe decir que Jacobo usa RAG contra Airtable — usa tool calling",
-      "input": "Does Jacobo use RAG to look up prices in Airtable?",
-      "lang": "en",
-      "assertions": [
-        { "type": "llm_judge", "criteria": "The response must correctly clarify that Jacobo uses tool calling (direct API/webhook calls to Airtable), NOT RAG for price lookups. It should not claim Jacobo performs RAG against Airtable for prices. Saying 'no, it uses tool calling' is correct. Saying 'yes, it uses RAG against Airtable' is incorrect. It's OK if the chatbot answers from its own knowledge without using RAG search." }
-      ]
-    },
-    {
-      "id": "no-hallucinate-vector-db",
-      "description": "NO debe inventar que Jacobo usa vector search para precios",
-      "input": "¿Jacobo usa búsqueda vectorial para encontrar precios?",
-      "lang": "es",
-      "assertions": [
-        { "type": "rag_used" },
-        { "type": "llm_judge", "criteria": "The response must clarify that Jacobo does NOT use vector search for prices. It uses tool calling (direct webhook/API lookups to Airtable). The response should correct the misconception, not confirm it. Saying 'no, it uses tool calling directo' is correct. Saying 'yes, it uses vector search' is incorrect." }
-      ]
-    },
-    {
-      "id": "cross-article-jacobo-vs-bos",
-      "description": "Debe usar RAG y distinguir entre Jacobo y Business OS",
-      "input": "What role does Airtable play in both Jacobo and the Business OS?",
+      "id": "citation-pii-removal-model",
+      "description": "Має використовувати RAG для деталей PII Removal проєкту",
+      "input": "What model does the PII Removal project use?",
       "lang": "en",
       "assertions": [
         { "type": "rag_used" },
-        { "type": "llm_judge", "criteria": "The response must reference BOTH Jacobo (the AI agent) and the Business OS (the Airtable system) and explain how Airtable relates to each. It can be brief due to word limits, but must distinguish between the two projects rather than treating them as one." }
+        { "type": "source_includes", "value": "pii-removal" },
+        { "type": "contains_any", "values": ["RoBERTa", "Ukrainian", "NER", "PII"] }
       ]
     },
     {
-      "id": "faithfulness-jacobo-no-invent",
-      "description": "NO debe inventar que Jacobo usa vector DB — usa Airtable + tool calling",
-      "input": "Does Jacobo store embeddings in a vector database for retrieval?",
+      "id": "no-hallucinate-gala-metrics",
+      "description": "НЕ повинен вигадувати метрики GALA, яких немає в статті",
+      "input": "What was the exact conversion rate of GALA leads?",
       "lang": "en",
       "assertions": [
         { "type": "rag_used" },
-        { "type": "llm_judge", "criteria": "The response must NOT claim Jacobo uses a vector database or embeddings for retrieval. Jacobo uses tool calling (direct API/webhook calls to Airtable), not vector search or RAG. The response should clarify this distinction. Saying 'no, it uses tool calling' is correct. Claiming it uses Pinecone, Weaviate, pgvector, or any vector DB is incorrect." }
+        { "type": "llm_judge", "criteria": "The response must NOT invent specific conversion percentages if they're not in the article. It should share metrics that ARE available (85 calls/day, B2B lead generation) or acknowledge it doesn't have that exact number. Fabricating precise percentages is a faithfulness failure." }
       ]
     },
     {
-      "id": "faithfulness-bos-no-invent-metrics",
-      "description": "NO debe inventar ROI % que no está en el artículo",
-      "input": "What was the exact ROI percentage of implementing the Business OS?",
+      "id": "no-hallucinate-tech-stack",
+      "description": "НЕ повинен вигадувати технології, які не використовуються",
+      "input": "Does Andrey use OpenAI GPT-4 for his projects?",
+      "lang": "en",
+      "assertions": [
+        { "type": "llm_judge", "criteria": "The response must clarify that Andrey primarily uses Claude via AWS Bedrock (Sonnet 4, Haiku 4) and Azure OpenAI for embeddings and realtime. It should NOT claim he uses OpenAI GPT-4 as the primary model. Saying 'he uses Claude via AWS Bedrock' is correct." }
+      ]
+    },
+    {
+      "id": "cross-article-gala-vs-ai-tools",
+      "description": "Має використовувати RAG і розрізняти між GALA та AI Tool Insights",
+      "input": "What's the difference between GALA and AI Tool Insights?",
       "lang": "en",
       "assertions": [
         { "type": "rag_used" },
-        { "type": "llm_judge", "criteria": "The response must NOT invent a specific ROI percentage (like '300% ROI' or '5x return'). If the article doesn't contain an exact ROI figure, the response should either share the metrics that ARE available (hours saved, number of bases, automations) or acknowledge it doesn't have that exact number. Fabricating a precise percentage is a faithfulness failure." }
+        { "type": "llm_judge", "criteria": "The response must reference BOTH GALA (B2B lead generation agent) and AI Tool Insights (16K+ tools catalog) and explain the difference. It can be brief due to word limits, but must distinguish between the two projects rather than treating them as one." }
       ]
     },
     {
-      "id": "retrieval-relevance-n8n-not-jacobo",
-      "description": "Pregunta sobre n8n debe traer artículo n8n, no Jacobo",
-      "input": "Tell me about the Automatable Friday workflow and how it uses n8n",
+      "id": "faithfulness-no-invent-clients",
+      "description": "НЕ повинен вигадувати назви клієнтів",
+      "input": "What companies has Andrey worked with?",
       "lang": "en",
       "assertions": [
         { "type": "rag_used" },
-        { "type": "source_includes", "value": "n8n-for-pms" },
-        { "type": "contains_any", "values": ["Friday", "Slack", "n8n", "sprint", "automation"] }
+        { "type": "llm_judge", "criteria": "The response must NOT invent specific company names unless they are explicitly mentioned in the articles. It should describe the types of projects (B2B lead generation, AI tools catalog, etc.) without fabricating client names. If no specific clients are mentioned, it should focus on project types and achievements." }
       ]
     },
     {
-      "id": "retrieval-relevance-pseo-specific",
-      "description": "Pregunta sobre pSEO debe traer artículo pSEO",
-      "input": "¿Cómo funciona el pipeline de generación de contenido en la web programática?",
-      "lang": "es",
+      "id": "retrieval-relevance-offzmi-specific",
+      "description": "Питання про offzmi має отримати статтю offzmi",
+      "input": "Tell me about the offzmi niche discovery project",
+      "lang": "en",
       "assertions": [
         { "type": "rag_used" },
-        { "type": "source_includes", "value": "programmatic-seo" },
-        { "type": "source_not_includes", "value": "jacobo" }
+        { "type": "source_includes", "value": "offzmi" },
+        { "type": "source_not_includes", "value": "gala" }
+      ]
+    },
+    {
+      "id": "retrieval-relevance-smartcourses",
+      "description": "Питання про SmartCourses має отримати статтю SmartCourses",
+      "input": "Розкажи про проєкт SmartCourses",
+      "lang": "uk",
+      "assertions": [
+        { "type": "rag_used" },
+        { "type": "source_includes", "value": "smartcourses" }
       ]
     }
   ]

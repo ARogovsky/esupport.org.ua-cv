@@ -43,7 +43,7 @@ export default function AiTools({ lang = 'uk' }: { lang?: Lang }) {
     description: t.seo.description,
     image: 'https://esupport.org.ua/aitools/og-aitools.webp',
     publishedTime: '2026-03-30',
-    modifiedTime: '2026-05-05',
+    modifiedTime: '2026-05-06',
     articleTags: 'AI tools,catalog,market research,Google Ads,Clerk,retention,AI development,GTM',
     jsonLd: buildJsonLd(lang),
     xDefaultSlug: 'ai-tools-katalog-doslidzhennia',
@@ -62,7 +62,7 @@ export default function AiTools({ lang = 'uk' }: { lang?: Lang }) {
         subtitle={t.header.subtitle}
         date={t.header.date}
         dateISO="2026-03-30"
-        dateModifiedISO="2026-04-28"
+        dateModifiedISO="2026-05-06"
         readingTime={t.readingTime}
       />
 

@@ -43,7 +43,7 @@ export default function PerfectSquad({ lang = 'uk' }: { lang?: Lang }) {
     description: t.seo.description,
     image: 'https://esupport.org.ua/perfectsquad/og-perfectsquad.webp',
     publishedTime: '2026-01-23',
-    modifiedTime: '2026-05-05',
+    modifiedTime: '2026-05-06',
     articleTags: 'Gaming,Google Ads,AI,GTM,geo-targeting,CPA optimization,ad generator',
     jsonLd: buildJsonLd(lang),
     xDefaultSlug: 'perfectsquad-gaming-traffic',
@@ -62,7 +62,7 @@ export default function PerfectSquad({ lang = 'uk' }: { lang?: Lang }) {
         subtitle={t.header.subtitle}
         date={t.header.date}
         dateISO="2026-01-23"
-        dateModifiedISO="2026-04-28"
+        dateModifiedISO="2026-05-06"
         readingTime={t.readingTime}
       />
 

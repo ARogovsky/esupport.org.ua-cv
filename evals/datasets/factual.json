@@ -1,92 +1,89 @@
 {
   "name": "factual_accuracy",
-  "description": "Verifica que Santi responde con datos correctos del CV",
+  "description": "Перевіряє, що Andrey відповідає з правильними даними з CV",
   "tests": [
     {
       "id": "exp-years",
-      "description": "Debe mencionar años de experiencia significativos o fecha de inicio",
-      "input": "¿Cuántos años de experiencia tienes?",
-      "lang": "es",
+      "description": "Має згадати значні роки досвіду або дату початку",
+      "input": "Скільки років досвіду у тебе?",
+      "lang": "uk",
       "assertions": [
-        { "type": "contains_any", "values": ["16", "15", "2009", "2007"] },
-        { "type": "not_contains", "value": "no sé" }
+        { "type": "contains_any", "values": ["25", "двадцять", "1999", "2000"] },
+        { "type": "not_contains", "value": "не знаю" }
       ]
     },
     {
-      "id": "agent-name",
-      "description": "Debe mencionar el nombre del agente AI: Jacobo",
-      "input": "¿Cómo se llama tu agente de IA?",
-      "lang": "es",
+      "id": "ai-project-name",
+      "description": "Має згадати назву AI проєкту: GALA",
+      "input": "Як називається твій B2B lead generation агент?",
+      "lang": "uk",
       "assertions": [
-        { "type": "contains", "value": "Jacobo" }
+        { "type": "contains", "value": "GALA" }
       ]
     },
     {
       "id": "location",
-      "description": "Debe mencionar Sevilla",
-      "input": "¿Dónde estás basado?",
-      "lang": "es",
+      "description": "Має згадати Україну",
+      "input": "Де ти знаходишся?",
+      "lang": "uk",
       "assertions": [
-        { "type": "contains", "value": "Sevilla" }
+        { "type": "contains_any", "values": ["Україн", "Ukraine"] }
       ]
     },
     {
-      "id": "exit-2025",
-      "description": "Debe mencionar la venta en 2025",
-      "input": "¿Vendiste tu empresa?",
-      "lang": "es",
+      "id": "ai-tools-catalog",
+      "description": "Має згадати каталог 16K+ AI інструментів",
+      "input": "Розкажи про AI Tool Insights",
+      "lang": "uk",
       "assertions": [
-        { "type": "contains", "value": "2025" },
-        { "type": "contains_any", "values": ["vendí", "venta", "going concern", "funcionamiento"] }
+        { "type": "contains_any", "values": ["16", "16000", "шістнадцять тисяч", "каталог"] }
       ]
     },
     {
-      "id": "repairs-count",
-      "description": "Debe mencionar +30,000 reparaciones",
-      "input": "¿Cuántas reparaciones hicisteis en total?",
-      "lang": "es",
+      "id": "retention-rate",
+      "description": "Має згадати 100% retention для AI Tool Insights",
+      "input": "Який retention rate у AI Tool Insights?",
+      "lang": "uk",
       "assertions": [
-        { "type": "contains_any", "values": ["30.000", "30,000", "30000", "treinta mil"] }
+        { "type": "contains_any", "values": ["100%", "100", "сто відсотків"] }
       ]
     },
     {
-      "id": "automation-hours",
-      "description": "Debe mencionar 170+ horas automatizadas/mes",
-      "input": "¿Cuántas horas automatizaste al mes?",
-      "lang": "es",
+      "id": "gala-calls",
+      "description": "Має згадати 85 дзвінків/день для GALA",
+      "input": "Скільки дзвінків на день робить GALA?",
+      "lang": "uk",
       "assertions": [
-        { "type": "contains_any", "values": ["170", "ciento setenta"] }
+        { "type": "contains_any", "values": ["85", "вісімдесят"] }
       ]
     },
     {
       "id": "target-roles",
-      "description": "Debe mencionar roles de interés",
-      "input": "¿Qué roles te interesan?",
-      "lang": "es",
+      "description": "Має згадати ролі, що цікавлять",
+      "input": "Які ролі тебе цікавлять?",
+      "lang": "uk",
       "assertions": [
-        { "type": "contains_any", "values": ["Product Manager", "Solutions Architect", "Forward Deployed", "FDE"] }
+        { "type": "contains_any", "values": ["AI Engineer", "Senior AI", "MLOps", "AI Product"] }
       ]
     },
     {
       "id": "repo-public",
-      "description": "Debe confirmar que el repo de santifer.io es público en GitHub",
-      "input": "¿El código de santifer.io está en GitHub?",
-      "lang": "es",
+      "description": "Має підтвердити, що код esupport.org.ua публічний на GitHub",
+      "input": "Чи є код esupport.org.ua на GitHub?",
+      "lang": "uk",
       "assertions": [
-        { "type": "contains_any", "values": ["público", "publica", "open", "GitHub"] },
-        { "type": "contains_any", "values": ["santifer", "cv-santiago"] },
-        { "type": "not_contains", "value": "privado" }
+        { "type": "contains_any", "values": ["публічн", "відкрит", "GitHub"] },
+        { "type": "not_contains", "value": "приватн" }
       ]
     },
     {
       "id": "model-version",
-      "description": "Debe decir Claude Sonnet 4.5, no 3.5 Sonnet",
-      "input": "¿Qué modelo de IA usas?",
-      "lang": "es",
+      "description": "Має сказати Claude Sonnet 4 через AWS Bedrock",
+      "input": "Яку модель AI ти використовуєш?",
+      "lang": "uk",
       "assertions": [
-        { "type": "contains_any", "values": ["Sonnet 4.5", "sonnet-4-5", "Claude Sonnet 4"] },
-        { "type": "not_contains", "value": "3.5 Sonnet" },
-        { "type": "not_contains", "value": "Sonnet 3.5" }
+        { "type": "contains_any", "values": ["Sonnet 4", "Claude Sonnet", "Bedrock"] },
+        { "type": "not_contains", "value": "3.5" }
       ]
     }
   ]

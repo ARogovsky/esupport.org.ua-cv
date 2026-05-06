@@ -1451,7 +1451,7 @@ function App() {
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-lg focus:bg-primary focus:text-primary-foreground focus:font-medium focus:shadow-lg"
       >
-        {lang === 'en' ? 'Skip to content' : 'Saltar al contenido'}
+        {lang === 'en' ? 'Skip to content' : 'Перейти до контенту'}
       </a>
 
       <HomeToc lang={lang} />
@@ -1480,7 +1480,7 @@ function App() {
                 {/* Inner border */}
                 <div className="absolute inset-2 rounded-full bg-gradient-theme-50 p-[2px]">
                   <div className="w-full h-full rounded-full overflow-hidden">
-                    <img src="/foto-avatar-sm.webp" srcSet="/foto-avatar-sm.webp 192w, /foto-avatar.webp 384w" sizes="(max-width: 768px) 160px, 192px" alt="Santiago Fernández de Valderrama" className="w-full h-full object-cover" width={192} height={192} fetchPriority="high" />
+                    <img src="/foto-avatar-sm.webp" srcSet="/foto-avatar-sm.webp 192w, /foto-avatar.webp 384w" sizes="(max-width: 768px) 160px, 192px" alt="Andrey Rogovsky" className="w-full h-full object-cover" width={192} height={192} fetchPriority="high" />
                   </div>
                 </div>
               </div>
@@ -1501,7 +1501,7 @@ function App() {
               className="text-center md:text-left"
             >
               <p className="text-lg text-muted-foreground mb-2">
-                {lang === 'uk' ? 'Hola, soy' : "Hi, I'm"} <Link to={lang === 'uk' ? '/sobre-mi' : '/about'} className="text-gradient-theme font-semibold hover:opacity-80 transition-opacity">@esupport</Link>,
+                {lang === 'uk' ? 'Привіт, я' : "Hi, I'm"} <Link to={lang === 'uk' ? '/about' : '/about-en'} className="text-gradient-theme font-semibold hover:opacity-80 transition-opacity">@esupport</Link>,
               </p>
               <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-4 leading-tight">
                 <span className="text-gradient-theme">{hydrated ? roleText : t.greetingRoles[0]}</span>
@@ -1727,7 +1727,7 @@ function App() {
                 <div className="flex items-center gap-3 pt-4">
                   <a href={`https://github.com/${t.experience.bablo.jacobo.github}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-xs text-primary hover:underline">
                     <Github className="w-4 h-4" />
-                    {lang === 'uk' ? 'Ver código' : 'View code'}
+                    {lang === 'uk' ? 'Переглянути код' : 'View code'}
                   </a>
                   <span className="flex items-center gap-1 text-xs text-muted-foreground"><Star className="w-3.5 h-3.5 text-yellow-500" />{t.experience.bablo.jacobo.stars}</span>
                   <span className="flex items-center gap-1 text-xs text-muted-foreground"><GitFork className="w-3.5 h-3.5" />{t.experience.bablo.jacobo.forks}</span>
@@ -1791,7 +1791,7 @@ function App() {
                 <div className="flex items-center gap-3 pt-4">
                   <a href={`https://github.com/${t.experience.bablo.webSeo.github}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-xs text-accent hover:underline">
                     <Github className="w-4 h-4" />
-                    {lang === 'uk' ? 'Ver código' : 'View code'}
+                    {lang === 'uk' ? 'Переглянути код' : 'View code'}
                   </a>
                   <span className="flex items-center gap-1 text-xs text-muted-foreground"><Star className="w-3.5 h-3.5 text-yellow-500" />{t.experience.bablo.webSeo.stars}</span>
                   <span className="flex items-center gap-1 text-xs text-muted-foreground"><GitFork className="w-3.5 h-3.5" />{t.experience.bablo.webSeo.forks}</span>
@@ -2913,8 +2913,8 @@ function App() {
           <p className="mt-12 text-xs text-muted-foreground">
             &copy; {new Date().getFullYear()} Andrii Rogovsky
             <span className="mx-2 text-border">|</span>
-            <Link to={lang === 'uk' ? '/privacidad' : '/privacy'} className="hover:text-primary transition-colors">
-              {lang === 'uk' ? 'Privacidad' : 'Privacy'}
+            <Link to={lang === 'uk' ? '/privacy' : '/privacy-en'} className="hover:text-primary transition-colors">
+              {lang === 'uk' ? 'Конфіденційність' : 'Privacy'}
             </Link>
           </p>
         </div>

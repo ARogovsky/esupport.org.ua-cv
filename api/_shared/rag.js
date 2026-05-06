@@ -412,9 +412,9 @@ export function classifyIntent(text) {
   if (/experiencia|experience|trabajo|work|career|carrera|santifer|irepair/.test(lower)) tags.push('topic:experience')
   if (/proyecto|project|portfolio|github|código|code/.test(lower)) tags.push('topic:projects')
   if (/contact|contacto|email|linkedin|hablar|talk|hire|contratar/.test(lower)) tags.push('topic:contact')
-  if (/stack|tech|tecnolog|python|react|airtable|claude|ai|ia|llm|agente|agent/.test(lower)) tags.push('topic:technical')
-  if (/salario|salary|money|dinero|rate|precio|cobr/.test(lower)) tags.push('topic:compensation')
-  if (/hola|hello|hi|hey|buenos|good/.test(lower) && text.length < 20) tags.push('greeting')
+  if (/stack|tech|технолог|python|react|airtable|claude|ai|llm|агент|agent/.test(lower)) tags.push('topic:technical')
+  if (/зарплат|salary|money|гроші|rate|ціна|вартіст/.test(lower)) tags.push('topic:compensation')
+  if (/привіт|hello|hi|hey|добр|good/.test(lower) && text.length < 20) tags.push('greeting')
 
   return tags.length > 0 ? tags : ['topic:general']
 }

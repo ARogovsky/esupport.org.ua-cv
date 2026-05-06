@@ -1,21 +1,21 @@
 {
   "name": "response_quality",
-  "description": "Verifica que las respuestas son útiles y concisas",
+  "description": "Перевіряє, що відповіді корисні та стислі",
   "tests": [
     {
       "id": "conciseness",
-      "description": "Respuestas deben ser <= 200 palabras (target 150, margen para variabilidad LLM)",
-      "input": "Cuéntame absolutamente todo sobre ti, toda tu experiencia, proyectos, habilidades, formación y certificaciones",
-      "lang": "es",
+      "description": "Відповіді мають бути <= 200 слів (ціль 150, запас для варіативності LLM)",
+      "input": "Розкажи мені абсолютно все про себе, весь твій досвід, проєкти, навички, освіту та сертифікації",
+      "lang": "uk",
       "assertions": [
         { "type": "max_words", "value": 200 }
       ]
     },
     {
       "id": "no-bullet-lists",
-      "description": "No debe usar listas markdown con - o 1.",
-      "input": "¿Cuáles son tus principales logros?",
-      "lang": "es",
+      "description": "Не повинен використовувати markdown списки з - або 1.",
+      "input": "Які твої основні досягнення?",
+      "lang": "uk",
       "assertions": [
         { "type": "regex", "pattern": "^(?!.*^\\s*[-*]\\s)", "flags": "m" },
         { "type": "regex", "pattern": "^(?!.*^\\s*\\d+\\.\\s)", "flags": "m" }
@@ -23,54 +23,54 @@
     },
     {
       "id": "metrics-included",
-      "description": "Debe incluir métricas concretas al hablar de logros",
-      "input": "¿Qué lograste en tu empresa?",
-      "lang": "es",
+      "description": "Має включати конкретні метрики при розмові про досягнення",
+      "input": "Чого ти досяг у своїх проєктах?",
+      "lang": "uk",
       "assertions": [
         { "type": "regex", "pattern": "\\d+", "flags": "" }
       ]
     },
     {
       "id": "min-substance",
-      "description": "Respuestas no deben ser demasiado cortas",
-      "input": "¿Cuál es tu experiencia con IA?",
-      "lang": "es",
+      "description": "Відповіді не повинні бути занадто короткими",
+      "input": "Який у тебе досвід з AI?",
+      "lang": "uk",
       "assertions": [
         { "type": "min_words", "value": 20 }
       ]
     },
     {
       "id": "tone-quality",
-      "description": "El tono debe ser profesional pero cercano, no robótico",
-      "input": "¿Por qué debería contratarte?",
-      "lang": "es",
+      "description": "Тон має бути професійним але дружнім, не роботизованим",
+      "input": "Чому я маю найняти тебе?",
+      "lang": "uk",
       "assertions": [
-        { "type": "llm_judge", "criteria": "El tono es profesional pero cercano, transmite confianza sin ser arrogante, y se siente auténtico (no como un chatbot genérico)" }
+        { "type": "llm_judge", "criteria": "Тон професійний але дружній, передає впевненість без зарозумілості, і відчувається автентичним (не як загальний чатбот)" }
       ]
     },
     {
       "id": "response-variation",
-      "description": "La segunda respuesta a la misma pregunta debe variar",
-      "input": "¿Cuál es tu experiencia con IA?",
-      "lang": "es",
+      "description": "Друга відповідь на те саме питання має варіюватися",
+      "input": "Який у тебе досвід з AI?",
+      "lang": "uk",
       "conversation": [
-        { "role": "user", "content": "¿Cuál es tu experiencia con IA?" },
-        { "role": "assistant", "content": "Llevo años construyendo con IA en producción. En Santifer iRepair creé a Jacobo, un agente omnicanal (voz + WhatsApp) que resolvía el 90% de consultas sin intervención humana. Orquestaba sub-agentes especializados con tool calling y HITL handoff. También construí Custom GPTs con OpenAPI para consultas de stock por voz. Ahora con este portfolio aplico LLMOps real: Langfuse, 31 evals automatizados, prompt caching. ¿Quieres que profundice en algún proyecto concreto?" },
-        { "role": "user", "content": "¿Cuál es tu experiencia con IA?" }
+        { "role": "user", "content": "Який у тебе досвід з AI?" },
+        { "role": "assistant", "content": "Маю 25 років досвіду в розробці, останні роки активно працюю з AI. Створив GALA - B2B агента для лідогенерації, який обробляв до 85 дзвінків на день. Також побудував AI Tool Insights - каталог 16K+ AI інструментів з 100% retention. Використовую Claude через AWS Bedrock та Azure OpenAI для embeddings. Застосовую LLMOps: Langfuse для трейсингу, автоматизовані evals, prompt caching. Хочеш дізнатися більше про конкретний проєкт?" },
+        { "role": "user", "content": "Який у тебе досвід з AI?" }
       ],
       "assertions": [
-        { "type": "llm_judge", "criteria": "La respuesta aporta información nueva o un ángulo diferente sobre la experiencia con IA, no repite exactamente los mismos puntos (Jacobo, 90%, tool calling) de la respuesta anterior que se incluye en el contexto de conversación" }
+        { "type": "llm_judge", "criteria": "Відповідь надає нову інформацію або інший кут зору на досвід з AI, не повторює точно ті самі пункти (GALA, 85 дзвінків, AI Tool Insights) з попередньої відповіді, що включена в контекст розмови" }
       ]
     },
     {
       "id": "generic-question-depth",
-      "description": "Ante pregunta genérica, debe dar respuesta concreta y sugerir profundizar",
-      "input": "Cuéntame algo",
-      "lang": "es",
+      "description": "На загальне питання має дати конкретну відповідь і запропонувати поглибитися",
+      "input": "Розкажи щось",
+      "lang": "uk",
       "assertions": [
         { "type": "min_words", "value": 20 },
         { "type": "regex", "pattern": "\\d+", "flags": "" },
-        { "type": "contains_any", "values": ["profundizar", "saber más", "interesa", "contarte", "preguntar", "aspecto", "detalle", "gustas", "quieres", "pregunta", "¿"] }
+        { "type": "contains_any", "values": ["поглибитися", "дізнатися більше", "цікавить", "розповісти", "запитати", "аспект", "деталь", "хочеш", "питання", "?"] }
       ]
     }
   ]

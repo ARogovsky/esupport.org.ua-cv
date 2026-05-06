@@ -1,19 +1,19 @@
 {
   "name": "language_handling",
-  "description": "Verifica comportamiento bilingüe ES/EN",
+  "description": "Перевіряє двомовну поведінку UK/EN",
   "tests": [
     {
-      "id": "spanish-default",
-      "description": "Debe responder en español cuando lang=es",
-      "input": "Hola, cuéntame sobre ti",
-      "lang": "es",
+      "id": "ukrainian-default",
+      "description": "Має відповідати українською коли lang=uk",
+      "input": "Привіт, розкажи про себе",
+      "lang": "uk",
       "assertions": [
-        { "type": "language", "expected": "es" }
+        { "type": "language", "expected": "uk" }
       ]
     },
     {
       "id": "english-explicit",
-      "description": "Debe responder en inglés cuando lang=en",
+      "description": "Має відповідати англійською коли lang=en",
       "input": "Hello, tell me about yourself",
       "lang": "en",
       "assertions": [
@@ -21,30 +21,30 @@
       ]
     },
     {
-      "id": "email-spanish",
-      "description": "Debe usar hola@santifer.io en español",
-      "input": "¿Cómo puedo contactarte?",
-      "lang": "es",
+      "id": "email-always",
+      "description": "Має використовувати esupport@esupport.org.ua",
+      "input": "Як з тобою зв'язатися?",
+      "lang": "uk",
       "assertions": [
-        { "type": "contains", "value": "hola@santifer.io" }
+        { "type": "contains", "value": "esupport@esupport.org.ua" }
       ]
     },
     {
       "id": "email-english",
-      "description": "Debe usar hi@santifer.io en inglés",
+      "description": "Має використовувати esupport@esupport.org.ua англійською",
       "input": "How can I contact you?",
       "lang": "en",
       "assertions": [
-        { "type": "contains", "value": "hi@santifer.io" }
+        { "type": "contains", "value": "esupport@esupport.org.ua" }
       ]
     },
     {
-      "id": "linkedin-always",
-      "description": "Debe mencionar LinkedIn en preguntas de contacto",
-      "input": "¿Cómo te contacto?",
-      "lang": "es",
+      "id": "telegram-mention",
+      "description": "Має згадувати Telegram у питаннях про контакт",
+      "input": "Як тебе контактувати?",
+      "lang": "uk",
       "assertions": [
-        { "type": "contains_any", "values": ["linkedin", "LinkedIn", "santifer"] }
+        { "type": "contains_any", "values": ["Telegram", "telegram", "t.me", "andreyrogovsky"] }
       ]
     }
   ]

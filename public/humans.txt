@@ -1,18 +1,19 @@
 /* TEAM */
-Builder: Santiago Fernandez de Valderrama Aparicio
-Role: Head of Applied AI · AI Product Manager · Solutions Architect
-Contact: hi@santifer.io
-Site: https://santifer.io
-Location: Seville, Spain
-LinkedIn: https://linkedin.com/in/santifer
-GitHub: https://github.com/santifer
+Builder: Andrey Rogovsky
+Role: Senior AI Engineer · MLOps · AI Product Development
+Contact: esupport@esupport.org.ua
+Site: https://esupport.org.ua
+Location: Ukraine
+LinkedIn: https://linkedin.com/in/andreyrogovsky
+Telegram: https://t.me/andreyrogovsky
+GitHub: https://github.com/andreyrogovsky
 
 /* THANKS */
 AI Pair: Claude Code (Anthropic)
 
 /* SITE */
 Stack: React 19, TypeScript, Vite, Tailwind CSS, Motion
-AI: Claude API (claude-sonnet-4-6), streaming via Vercel Edge
+AI: Claude API (AWS Bedrock + Azure OpenAI), streaming via Vercel Edge
 Quality: 71 evals, 6-layer security, Langfuse observability, closed-loop quality
 Hosting: Vercel
 Standards: llms.txt, security.txt, JSON-LD, Open Graph

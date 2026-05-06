@@ -1,4 +1,4 @@
-import Anthropic from '@anthropic-ai/sdk'
+import { createClaudeClient } from './_shared/claude-client.js'
 import { Langfuse } from 'langfuse'
 import {
   searchPortfolio, formatChunksForContext, extractSources, calcCost,
@@ -10,9 +10,7 @@ export const config = {
   runtime: 'edge',
 }
 
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-})
+const client = createClaudeClient()
 
 let langfuseClient = null
 function getLangfuse() {
@@ -30,7 +28,7 @@ function getLangfuse() {
 // Claude reasoning layer — turns raw RAG chunks into a verified answer
 // ---------------------------------------------------------------------------
 
-const VOICE_OVERRIDE = `Respuesta para conversación hablada. Max 2-3 frases. Sin markdown ni links. Lenguaje natural hablado. Sé preciso con datos del contexto — nunca inventes. SIEMPRE habla en PRIMERA PERSONA como Santiago — nunca en tercera persona ("Santiago hizo..."), sino "Yo hice...", "Construí...", "Mi proyecto...".`
+const VOICE_OVERRIDE = `Відповідь для голосової розмови. Макс 2-3 речення. Без markdown і посилань. Природна розмовна мова. Будь точним з даними з контексту — ніколи не вигадуй. ЗАВЖДИ говори від ПЕРШОЇ ОСОБИ як Андрій — ніколи від третьої особи ("Андрій зробив..."), а "Я зробив...", "Я побудував...", "Мій проєкт...".`
 
 async function reasonWithClaude(query, formattedChunks, span, langfuse) {
   const t0 = Date.now()

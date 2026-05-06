@@ -61,7 +61,7 @@ export function useArticleSeo(opts: ArticleSeoOpts) {
 
     // Standard meta
     upsertMeta('name', 'description', description)
-    upsertMeta('name', 'author', 'Santiago Fernández de Valderrama')
+    upsertMeta('name', 'author', 'Andrey Rogovsky')
     upsertMeta('name', 'robots', 'index, follow')
 
     // Open Graph

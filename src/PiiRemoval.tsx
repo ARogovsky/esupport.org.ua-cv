@@ -42,7 +42,7 @@ export default function PiiRemoval({ lang = 'uk' }: { lang?: Lang }) {
     description: t.seo.description,
     image: 'https://esupport.org.ua/pii-removal/og-pii-removal.webp',
     publishedTime: '2026-04-20',
-    modifiedTime: '2026-05-05',
+    modifiedTime: '2026-05-06',
     articleTags: 'PII removal,RoBERTa,PyTorch,NER,Ukrainian NLP,knowledge distillation,MLOps',
     jsonLd: buildJsonLd(lang),
     xDefaultSlug: 'pii-removal-roberta-ukrainska',
@@ -61,7 +61,7 @@ export default function PiiRemoval({ lang = 'uk' }: { lang?: Lang }) {
         subtitle={t.header.subtitle}
         date={t.header.date}
         dateISO="2026-04-20"
-        dateModifiedISO="2026-04-28"
+        dateModifiedISO="2026-05-06"
         readingTime={t.readingTime}
       />
 

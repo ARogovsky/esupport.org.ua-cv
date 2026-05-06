@@ -43,7 +43,7 @@ export default function SmartCourses({ lang = 'uk' }: { lang?: Lang }) {
     description: t.seo.description,
     image: 'https://esupport.org.ua/smartcourses/og-smartcourses.webp',
     publishedTime: '2026-04-25',
-    modifiedTime: '2026-05-05',
+    modifiedTime: '2026-05-06',
     articleTags: 'EdTech,Google Ads,AI,GTM,sales pipeline,university partnership,teacher training',
     jsonLd: buildJsonLd(lang),
     xDefaultSlug: 'smartcourses-edtech-platforma',
@@ -62,7 +62,7 @@ export default function SmartCourses({ lang = 'uk' }: { lang?: Lang }) {
         subtitle={t.header.subtitle}
         date={t.header.date}
         dateISO="2026-04-25"
-        dateModifiedISO="2026-04-28"
+        dateModifiedISO="2026-05-06"
         readingTime={t.readingTime}
       />
 

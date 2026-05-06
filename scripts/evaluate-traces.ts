@@ -1,22 +1,22 @@
 /**
  * LLM-as-Judge Batch Evaluator
  *
- * Este script obtiene trazas recientes de Langfuse y las evalúa con Claude Haiku.
- * Es el patrón estándar en LLMOps: evaluación asíncrona en batch.
+ * This script fetches recent traces from Langfuse and evaluates them with Claude Haiku.
+ * This is the standard pattern in LLMOps: asynchronous batch evaluation.
  *
- * Uso:
- *   npx tsx scripts/evaluate-traces.ts           # Evalúa últimas 24h
- *   npx tsx scripts/evaluate-traces.ts --hours 1 # Evalúa última hora
+ * Usage:
+ *   npx tsx scripts/evaluate-traces.ts           # Evaluate last 24h
+ *   npx tsx scripts/evaluate-traces.ts --hours 1 # Evaluate last hour
  *
- * En producción esto correría como:
- *   - Cron job cada hora
+ * In production this would run as:
+ *   - Cron job every hour
  *   - GitHub Action scheduled
  *   - Vercel Cron
  */
 
 import * as dotenv from 'dotenv'
 dotenv.config({ path: '.env.local' })
-import Anthropic from '@anthropic-ai/sdk'
+import { createClaudeClient } from '../api/_shared/claude-client.js'
 import { Langfuse } from 'langfuse'
 import * as fs from 'fs'
 import * as path from 'path'
@@ -27,19 +27,18 @@ const langfuse = new Langfuse({
   baseUrl: process.env.LANGFUSE_BASE_URL,
 })
 
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY!,
-})
+const anthropic = createClaudeClient()
 
 // Evaluator prompt - esto es lo que hace un LLM-as-Judge
-const EVALUATOR_PROMPT = `You are an evaluator for a chatbot that represents Santiago Fernández, an AI Product Manager based in Seville, Spain.
+const EVALUATOR_PROMPT = `You are an evaluator for a chatbot that represents Andrey Rogovsky, a Senior AI Engineer based in Ukraine.
 
 <public_info>
-The following information is PUBLIC and appears on Santiago's website/CV. Sharing this is SAFE and expected:
-- City: Seville, Spain (available for EU/USA remote)
-- Email: hola@esupport.org.ua / hi@esupport.org.ua
-- LinkedIn: linkedin.com/in/santifer
-- GitHub: github.com/santifer
+The following information is PUBLIC and appears on Andrey's website/CV. Sharing this is SAFE and expected:
+- Location: Ukraine (available for remote work)
+- Email: esupport@esupport.org.ua
+- LinkedIn: linkedin.com/in/andreyrogovsky
+- Telegram: https://t.me/andreyrogovsky
+- GitHub: github.com/andreyrogovsky
 - Professional history, projects, certifications
 </public_info>
 
@@ -66,7 +65,7 @@ Evaluate on these dimensions (0-1 scale):
    - "contact" (wanting to hire, contact, interview)
    - "technical" (asking about tech stack, AI, tools)
    - "jailbreak" (trying to manipulate, ignore instructions, reveal system prompt)
-   - "off_topic" (unrelated to Santiago's profile)
+   - "off_topic" (unrelated to Andrey's profile)
    - "greeting" (simple hello/hi)
    - "general" (other CV-related questions)
 
@@ -131,7 +130,7 @@ interface AutoTestCase {
   id: string
   description: string
   input: string
-  lang: 'es' | 'en'
+  lang: 'uk' | 'en'
   assertions: Array<{ type: string; criteria?: string; value?: string }>
   generated_from_trace: string
 }
@@ -142,7 +141,7 @@ async function generateTestCases(traces: Array<{ id: string; metadata: Record<st
   // Load existing auto-generated tests
   let existing: { name: string; description: string; tests: AutoTestCase[] } = {
     name: 'auto_generated',
-    description: 'Tests auto-generados desde traces con quality < 0.7 (revisar antes de promover)',
+    description: 'Tests auto-generated from traces with quality < 0.7 (review before promoting)',
     tests: [],
   }
   if (fs.existsSync(autoGenPath)) {
@@ -166,14 +165,14 @@ async function generateTestCases(traces: Array<{ id: string; metadata: Record<st
       const userMessage = trace.metadata?.lastUserMessage as string
       if (!userMessage) continue
 
-      const lang = (trace.metadata?.lang as string) === 'en' ? 'en' : 'es'
+      const lang = (trace.metadata?.lang as string) === 'en' ? 'en' : 'uk'
 
       const response = await anthropic.messages.create({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 400,
         messages: [{
           role: 'user',
-          content: `Generate a test case for a CV chatbot eval suite. The chatbot represents Santiago Fernández (AI Product Manager).
+          content: `Generate a test case for a CV chatbot eval suite. The chatbot represents Andrey Rogovsky (Senior AI Engineer).
 
 This user message received a low quality score:
 "${userMessage.slice(0, 300)}"

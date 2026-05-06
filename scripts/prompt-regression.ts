@@ -12,11 +12,11 @@
 
 import * as dotenv from 'dotenv'
 dotenv.config({ path: '.env.local' })
-import Anthropic from '@anthropic-ai/sdk'
+import { createClaudeClient } from '../api/_shared/claude-client.js'
 import * as fs from 'fs'
 import * as path from 'path'
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! })
+const client = createClaudeClient()
 const CHAT_API_URL = process.env.CHAT_API_URL || 'http://localhost:3000/api/chat'
 const PROMPT_REGRESSION_SECRET = process.env.PROMPT_REGRESSION_SECRET
 
@@ -39,7 +39,7 @@ interface Test {
   id: string
   description: string
   input: string
-  lang: 'es' | 'en'
+  lang: 'uk' | 'en'
   assertions: Assertion[]
 }
 
@@ -136,7 +136,7 @@ async function compareResponses(v1Response: string, v2Response: string, testInpu
     max_tokens: 200,
     messages: [{
       role: 'user',
-      content: `Compare two chatbot responses to the same question. This is Santiago's CV chatbot.
+      content: `Compare two chatbot responses to the same question. This is Andrey's CV chatbot.
 
 Question: "${testInput.slice(0, 200)}"
 
