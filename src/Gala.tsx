@@ -45,7 +45,7 @@ export default function Gala({ lang = 'uk' }: { lang?: Lang }) {
     description: t.seo.description,
     image: 'https://esupport.org.ua/gala/og-gala.webp',
     publishedTime: '2026-04-16',
-    modifiedTime: '2026-04-28',
+    modifiedTime: '2026-05-05',
     articleTags: 'B2B lead generation,RoBERTa,PyTorch,autonomous agent,form filling,Playwright',
     jsonLd: buildJsonLd(lang),
     xDefaultSlug: 'gala-b2b-lidogeneratsiya',
@@ -57,6 +57,7 @@ export default function Gala({ lang = 'uk' }: { lang?: Lang }) {
     <ArticleLayout lang={lang}>
       <FloatingToc />
       <ArticleHeader
+        editorId="hero-header"
         lang={lang}
         kicker={t.header.kicker}
         h1={t.header.h1}
@@ -197,7 +198,7 @@ export default function Gala({ lang = 'uk' }: { lang?: Lang }) {
         <ResourcesList heading={t.sections.resources.heading} items={t.sections.resources.items} />
       </article>
 
-      <ArticleFooter lang={lang} utmCampaign="gala" />
+      <ArticleFooter editorId="footer" lang={lang} utmCampaign="gala" />
     </ArticleLayout>
   )
 }

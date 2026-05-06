@@ -812,7 +812,7 @@ export function Accordion({ items, variant = 'simple', className, editorId }: Ac
               <details key={i} className="group bg-card border border-border rounded-lg">
                 <summary className="px-5 py-4 cursor-pointer font-medium text-foreground text-sm flex items-center justify-between">
                   {item.title}
-                  <ChevronRight className="w-4 h-4 text-muted-foreground group-open:rotate-90 transition-transform shrink-0" />
+                  <ChevronRight className="w-4 h-4 text-muted-foreground transition-transform shrink-0 [[open]_&]:rotate-90" />
                 </summary>
                 <div className="px-5 pb-4 border-t border-border pt-3">
                   <p className="text-sm text-muted-foreground">{item.detail}</p>

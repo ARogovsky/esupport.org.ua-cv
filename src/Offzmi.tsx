@@ -39,7 +39,7 @@ export default function Offzmi({ lang = 'uk' }: { lang?: Lang }) {
     description: t.seo.description,
     image: 'https://esupport.org.ua/offzmi/og-offzmi-gtm.webp',
     publishedTime: '2026-04-27',
-    modifiedTime: '2026-04-27',
+    modifiedTime: '2026-05-05',
     articleTags: 'GTM,AI,MCP-browser,niche discovery,Google Ads,unit economics,offzmi',
     jsonLd: buildJsonLd(lang),
     xDefaultSlug: 'offzmi-gtm-doslidzhennia',
@@ -51,6 +51,7 @@ export default function Offzmi({ lang = 'uk' }: { lang?: Lang }) {
     <ArticleLayout lang={lang}>
       <FloatingToc />
       <ArticleHeader
+        editorId="hero-header"
         lang={lang}
         kicker={t.header.kicker}
         h1={t.header.h1}
@@ -184,7 +185,7 @@ export default function Offzmi({ lang = 'uk' }: { lang?: Lang }) {
         ))}
       </ul>
 
-      <ArticleFooter lang={lang} utmCampaign="offzmi-gtm" />
+      <ArticleFooter editorId="footer" lang={lang} utmCampaign="offzmi-gtm" />
     </ArticleLayout>
   )
 }

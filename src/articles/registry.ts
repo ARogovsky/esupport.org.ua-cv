@@ -98,7 +98,7 @@ export const articleRegistry: ArticleConfig[] = [
     xDefaultSlug: 'perfectsquad-gaming-traffic',
     seoMeta: {
       datePublished: '2026-01-23',
-      dateModified: '2026-04-28',
+      dateModified: '2026-05-05',
       keywords: ['Gaming', 'Google Ads', 'AI', 'GTM', 'geo-targeting', 'CPA optimization', 'ad generator', 'gaming traffic', 'Turkey', 'Argentina', 'Latin America', 'AI ads', 'prompt engineering', 'Screener'],
       articleType: 'TechArticle',
       articleTags: 'Gaming,Google Ads,AI,GTM,geo-targeting,CPA optimization,ad generator',
@@ -165,7 +165,7 @@ export const articleRegistry: ArticleConfig[] = [
     xDefaultSlug: 'smartcourses-edtech-platforma',
     seoMeta: {
       datePublished: '2026-04-25',
-      dateModified: '2026-04-28',
+      dateModified: '2026-05-05',
       keywords: ['EdTech', 'Google Ads', 'AI', 'GTM', 'sales pipeline', 'university partnership', 'teacher training', 'professional development', 'Ukraine', 'online courses', 'accredited certificates', 'AI ads generator', 'prompt engineering', 'automated sales'],
       articleType: 'TechArticle',
       articleTags: 'EdTech,Google Ads,AI,GTM,sales pipeline,university partnership,teacher training',
@@ -243,7 +243,7 @@ export const articleRegistry: ArticleConfig[] = [
     xDefaultSlug: 'advogram-gtm-case-study',
     seoMeta: {
       datePublished: '2026-04-27',
-      dateModified: '2026-04-27',
+      dateModified: '2026-05-05',
       keywords: ['GTM experiment', 'ATS tools', 'market validation', 'CPA optimization', 'geo targeting', 'unit economics', 'freemium SaaS', 'Google Ads', 'paid traffic research', 'product-market fit', 'customer acquisition', 'Western markets', 'emerging markets', 'retention strategy', 'job search tools'],
       articleType: 'TechArticle',
       articleTags: 'GTM,market validation,ATS,CPA,Google Ads,unit economics,freemium,SaaS',
@@ -324,7 +324,7 @@ export const articleRegistry: ArticleConfig[] = [
     xDefaultSlug: 'offzmi-gtm-doslidzhennia',
     seoMeta: {
       datePublished: '2026-04-27',
-      dateModified: '2026-04-27',
+      dateModified: '2026-05-05',
       keywords: ['GTM experiment', 'AI niche discovery', 'MCP-browser', 'Google Ads', 'unit economics', 'offzmi', 'marketing tools', 'presentation tools', 'Ukrainian market', 'microservice', 'content automation'],
       articleType: 'TechArticle',
       articleTags: 'GTM,AI,MCP-browser,niche discovery,Google Ads,unit economics,offzmi',
@@ -397,7 +397,7 @@ export const articleRegistry: ArticleConfig[] = [
     xDefaultSlug: 'ai-tools-katalog-doslidzhennia',
     seoMeta: {
       datePublished: '2026-03-30',
-      dateModified: '2026-04-28',
+      dateModified: '2026-05-05',
       keywords: ['AI tools', 'catalog', 'market research', 'Google Ads', 'Clerk', 'retention', 'AI development', 'GTM', 'Performance Max', 'mystery-customer-insight', 'AI agent', 'parser', 'auto-generation'],
       articleType: 'TechArticle',
       articleTags: 'AI tools,catalog,market research,Google Ads,Clerk,retention,AI development,GTM',
@@ -464,7 +464,7 @@ export const articleRegistry: ArticleConfig[] = [
     component: () => import('../Gala.tsx'),
     seoMeta: {
       datePublished: '2026-04-16',
-      dateModified: '2026-04-28',
+      dateModified: '2026-05-05',
       keywords: ['b2b lead generation', 'autonomous agent', 'roberta classifier', 'pytorch', 'form filling automation', 'playwright', 'zadarma', 'call tracking', 'лідогенерація', 'автономний агент', 'заповнення форм'],
       articleType: 'TechArticle',
       articleTags: 'B2B lead generation,RoBERTa,PyTorch,autonomous agent,form filling,Playwright',
@@ -534,7 +534,7 @@ export const articleRegistry: ArticleConfig[] = [
     xDefaultSlug: 'pii-removal-roberta-ukrainska',
     seoMeta: {
       datePublished: '2026-04-20',
-      dateModified: '2026-04-28',
+      dateModified: '2026-05-05',
       keywords: ['PII removal', 'RoBERTa', 'PyTorch', 'NER', 'Ukrainian NLP', 'knowledge distillation', 'MLOps', 'personal data', 'GDPR', 'data privacy', 'Cyrillic', 'transliteration', 'RNOKPP', 'EDRPOU', 'fine-tuning', 'transformer'],
       articleType: 'TechArticle',
       articleTags: 'PII removal,RoBERTa,PyTorch,NER,Ukrainian NLP,knowledge distillation,MLOps',

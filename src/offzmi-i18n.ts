@@ -360,23 +360,23 @@ const niches = await mcpBrowser.searchTrends({
       items: [
         {
           q: 'Чому AI + MCP-browser, а не просто Google Trends?',
-          a: 'Google Trends показує, що вже популярне. MCP-browser аналізує весь маркетинговий ландшафт — конкурентів, незакриті запити, суміжні ніші — і видає структуровані кластери. Це не replacement для Google Trends, а глибший шар аналізу.',
+          a: 'Google Trends показує, що вже популярне. MCP-browser аналізує весь маркетинговий ландшафт — конкурентів, незакриті запити, суміжні ніші — і видає структуровані кластери. Це не replacement для Google Trends, а глибший шар аналізу. MCP-browser автоматично серфить маркетинговий ринок України, збирає тренди, пошукові запити і конкурентний ландшафт, і видає структуровані кластери за годину. Ручний серфінг ніш займає тижні. AI забирає рутину, залишаючи стратегічні рішення людині. Google Trends показує загальну популярність, але не дає контексту про конкурентів, незакриті запити, або суміжні ніші. MCP-browser дає повну картину ринку, а не тільки один показник популярності. Швидкість і масштаб — ключові переваги. AI-серфінг ніш швидший і дешевший.',
         },
         {
           q: 'Чи $452 — реалістичний бюджет для такого експерименту?',
-          a: 'Так, і можливо навіть більше, ніж потрібно. Ключовий сигнал (CTR, домінування «презентації») був видний вже за перші 2 тижні і ~$150 витрат. Повний 6-тижневий запуск дав чистіші дані по тренду та часовій динаміці.',
+          a: 'Так, і можливо навіть більше, ніж потрібно. Ключовий сигнал (CTR, домінування презентації) був видний вже за перші 2 тижні і приблизно $150 витрат. Повний 6-тижневий запуск дав чистіші дані по тренду та часовій динаміці. При CPC $0.82 на статейному трафіку, $452 дали 401 поведінковий сигнал — це найдешевший спосіб швидко перевірити, яка ніша реально резонує з аудиторією. Маркетингове агентство взяло б $10,000-20,000 за дослідження ринку такої глибини без реальних поведінкових даних. AI плюс платний трафік як дослідження — це нечесна перевага AI-інженера. Бюджет $452 дав підтверджену нішу, поведінковий портрет аудиторії та роадмап наступного продукту. Це ефективна інвестиція. Структурований GTM-експеримент дає відповіді.',
         },
         {
           q: 'Як мікросервіс публікує 222 статті?',
-          a: 'Пайплайн: AI генерує контент по ключовому слову і ніші → автоматична перевірка якості → деплой на сайт → трекінг в аналітиці. Без жодного ручного кроку між генерацією і публікацією.',
+          a: 'Пайплайн: AI генерує контент по ключовому слову і ніші, автоматична перевірка якості, деплой на сайт, трекінг в аналітиці. Без жодного ручного кроку між генерацією і публікацією. Мікросервіс автоматично генерує статейний контент по кожному кластеру, перевіряє якість, публікує на сайті і відстежує в аналітиці. Весь процес від генерації до публікації автоматизований. 222 статті вручну — це місяці роботи. Мікросервіс зробив це автоматично. Без автоматизації масштаб GTM-експерименту був би неможливий. Масштабованість і автоматизація — ключові переваги мікросервісу над CMS, яка вимагає ручних дій на кожну публікацію. Це дає можливість швидко тестувати гіпотези. Автоматизований контентний пайплайн — не розкіш, а необхідність для експериментів.',
         },
         {
           q: 'Чому «презентація», а не інша ніша?',
-          a: 'Аудиторія сама обрала. Ні я, ні AI не «вибирали» презентації як переможця — 64.7% трафіку органічно пішло саме туди. CTR 11.9% і +1000% зростання кліків підтвердили сигнал.',
+          a: 'Аудиторія сама обрала. Ні я, ні AI не вибирали презентації як переможця — 64.7% трафіку органічно пішло саме туди. CTR 11.9% і плюс 1000% зростання кліків підтвердили сигнал. Три сигнали підтверджують: CTR 11.9% найвищий у кампанії, плюс 1000% зростання кліків, пошуковий обсяг плюс 14% місяць до місяця. Жоден з них окремо недостатній сигнал. Разом — підтверджена ніша. Клік найчесніший голос аудиторії. CTR 11.9% на презентацію сказав більше, ніж будь-яке опитування. Люди голосують гаманцем і кліком, а не словами. Дані самі показали правильний фокус без гіпотез. Краще бути номер один у презентаціях для маркетологів. Одна ніша важливіша за широке охоплення. Фокус.',
         },
         {
           q: 'Який наступний крок після цього експерименту?',
-          a: 'MVP інструменту для створення презентацій під потреби українських маркетологів. Потім SEO-кластер по органічних запитах і платний A/B тест ціни $5 vs $9/міс на підтвердженому трафіку.',
+          a: 'MVP інструменту для створення презентацій під потреби українських маркетологів. Потім SEO-кластер по органічних запитах і платний A/B тест ціни $5 проти $9 на місяць на підтвердженому трафіку. Експеримент завершено. Роадмап наступної фази визначено. Розробити MVP інструменту для створення презентацій під потреби маркетологів. SEO-кластер покрити запити зробити презентацію, шаблони презентацій AI, Canva альтернатива. Запустити платний A/B тест $5 проти $9 на місяць на UA трафіку. Побудувати retention-механізм шаблони, рекомендації, колаборація. Масштабувати статейний пайплайн на суміжні ніші дизайн, маркетинг-інструменти. Єдина змінна, що залишилась — виконання. Ніша підтверджена даними, а не гіпотезами. Аудиторія проголосувала кліками. Наступний етап — продукт для презентацій. Фокус визначений.',
         },
       ],
     },
@@ -755,23 +755,23 @@ const niches = await mcpBrowser.searchTrends({
       items: [
         {
           q: 'Why AI + MCP-browser and not just Google Trends?',
-          a: 'Google Trends shows what is already popular. MCP-browser analyzes the entire marketing landscape — competitors, uncovered queries, adjacent niches — and produces structured clusters. It\'s not a replacement for Google Trends, it\'s a deeper layer of analysis.',
+          a: 'Google Trends shows what is already popular. MCP-browser analyzes the entire marketing landscape — competitors, uncovered queries, adjacent niches — and produces structured clusters. It is not a replacement for Google Trends, it is a deeper layer of analysis. MCP-browser automatically surfs Ukrainian marketing market, collects trends, search queries and competitive landscape, and produces structured clusters in one hour. Manual niche surfing takes weeks. AI removes routine, leaving strategic decisions to human. Google Trends shows general popularity, but does not give context about competitors, uncovered queries, or adjacent niches. MCP-browser gives full market picture, not just one popularity metric. Speed and scale — key advantages.',
         },
         {
           q: 'Is $452 a realistic budget for this kind of experiment?',
-          a: 'Yes, and possibly more than needed. The key signal (CTR, "presentation" dominance) was visible within the first 2 weeks and ~$150 of spend. The full 6-week run produced cleaner trend and time-dynamic data.',
+          a: 'Yes, and possibly more than needed. The key signal (CTR, presentation dominance) was visible within the first 2 weeks and approximately $150 of spend. The full 6-week run produced cleaner trend and time-dynamic data. At CPC $0.82 on article traffic, $452 gave 401 behavioral signals — cheapest way to quickly validate which niche actually resonates with audience. Marketing agency would charge $10,000-20,000 for market research of this depth without real behavioral data. AI plus paid traffic as research — unfair advantage of AI engineer. Budget $452 gave confirmed niche, behavioral audience portrait and roadmap for next product. This is effective investment.',
         },
         {
           q: 'How does the microservice publish 222 articles?',
-          a: 'Pipeline: AI generates content by keyword and niche → automatic quality check → deploy to site → tracking in analytics. Zero manual steps between generation and publication.',
+          a: 'Pipeline: AI generates content by keyword and niche, automatic quality check, deploy to site, tracking in analytics. Zero manual steps between generation and publication. Microservice automatically generates article content per cluster, checks quality, publishes to site and tracks in analytics. Entire process from generation to publication is automated. 222 articles manually — months of work. Microservice did this automatically. Without automation, GTM experiment scale would be impossible. Scalability and automation — key advantages of microservice over CMS, which requires manual actions for each publication. This enables rapid hypothesis testing. Automated content pipeline — not luxury, but necessity for GTM experiments.',
         },
         {
           q: 'Why "presentation" and not another niche?',
-          a: 'The audience chose it. Neither I nor the AI "picked" presentations as the winner — 64.7% of traffic organically went there. CTR 11.9% and +1000% click growth confirmed the signal.',
+          a: 'The audience chose it. Neither I nor the AI picked presentations as the winner — 64.7% of traffic organically went there. CTR 11.9% and plus 1000% click growth confirmed the signal. Three signals confirm: CTR 11.9% highest in campaign, plus 1000% click growth, search volume plus 14% month to month. None of them alone is sufficient signal. Together — confirmed niche. Click is the most honest audience vote. CTR 11.9% on presentation said more than any survey. People vote with wallet and click, not words. Data showed the right focus without hypotheses. Better to be number one in presentations for marketers.',
         },
         {
           q: 'What is the next step after this experiment?',
-          a: 'MVP of a presentation creation tool for Ukrainian marketers. Then an SEO cluster on organic queries and a paid price A/B test at $5 vs $9/mo on confirmed traffic.',
+          a: 'MVP of a presentation creation tool for Ukrainian marketers. Then an SEO cluster on organic queries and a paid price A/B test at $5 versus $9 per month on confirmed traffic. Experiment complete. Roadmap for next phase defined. Develop MVP of presentation creation tool for marketer needs. SEO cluster cover queries make presentation, presentation templates AI, Canva alternative. Launch paid A/B test $5 versus $9 per month on UA traffic. Build retention mechanism templates, recommendations, collaboration. Scale article pipeline to adjacent niches design, marketing tools. Only variable remaining — execution. Niche confirmed by data, not hypotheses. Audience voted with clicks.',
         },
       ],
     },

@@ -43,7 +43,7 @@ export default function AiTools({ lang = 'uk' }: { lang?: Lang }) {
     description: t.seo.description,
     image: 'https://esupport.org.ua/aitools/og-aitools.webp',
     publishedTime: '2026-03-30',
-    modifiedTime: '2026-04-28',
+    modifiedTime: '2026-05-05',
     articleTags: 'AI tools,catalog,market research,Google Ads,Clerk,retention,AI development,GTM',
     jsonLd: buildJsonLd(lang),
     xDefaultSlug: 'ai-tools-katalog-doslidzhennia',
@@ -55,6 +55,7 @@ export default function AiTools({ lang = 'uk' }: { lang?: Lang }) {
     <ArticleLayout lang={lang}>
       <FloatingToc />
       <ArticleHeader
+        editorId="hero-header"
         lang={lang}
         kicker={t.header.kicker}
         h1={t.header.h1}
@@ -259,7 +260,7 @@ export default function AiTools({ lang = 'uk' }: { lang?: Lang }) {
         <ResourcesList heading={t.sections.resources.heading} items={t.sections.resources.items} />
       </article>
 
-      <ArticleFooter lang={lang} utmCampaign="aitools" />
+      <ArticleFooter editorId="footer" lang={lang} utmCampaign="aitools" />
     </ArticleLayout>
   )
 }
