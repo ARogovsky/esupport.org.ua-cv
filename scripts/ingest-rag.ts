@@ -18,18 +18,27 @@
  */
 
 import { config } from 'dotenv'
-config({ path: '.env.local' })
-config() // also load .env as fallback
-
 import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs'
 import { resolve, dirname, basename } from 'node:path'
 import { fileURLToPath } from 'node:url'
+
+// Load environment variables from .env.local if it exists (local dev)
+// On Vercel, variables are already in process.env
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+const envPath = resolve(__dirname, '..', '.env.local')
+
+if (existsSync(envPath)) {
+  config({ path: envPath })
+} else {
+  config() // fallback to .env or use process.env from Vercel
+}
+
 import { createHash } from 'node:crypto'
 import { createClient } from '@supabase/supabase-js'
 import { articleRegistry } from '../src/articles/registry.ts'
 import { createEmbedding, isEmbeddingAvailable } from '../api/_shared/model-router.js'
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = resolve(__dirname, '..')
 const CHUNKS_DIR = resolve(root, 'scripts/chunks')
 const HASHES_FILE = resolve(root, '.rag-hashes.json')
