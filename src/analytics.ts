@@ -2,6 +2,7 @@
 // Dynamically loads gtag.js and provides tracking utilities
 
 const GA_MEASUREMENT_ID = 'G-ST1GPHCQRG'
+const AW_CONVERSION_ID = 'AW-10998062484'
 
 let isInitialized = false
 
@@ -25,10 +26,13 @@ export function initGA(): void {
   // Initialize with current timestamp
   window.gtag('js', new Date())
   
-  // Configure GA
+  // Configure Google Analytics
   window.gtag('config', GA_MEASUREMENT_ID, {
     send_page_view: false, // We'll send pageviews manually for SPA routing
   })
+
+  // Configure Google Ads Conversion Tracking
+  window.gtag('config', AW_CONVERSION_ID)
 
   // Inject gtag.js script
   const script = document.createElement('script')
