@@ -318,11 +318,17 @@ export function useVoiceMode() {
         throw new Error(data.error || 'Failed to get voice token');
       }
 
-      const { token, traceId } = await tokenRes.json();
+      const { token, wsUrl, apiKey, provider, traceId } = await tokenRes.json();
       traceIdRef.current = traceId;
-      addDebug(`Token: ${token ? 'OK' : 'MISSING'}`);
-
-      if (!token) throw new Error('No token received');
+      
+      // Support both OpenAI (ephemeral token) and Azure (wsUrl + apiKey)
+      if (provider === 'azure') {
+        if (!wsUrl || !apiKey) throw new Error('Azure: missing wsUrl or apiKey');
+        addDebug(`Azure: wsUrl OK, apiKey OK`);
+      } else {
+        if (!token) throw new Error('OpenAI: no token received');
+        addDebug(`OpenAI: token OK`);
+      }
 
       // 2. Request microphone access
       let stream: MediaStream;
@@ -358,14 +364,23 @@ export function useVoiceMode() {
       analyserNodeRef.current = outAnalyserNode;
       outputAnalyser.connect(outAnalyserNode);
 
-      // 5. Connect WebSocket to OpenAI Realtime API
-      // Note: OpenAI responds with 'realtime' as the selected subprotocol —
-      // it MUST be in the client's list or the browser rejects the handshake.
-      addDebug('Connecting WS to OpenAI...');
-      const ws = new WebSocket(
-        'wss://api.openai.com/v1/realtime?model=gpt-realtime-2025-08-28',
-        ['realtime', `openai-insecure-api-key.${token}`, 'openai-beta.realtime-v1'],
-      );
+      // 5. Connect WebSocket to Realtime API (OpenAI or Azure)
+      addDebug(`Connecting WS to ${provider === 'azure' ? 'Azure' : 'OpenAI'}...`);
+      
+      let ws: WebSocket;
+      if (provider === 'azure') {
+        // Azure: connect with api-key header (browser doesn't support custom headers in WebSocket constructor,
+        // so we pass api-key in URL query parameter or use subprotocol workaround)
+        // Azure expects: wss://...?api-key=xxx
+        const azureWsUrl = `${wsUrl}&api-key=${apiKey}`;
+        ws = new WebSocket(azureWsUrl);
+      } else {
+        // OpenAI: use ephemeral token in subprotocol
+        ws = new WebSocket(
+          'wss://api.openai.com/v1/realtime?model=gpt-realtime-2025-08-28',
+          ['realtime', `openai-insecure-api-key.${token}`, 'openai-beta.realtime-v1'],
+        );
+      }
       wsRef.current = ws;
 
       ws.onopen = () => {

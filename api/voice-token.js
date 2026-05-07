@@ -1,24 +1,7 @@
-import { Langfuse } from 'langfuse'
 import { createRealtimeSession, isRealtimeAvailable } from './_shared/model-router.js'
 
 export const config = {
   runtime: 'edge',
-}
-
-// ---------------------------------------------------------------------------
-// Langfuse (singleton)
-// ---------------------------------------------------------------------------
-
-let langfuseClient = null
-function getLangfuse() {
-  if (!langfuseClient && process.env.LANGFUSE_SECRET_KEY) {
-    langfuseClient = new Langfuse({
-      publicKey: process.env.LANGFUSE_PUBLIC_KEY,
-      secretKey: process.env.LANGFUSE_SECRET_KEY,
-      baseUrl: process.env.LANGFUSE_BASE_URL,
-    })
-  }
-  return langfuseClient
 }
 
 // ---------------------------------------------------------------------------
@@ -246,25 +229,12 @@ export default async function handler(req) {
       }],
     })
 
-    // Create Langfuse trace for this voice session
-    const langfuse = getLangfuse()
-    let traceId = null
-    if (langfuse) {
-      const trace = langfuse.trace({
-        name: 'voice-session',
-        sessionId: sessionId || undefined,
-        tags: [lang, 'voice'],
-        metadata: { lang, ip: ip.slice(0, 8) + '...', remaining: rateLimit.remaining },
-      })
-      traceId = trace.id
-      await langfuse.flushAsync()
-    }
-
+    // Return response based on provider
+    // OpenAI: { token, expiresAt }
+    // Azure: { wsUrl, apiKey, deployment }
     return new Response(JSON.stringify({
-      token: data.token,
-      traceId,
-      expiresAt: data.expiresAt,
-      provider: data.provider,
+      ...data,
+      traceId: null, // Langfuse removed for Edge runtime compatibility
     }), {
       headers: { 'Content-Type': 'application/json' },
     })
