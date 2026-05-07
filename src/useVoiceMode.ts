@@ -27,9 +27,9 @@ export interface RagSource {
   section_id: string;
   section_anchor: string;
   page_path_en: string;
-  page_path_es: string;
+  page_path_uk: string;
   article_slug_en: string;
-  article_slug_es: string;
+  article_slug_uk: string;
 }
 
 export const SESSION_TIMEOUT_S = 120;
@@ -318,7 +318,7 @@ export function useVoiceMode() {
         throw new Error(data.error || 'Failed to get voice token');
       }
 
-      const { token, wsUrl, apiKey, provider, traceId } = await tokenRes.json();
+      const { token, wsUrl, apiKey, provider, instructions, tools, voice, traceId } = await tokenRes.json();
       traceIdRef.current = traceId;
       
       // Support both OpenAI (ephemeral token) and Azure (wsUrl + apiKey)
@@ -328,6 +328,11 @@ export function useVoiceMode() {
       } else {
         if (!token) throw new Error('OpenAI: no token received');
         addDebug(`OpenAI: token OK`);
+      }
+
+      // Validate session config
+      if (!instructions || !tools || !voice) {
+        throw new Error('Missing session config (instructions/tools/voice)');
       }
 
       // 2. Request microphone access
@@ -385,11 +390,13 @@ export function useVoiceMode() {
 
       ws.onopen = () => {
         addDebug('WS connected — sending session.update');
-        // Re-configure session via WebSocket — REST-configured turn_detection
-        // may not properly activate the input_audio_buffer pipeline.
-        ws.send(JSON.stringify({
+        // Configure session via WebSocket with instructions, tools, and voice
+        const sessionUpdate = {
           type: 'session.update',
           session: {
+            instructions,
+            voice,
+            tools,
             turn_detection: {
               type: 'server_vad',
               threshold: 0.5,
@@ -401,7 +408,9 @@ export function useVoiceMode() {
             input_audio_format: 'pcm16',
             input_audio_transcription: { model: 'whisper-1' },
           },
-        }));
+        };
+        console.log('[Voice] session.update payload:', JSON.stringify(sessionUpdate, null, 2));
+        ws.send(JSON.stringify(sessionUpdate));
 
         // Send conversation history for context
         if (history.length > 0) {
@@ -428,6 +437,11 @@ export function useVoiceMode() {
 
       ws.onmessage = (event) => {
         const data = JSON.parse(event.data);
+
+        // Log all events except audio deltas for debugging
+        if (data.type !== 'response.audio.delta' && data.type !== 'input_audio_buffer.speech_started') {
+          console.log('[Voice] WS event:', data.type, data);
+        }
 
         // Start audio capture only after session is fully configured via WebSocket
         if (data.type === 'session.updated') {

@@ -127,7 +127,20 @@ Projects (use search_portfolio for ANY detail — ZERO metrics from memory):
 - Advogram — HR platform
 - E-lli.com — self-reflection assistant
 
-RULE: Use search_portfolio ALWAYS when the question might have an answer in your portfolio. When in doubt, SEARCH. Only respond without searching for greetings, contact, or topics clearly outside professional scope. The cost of searching is minimal — the cost of inventing is unacceptable.
+## MANDATORY TOOL USAGE (CRITICAL)
+
+You MUST call search_portfolio for ANY question about:
+- Projects (details, metrics, tech stack, architecture)
+- Work experience (companies, roles, achievements)
+- Technologies (specific tools, frameworks, implementations)
+- Case studies or examples
+
+ONLY skip search_portfolio for:
+- Simple greetings ("hi", "hello")
+- Contact information (email/telegram already in prompt)
+- Completely off-topic questions
+
+When in doubt → CALL THE TOOL. Never guess or invent information.
 
 ## How to use search_portfolio results (CRITICAL)
 
@@ -204,6 +217,23 @@ export default async function handler(req) {
     const voiceAffect = lang === 'en' ? VOICE_AFFECT_EN : VOICE_AFFECT_UK
     const instructions = `${VOICE_BASE_PROMPT}\n\n${voiceAffect}`
 
+    // Define tools for function calling (Azure Realtime API format)
+    const tools = [{
+      type: 'function',
+      name: 'search_portfolio',
+      description: 'MANDATORY tool to search Andrey\'s portfolio for ANY question about projects, technologies, metrics, architectures, or work experience. ALWAYS use this tool when the user asks about professional details.',
+      parameters: {
+        type: 'object',
+        properties: {
+          query: {
+            type: 'string',
+            description: 'Search query to find relevant information in the portfolio',
+          },
+        },
+        required: ['query'],
+      },
+    }]
+
     // Request ephemeral token via model-router (supports both OpenAI and Azure)
     const data = await createRealtimeSession({
       model: 'gpt-realtime-2025-08-28',
@@ -212,29 +242,22 @@ export default async function handler(req) {
       instructions,
       inputAudioTranscription: { model: 'whisper-1' },
       turnDetection: { type: 'server_vad' },
-      tools: [{
-        type: 'function',
-        name: 'search_portfolio',
-        description: 'Search your own published case studies for project details, architectures, metrics, and technical decisions.',
-        parameters: {
-          type: 'object',
-          properties: {
-            query: {
-              type: 'string',
-              description: 'The search query to find relevant portfolio content',
-            },
-          },
-          required: ['query'],
-        },
-      }],
+      tools,
     })
+
+    // Generate simple traceId for RAG search (Langfuse removed for Edge runtime)
+    const traceId = `voice-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
 
     // Return response based on provider
     // OpenAI: { token, expiresAt }
     // Azure: { wsUrl, apiKey, deployment }
+    // Both: { instructions, tools, voice } for client-side session.update
     return new Response(JSON.stringify({
       ...data,
-      traceId: null, // Langfuse removed for Edge runtime compatibility
+      instructions,
+      tools,
+      voice: 'cedar',
+      traceId,
     }), {
       headers: { 'Content-Type': 'application/json' },
     })

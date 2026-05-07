@@ -29,11 +29,11 @@ const CHUNKS_DIR = resolve(root, 'scripts/chunks')
 interface ChunkMetadata {
   article_id: string
   article_slug_en: string
-  article_slug_es: string
+  article_slug_uk: string
   section_id: string
   section_anchor: string
   page_path_en: string
-  page_path_es: string
+  page_path_uk: string
   source_file: string
   format: 'i18n' | 'markdown' | 'plaintext'
 }
@@ -146,9 +146,9 @@ function parseI18n(source: I18nSource): Chunk[] {
   const baseMetadata: Omit<ChunkMetadata, 'section_id' | 'section_anchor'> = {
     article_id: source.articleId,
     article_slug_en: `/${article.slugs.en}`,
-    article_slug_es: `/${article.slugs.es}`,
+    article_slug_uk: `/${article.slugs.uk}`,
     page_path_en: `/${article.slugs.en}`,
-    page_path_es: `/${article.slugs.es}`,
+    page_path_uk: `/${article.slugs.uk}`,
     source_file: source.sourceFile,
     format: 'i18n',
   }
@@ -273,11 +273,11 @@ function parsePlaintext(filePath: string, articleId: string): Chunk[] {
       metadata: {
         article_id: articleId,
         article_slug_en: '',
-        article_slug_es: '',
+        article_slug_uk: '',
         section_id: currentSection,
         section_anchor: '',
         page_path_en: '/llms.txt',
-        page_path_es: '/llms.txt',
+        page_path_uk: '/llms.txt',
         source_file: filePath,
         format: 'plaintext',
       },
@@ -313,11 +313,11 @@ function parseMarkdown(content: string, articleId: string, sourceFile: string): 
           metadata: {
             article_id: articleId,
             article_slug_en: '',
-            article_slug_es: '',
+            article_slug_uk: '',
             section_id: sectionId,
             section_anchor: `#${sectionId}`,
             page_path_en: '',
-            page_path_es: '',
+            page_path_uk: '',
             source_file: sourceFile,
             format: 'markdown',
           },
@@ -344,11 +344,11 @@ function parseMarkdown(content: string, articleId: string, sourceFile: string): 
       metadata: {
         article_id: articleId,
         article_slug_en: '',
-        article_slug_es: '',
+        article_slug_uk: '',
         section_id: sectionId,
         section_anchor: `#${sectionId}`,
         page_path_en: '',
-        page_path_es: '',
+        page_path_uk: '',
         source_file: sourceFile,
         format: 'markdown',
       },

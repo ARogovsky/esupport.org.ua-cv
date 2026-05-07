@@ -81,11 +81,11 @@ function getClaudeClient() {
 interface ChunkMetadata {
   article_id: string
   article_slug_en: string
-  article_slug_es: string
+  article_slug_uk: string
   section_id: string
   section_anchor: string
   page_path_en: string
-  page_path_es: string
+  page_path_uk: string
   source_file: string
   format: 'i18n' | 'markdown' | 'plaintext'
 }

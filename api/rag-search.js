@@ -155,15 +155,13 @@ export default async function handler(req) {
       // Tier 3: both failed → handled by catch below
       const context = reasonedAnswer || formattedChunks
 
-      // Filter sources to articles mentioned in the answer (same logic as chat.js)
-      const responseText = reasonedAnswer || ''
-      let filteredSources = sources.length > 0
-        ? filterSourcesByResponse(sources, responseText)
-        : []
+      // Voice mode: show ALL RAG sources (no filtering by response text)
+      // This ensures users see all relevant projects even when Claude's response is brief (2-3 sentences)
+      let filteredSources = sources.length > 0 ? sources : []
 
       // Enrich with keyword-detected articles not in RAG sources
       const ragArticleIds = new Set(filteredSources.map(s => s.article_id))
-      const detected = detectMentionedArticles(responseText)
+      const detected = detectMentionedArticles(reasonedAnswer || '')
       for (const d of detected) {
         if (!ragArticleIds.has(d.article_id) && filteredSources.length < 3) {
           filteredSources.push(d)
