@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Download, Copy, Check, ExternalLink, Clock } from 'lucide-react'
 import { EditorModeProvider, EditorLabel, H2, StepList, Accordion } from './content-types'
+import { trackEmailConversion } from '../analytics'
 
 // ---------------------------------------------------------------------------
 // Inline utilities
@@ -223,7 +224,8 @@ export function ArticleFooter({ lang }: ArticleFooterProps) {
       </Link>
       <div className="flex flex-wrap gap-3 mb-8">
         <a 
-          href="mailto:esupport@esupport.org.ua" 
+          href="mailto:esupport@esupport.org.ua"
+          onClick={() => trackEmailConversion()}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 border border-primary/20 text-sm font-medium text-primary hover:bg-primary/20 transition-colors"
         >
           <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

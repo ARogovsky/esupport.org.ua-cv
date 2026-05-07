@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { MapPin, Mail, ExternalLink, Award, GraduationCap, Briefcase, ChevronRight, Clock, Newspaper, HelpCircle, Users, Code2 } from 'lucide-react'
 import { aboutContent, type AboutLang } from './about-i18n'
+import { trackEmailConversion } from './analytics'
 
 const SOCIAL_LINKS = [
   { name: 'Telegram', url: 'https://t.me/andreyrogovsky' },
@@ -317,6 +318,7 @@ export default function AboutPage({ lang = 'uk' }: { lang?: AboutLang }) {
 
           <a
             href={`mailto:${t.email}`}
+            onClick={() => trackEmailConversion()}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors mb-4"
           >
             <Mail className="w-4 h-4" />
