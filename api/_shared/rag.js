@@ -218,9 +218,9 @@ export function extractSources(chunks) {
       section_id: meta.section_id,
       section_anchor: meta.section_anchor || '',
       page_path_en: meta.page_path_en || '',
-      page_path_es: meta.page_path_es || '',
+      page_path_uk: meta.page_path_uk || '',
       article_slug_en: meta.article_slug_en || '',
-      article_slug_es: meta.article_slug_es || '',
+      article_slug_uk: meta.article_slug_uk || '',
     })
   }
   return sources
@@ -228,12 +228,13 @@ export function extractSources(chunks) {
 
 // Keywords that signal the response actually references a given article
 export const ARTICLE_KEYWORDS = {
-  'n8n-for-pms':          ['n8n', 'nodemation'],
-  'jacobo':               ['jacobo', 'agente ia', 'ai agent', 'whatsapp', 'multi-agent', 'multiagent'],
-  'business-os':          ['business os', 'erp', 'airtable bases', 'crm', 'inventory'],
-  'programmatic-seo':     ['seo programático', 'programmatic seo', 'web programática', 'programmatic web', 'decision engine', 'indexable', 'dataforseo', 'seo pipeline', 'seo automatizado', 'automated seo'],
+  'perfectsquad':         ['perfectsquad', 'perfect squad', 'перфект сквад', 'gaming traffic', 'ігровий трафік', 'telegram bot', 'телеграм бот', 'airtable automation', 'автоматизація airtable'],
+  'smartcourses':         ['smartcourses', 'smart courses', 'смарт курси', 'edtech', 'освітня платформа', 'educational platform', 'online courses', 'онлайн курси', 'lms'],
+  'advogram':             ['advogram', 'адвограм', 'gtm', 'go-to-market', 'вихід на ринок', 'product launch', 'запуск продукту', 'market strategy', 'ринкова стратегія'],
   'offzmi':               ['offzmi', 'офзмі', 'gtm', 'go-to-market', 'market research', 'дослідження ринку', 'customer discovery', 'виявлення клієнтів', 'mvp', 'product-market fit'],
-  'santifer-irepair':     ['santifer irepair', 'irepair', 'repair business', 'taller de reparación'],
+  'ai-tools':             ['ai tools', 'ai tool insights', 'інструменти ai', 'каталог ai', 'ai catalog', '16000', '16k', 'tools catalog', 'retention', 'утримання'],
+  'gala':                 ['gala', 'гала', 'b2b', 'lead generation', 'лідогенерація', 'sales agent', 'агент продажів', 'дзвінки', 'calls', '85 calls'],
+  'pii-removal':          ['pii removal', 'pii', 'видалення pii', 'roberta', 'роберта', 'ukrainian nlp', 'український nlp', 'персональні дані', 'personal data'],
 }
 
 /** Filter RAG sources to only articles actually mentioned in the response, max 3 */
@@ -249,12 +250,13 @@ export function filterSourcesByResponse(sources, responseText) {
 
 // Static article routes — used to generate badges from keywords regardless of RAG
 export const ARTICLE_ROUTES = {
-  'n8n-for-pms':          { page_path_es: '/n8n-para-pms', page_path_en: '/n8n-for-pms' },
-  'jacobo':               { page_path_es: '/agente-ia-jacobo', page_path_en: '/ai-agent-jacobo' },
-  'advogram':             { page_path_es: '/advogram-gtm-case-study', page_path_en: '/advogram-gtm-case-study-en' },
-  'programmatic-seo':     { page_path_es: '/seo-programatico', page_path_en: '/programmatic-seo' },
-  'offzmi':               { page_path_es: '/offzmi-gtm-doslidzhennia', page_path_en: '/offzmi-gtm-case-study' },
-  'santifer-irepair':     { page_path_es: '/santifer-irepair', page_path_en: '/santifer-irepair-founder' },
+  'perfectsquad':         { page_path_uk: '/perfectsquad-gaming-traffic', page_path_en: '/perfectsquad-gaming-traffic-en' },
+  'smartcourses':         { page_path_uk: '/smartcourses-edtech-platforma', page_path_en: '/smartcourses-edtech-platform' },
+  'advogram':             { page_path_uk: '/advogram-gtm-case-study', page_path_en: '/advogram-gtm-case-study-en' },
+  'offzmi':               { page_path_uk: '/offzmi-gtm-doslidzhennia', page_path_en: '/offzmi-gtm-case-study' },
+  'ai-tools':             { page_path_uk: '/ai-tools-katalog-doslidzhennia', page_path_en: '/ai-tools-catalog-research' },
+  'gala':                 { page_path_uk: '/gala-b2b-lidogeneratsiya', page_path_en: '/gala-b2b-lead-generation' },
+  'pii-removal':          { page_path_uk: '/pii-removal-roberta-ukrainska', page_path_en: '/pii-removal-roberta-ukrainian' },
 }
 
 // Home fallback
@@ -263,9 +265,9 @@ export const HOME_SOURCE = {
   section_id: 'portfolio',
   section_anchor: '',
   page_path_en: '/en',
-  page_path_es: '/',
+  page_path_uk: '/',
   article_slug_en: 'en',
-  article_slug_es: '',
+  article_slug_uk: '',
 }
 
 /** Detect articles mentioned in response text and generate source badges */
@@ -281,9 +283,9 @@ export function detectMentionedArticles(responseText) {
           article_id: articleId,
           section_id: 'main',
           section_anchor: '',
-          page_path_es: routes.page_path_es,
+          page_path_uk: routes.page_path_uk,
           page_path_en: routes.page_path_en,
-          article_slug_es: routes.page_path_es.slice(1),
+          article_slug_uk: routes.page_path_uk.slice(1),
           article_slug_en: routes.page_path_en.slice(1),
         })
       }
@@ -389,32 +391,32 @@ export function classifyIntent(text) {
   const tags = []
 
   const jailbreakPatterns = [
-    'ignore previous', 'ignora las instrucciones', 'ignora todo',
-    'pretend', 'roleplay', 'act as', 'you are now',
-    'forget', 'disregard', 'bypass', 'override', 'jailbreak',
-    'dan', 'developer mode', 'evil', 'malicious', 'hackear', 'hacking',
-    'system prompt', 'tu prompt', 'your prompt', 'instructions',
-    'protocolo de defensa', 'olvida todo', 'nueva personalidad',
-    'reset your', 'reveal your', 'show me your rules',
-    'your objective', 'your orders', 'tus órdenes', 'tus reglas',
-    'cuáles son tus instrucciones', 'rules configured', 'reglas configuradas',
+    'ignore previous', 'ігноруй попередні', 'ігноруй все',
+    'pretend', 'roleplay', 'act as', 'you are now', 'ти тепер',
+    'forget', 'disregard', 'bypass', 'override', 'jailbreak', 'забудь',
+    'dan', 'developer mode', 'evil', 'malicious', 'зламати', 'hacking',
+    'system prompt', 'твій промпт', 'your prompt', 'instructions', 'інструкції',
+    'протокол захисту', 'забудь все', 'нова особистість',
+    'reset your', 'reveal your', 'show me your rules', 'покажи правила',
+    'your objective', 'your orders', 'твої накази', 'твої правила',
+    'які твої інструкції', 'rules configured', 'налаштовані правила',
     'print all', 'print everything', 'yaml', 'json record',
     'dump', 'export', 'serialize', 'reproduce', 'output all',
-    'all of the above', 'todo lo anterior', 'everything above',
+    'all of the above', 'все вище', 'everything above',
     'repeat everything', 'write all above', 'copy all',
-    'show me everything', 'imprime todo', 'muestra todo lo anterior',
-    'repite todo', 'exporta', 'convierte a',
+    'show me everything', 'надрукуй все', 'покажи все вище',
+    'повтори все', 'експортуй', 'конвертуй в',
   ]
   if (jailbreakPatterns.some(p => lower.includes(p))) {
     tags.push('jailbreak-attempt')
   }
 
-  if (/experiencia|experience|trabajo|work|career|carrera|santifer|irepair/.test(lower)) tags.push('topic:experience')
-  if (/proyecto|project|portfolio|github|código|code/.test(lower)) tags.push('topic:projects')
-  if (/contact|contacto|email|linkedin|hablar|talk|hire|contratar/.test(lower)) tags.push('topic:contact')
+  if (/досвід|experience|робота|work|career|кар'єра|проєкт|project/.test(lower)) tags.push('topic:experience')
+  if (/проєкт|project|portfolio|портфоліо|github|код|code/.test(lower)) tags.push('topic:projects')
+  if (/contact|контакт|email|linkedin|поговорити|talk|hire|найняти/.test(lower)) tags.push('topic:contact')
   if (/stack|tech|технолог|python|react|airtable|claude|ai|llm|агент|agent/.test(lower)) tags.push('topic:technical')
   if (/зарплат|salary|money|гроші|rate|ціна|вартіст/.test(lower)) tags.push('topic:compensation')
-  if (/привіт|hello|hi|hey|добр|good/.test(lower) && text.length < 20) tags.push('greeting')
+  if (/привіт|hello|hi|hey|добр|good|вітаю/.test(lower) && text.length < 20) tags.push('greeting')
 
   return tags.length > 0 ? tags : ['topic:general']
 }
@@ -433,7 +435,7 @@ export async function sendJailbreakAlert(userMessage) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: 'Santi Bot <onboarding@resend.dev>',
+      from: 'Andrey Bot <onboarding@resend.dev>',
       to: process.env.ALERT_EMAIL,
       subject: '🚨 JAILBREAK ATTEMPT - esupport.org.ua',
       html: `

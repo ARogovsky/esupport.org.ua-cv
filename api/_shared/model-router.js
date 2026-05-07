@@ -3,6 +3,9 @@
 // Automatically selects provider based on available environment variables
 // ---------------------------------------------------------------------------
 
+// Vercel AI SDK for Bedrock (Edge Runtime compatible)
+import { bedrock } from '@ai-sdk/amazon-bedrock'
+
 // ---------------------------------------------------------------------------
 // Provider detection
 // ---------------------------------------------------------------------------
@@ -10,7 +13,10 @@
 function detectProvider(service = 'embedding') {
   // For Claude (chat completions)
   if (service === 'claude') {
-    const hasBedrock = !!(process.env.AWS_BEDROCK_KEY && process.env.AWS_REGION)
+    const hasBedrock = !!(
+      (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) ||
+      process.env.AWS_BEARER_TOKEN_BEDROCK
+    ) && process.env.AWS_REGION
     const hasAnthropic = !!process.env.ANTHROPIC_API_KEY
     
     if (hasBedrock) return 'bedrock'
@@ -265,7 +271,7 @@ export async function createChatCompletion(params) {
   const provider = detectProvider('claude')
 
   if (!provider) {
-    throw new Error('No Claude provider configured. Set AWS_BEDROCK_KEY or ANTHROPIC_API_KEY.')
+    throw new Error('No Claude provider configured. Set AWS_BEARER_TOKEN_BEDROCK or ANTHROPIC_API_KEY.')
   }
 
   if (provider === 'bedrock') {
@@ -282,9 +288,6 @@ async function createChatCompletionAnthropic(params) {
 }
 
 async function createChatCompletionBedrock(params) {
-  const region = process.env.AWS_REGION || 'eu-central-1'
-  const apiKey = process.env.AWS_BEDROCK_KEY
-  
   // Map model names to Bedrock inference profile IDs
   const modelMap = {
     'claude-sonnet-4-6': 'eu.anthropic.claude-sonnet-4-6',
@@ -292,43 +295,34 @@ async function createChatCompletionBedrock(params) {
   }
   
   const modelId = modelMap[params.model] || params.model
-  const endpoint = `https://bedrock-runtime.${region}.amazonaws.com`
-  const url = `${endpoint}/model/${modelId}/invoke`
   
-  const body = {
-    anthropic_version: 'bedrock-2023-05-31',
-    max_tokens: params.max_tokens,
-    messages: params.messages,
-  }
-  
-  if (params.system) {
-    body.system = params.system
-  }
-  
-  if (params.tools) {
-    body.tools = params.tools
-  }
-  
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify(body),
+  // Create Bedrock model instance (uses AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY)
+  const model = bedrock(modelId, {
+    region: process.env.AWS_REGION || 'eu-central-1',
   })
   
-  if (!response.ok) {
-    const error = await response.text()
-    throw new Error(`Bedrock chat completion failed: ${response.status} - ${error}`)
-  }
+  // Use Vercel AI SDK generateText API
+  const { generateText } = await import('ai')
   
-  const data = await response.json()
+  const result = await generateText({
+    model,
+    messages: params.messages,
+    maxTokens: params.max_tokens,
+  })
   
+  // Return in Anthropic-compatible format
   return {
-    ...data,
-    provider: 'bedrock',
+    id: `msg_${Date.now()}`,
+    type: 'message',
+    role: 'assistant',
+    content: [{ type: 'text', text: result.text }],
     model: modelId,
+    stop_reason: 'end_turn',
+    usage: {
+      input_tokens: result.usage?.promptTokens || 0,
+      output_tokens: result.usage?.completionTokens || 0,
+    },
+    provider: 'bedrock',
   }
 }
 
@@ -356,90 +350,42 @@ async function createChatCompletionStreamAnthropic(params) {
 }
 
 async function* createChatCompletionStreamBedrock(params) {
-  const region = process.env.AWS_REGION || 'eu-central-1'
-  const apiKey = process.env.AWS_BEDROCK_KEY
-  
-  // Map model names
+  // Map model names to Bedrock inference profile IDs
   const modelMap = {
     'claude-sonnet-4-6': 'eu.anthropic.claude-sonnet-4-6',
     'claude-haiku-4-5-20251001': 'eu.anthropic.claude-haiku-4-5-20251001-v1:0',
   }
   
   const modelId = modelMap[params.model] || params.model
-  const endpoint = `https://bedrock-runtime.${region}.amazonaws.com`
-  const url = `${endpoint}/model/${modelId}/invoke-with-response-stream`
   
-  const body = {
-    anthropic_version: 'bedrock-2023-05-31',
-    max_tokens: params.max_tokens,
-    messages: params.messages,
-  }
-  
-  if (params.system) {
-    body.system = params.system
-  }
-  
-  if (params.tools) {
-    body.tools = params.tools
-  }
-  
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify(body),
+  // Create Bedrock model instance (uses AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY)
+  const model = bedrock(modelId, {
+    region: process.env.AWS_REGION || 'eu-central-1',
   })
   
-  if (!response.ok) {
-    const error = await response.text()
-    throw new Error(`Bedrock streaming failed: ${response.status} - ${error}`)
+  // Use Vercel AI SDK streamText API
+  const { streamText } = await import('ai')
+  
+  const result = streamText({
+    model,
+    messages: params.messages,
+    maxTokens: params.max_tokens,
+  })
+  
+  // Convert Vercel AI SDK stream to Anthropic-compatible format
+  for await (const chunk of result.textStream) {
+    yield {
+      type: 'content_block_delta',
+      index: 0,
+      delta: { type: 'text_delta', text: chunk },
+      provider: 'bedrock',
+    }
   }
   
-  // Parse AWS event stream
-  const reader = response.body.getReader()
-  const decoder = new TextDecoder()
-  let buffer = ''
-  
-  while (true) {
-    const { done, value } = await reader.read()
-    if (done) break
-    
-    buffer += decoder.decode(value, { stream: true })
-    
-    // Parse event-stream format
-    const lines = buffer.split('\n')
-    buffer = lines.pop() || ''
-    
-    for (const line of lines) {
-      if (line.startsWith(':event-type:')) {
-        const eventType = line.split(':event-type:')[1].trim()
-        continue
-      }
-      
-      if (line.startsWith(':content-type:')) {
-        continue
-      }
-      
-      if (line.startsWith(':message-type:')) {
-        continue
-      }
-      
-      // Parse JSON chunks
-      try {
-        const event = JSON.parse(line)
-        yield {
-          type: event.type || 'content_block_delta',
-          delta: event.delta,
-          content_block: event.content_block,
-          message: event.message,
-          provider: 'bedrock',
-        }
-      } catch {
-        // Skip non-JSON lines
-      }
-    }
+  // Send final message_stop event
+  yield {
+    type: 'message_stop',
+    provider: 'bedrock',
   }
 }
 

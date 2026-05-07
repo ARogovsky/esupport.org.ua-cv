@@ -174,8 +174,8 @@ function OverviewTab({ stats, loading }: TabProps) {
     setTesting(true)
     try {
       const token = sessionStorage.getItem('ops_token')
-      const response = await fetch('/api/ops/router-test', {
-        method: 'POST',
+      const response = await fetch('/api/ops/test-sdk', {
+        method: 'GET',
         headers: { Authorization: `Bearer ${token}` },
       })
       
@@ -198,7 +198,7 @@ function OverviewTab({ stats, loading }: TabProps) {
   const routerTestSection = (
     <div className="bg-card border border-white/[0.06] rounded-lg p-3 sm:p-4">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-[11px] sm:text-xs font-medium text-muted-foreground uppercase tracking-wider">Model Router Test</h3>
+        <h3 className="text-[11px] sm:text-xs font-medium text-muted-foreground uppercase tracking-wider">SDK Test</h3>
         <button
           onClick={runRouterTest}
           disabled={testing}

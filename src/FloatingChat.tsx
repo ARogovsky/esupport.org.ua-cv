@@ -100,7 +100,7 @@ function linkifyUrls(text: string): string {
   return fixed;
 }
 
-const STORAGE_KEY = 'santi-chat';
+const STORAGE_KEY = 'andrey-chat';
 
 function loadSession(fallbackGreeting: string): { messages: Message[]; sessionId: string; showPrompts: boolean } {
   try {
@@ -564,7 +564,7 @@ export default function FloatingChat({ lang }: FloatingChatProps) {
           bottom: 'max(1.5rem, env(safe-area-inset-bottom, 0px) + 0.5rem)',
           right: 'max(1.5rem, env(safe-area-inset-right, 0px) + 0.5rem)',
         }}
-        aria-label={lang === 'en' ? (isOpen ? 'Close chat with Santi' : 'Open chat with Santi') : (isOpen ? 'Cerrar chat con Santi' : 'Abrir chat con Santi')}
+        aria-label={lang === 'en' ? (isOpen ? 'Close chat with Andrey' : 'Open chat with Andrey') : (isOpen ? 'Закрити чат з Андрієм' : 'Відкрити чат з Андрієм')}
       >
         <AnimatePresence mode="wait">
           {isOpen ? (
@@ -592,7 +592,7 @@ export default function FloatingChat({ lang }: FloatingChatProps) {
                 <source srcSet="/foto-avatar-sm.webp" type="image/webp" />
                 <img
                   src="/foto-avatar-sm.webp"
-                  alt={lang === 'en' ? 'Chat with Santi' : 'Chat con Santi'}
+                  alt={lang === 'en' ? 'Chat with Andrey' : 'Чат з Андрієм'}
                   className="w-full h-full rounded-full object-cover"
                   width={56}
                   height={56}
@@ -625,7 +625,7 @@ export default function FloatingChat({ lang }: FloatingChatProps) {
             ref={chatContainerRef}
             role="dialog"
             aria-modal="true"
-            aria-label={lang === 'en' ? 'Chat with Santi' : 'Chat con Santi'}
+            aria-label={lang === 'en' ? 'Chat with Andrey' : 'Чат з Андрієм'}
             initial={isMobile ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0.95 }}
             animate={isMobile ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
             exit={isMobile ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0.95 }}
@@ -650,7 +650,7 @@ export default function FloatingChat({ lang }: FloatingChatProps) {
                   <source srcSet="/foto-avatar-sm.webp" type="image/webp" />
                   <img
                     src="/foto-avatar-sm.webp"
-                    alt="santifer avatar"
+                    alt="Andrey Rogovsky avatar"
                     className="w-10 h-10 rounded-full object-cover ring-2 ring-primary/20"
                     width={40}
                     height={40}

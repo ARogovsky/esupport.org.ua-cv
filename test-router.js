@@ -5,7 +5,7 @@ import { createClaudeClient } from './api/_shared/claude-client.js'
 
 async function test() {
   console.log('Testing Claude client...')
-  console.log('AWS_BEDROCK_KEY:', process.env.AWS_BEDROCK_KEY ? 'SET' : 'NOT SET')
+  console.log('AWS_BEARER_TOKEN_BEDROCK:', process.env.AWS_BEARER_TOKEN_BEDROCK ? 'SET' : 'NOT SET')
   console.log('AWS_REGION:', process.env.AWS_REGION)
   
   try {

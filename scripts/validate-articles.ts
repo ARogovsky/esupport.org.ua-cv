@@ -33,9 +33,6 @@ const SOURCE_MAP: Record<string, string> = {
   'gala': 'src/Gala.tsx',
   'pii-removal': 'src/PiiRemoval.tsx',
   'offzmi': 'src/Offzmi.tsx',
-  'programmatic-seo': 'src/ProgrammaticSeo.tsx',
-  'santifer-irepair': 'src/SantiferIRepair.tsx',
-  'career-ops': 'src/CareerOps.tsx',
 }
 
 // ---------------------------------------------------------------------------
@@ -205,13 +202,13 @@ function validateArticle(config: typeof articleRegistry[0]): { issues: Issue[]; 
     issues.push({ severity: 'error', msg: `publishedTime mismatch: useArticleSeo="${seoPublished}" vs buildArticleJsonLd="${jsonPublished}"` })
   }
 
-  // 2. xDefaultSlug vs registry primary slug (ES or UK)
-  const primarySlug = config.slugs.es || config.slugs.uk
+  // 2. xDefaultSlug vs registry primary slug (UK or EN)
+  const primarySlug = config.slugs.uk || config.slugs.en
   if (seoXDefault && seoXDefault !== primarySlug) {
     issues.push({ severity: 'error', msg: `xDefaultSlug mismatch: useArticleSeo="${seoXDefault}" vs registry primary slug="${primarySlug}"` })
   }
 
-  // 3. Hreflang paired: both primary (ES or UK) and EN slugs defined
+  // 3. Hreflang paired: both primary (UK) and EN slugs defined
   if (!primarySlug || !config.slugs.en) {
     issues.push({ severity: 'error', msg: `Missing hreflang slug pair: primary="${primarySlug}", en="${config.slugs.en}"` })
   }
@@ -286,7 +283,7 @@ function validateArticle(config: typeof articleRegistry[0]): { issues: Issue[]; 
   }
 
   // 9. SEO title/description length (per language)
-  const availableLangs = Object.keys(config.seo) as Array<'es' | 'en' | 'uk'>
+  const availableLangs = Object.keys(config.seo) as Array<'uk' | 'en'>
   for (const lang of availableLangs) {
     const seo = config.seo[lang]
     if (seo && seo.title && seo.title.length > 60) {

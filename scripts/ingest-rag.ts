@@ -11,7 +11,7 @@
  * Requires env vars:
  *   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY
  *   AZURE_OPENAI_* or OPENAI_API_KEY (for embeddings)
- *   AWS_BEDROCK_KEY or ANTHROPIC_API_KEY (optional, for contextual retrieval)
+ *   AWS_BEARER_TOKEN_BEDROCK or ANTHROPIC_API_KEY (optional, for contextual retrieval)
  *
  * Usage:
  *   npx tsx --tsconfig tsconfig.app.json scripts/ingest-rag.ts
@@ -65,7 +65,7 @@ function getSupabase() {
 
 function getClaudeClient() {
   // Check if Claude is available (Bedrock or Anthropic)
-  const hasBedrock = !!(process.env.AWS_BEDROCK_KEY && process.env.AWS_REGION)
+  const hasBedrock = !!(process.env.AWS_BEARER_TOKEN_BEDROCK && process.env.AWS_REGION)
   const hasAnthropic = !!process.env.ANTHROPIC_API_KEY
   
   if (!hasBedrock && !hasAnthropic) return null

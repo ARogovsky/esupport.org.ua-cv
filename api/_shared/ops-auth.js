@@ -9,7 +9,10 @@ export function validateOpsAuth(req) {
     return { ok: false, response: new Response('Dashboard not configured', { status: 503 }) }
   }
 
-  const auth = req.headers.get('authorization')
+  // Support both Edge Runtime (req.headers.get) and Node.js (req.headers)
+  const auth = typeof req.headers.get === 'function' 
+    ? req.headers.get('authorization')
+    : req.headers['authorization']
   const token = auth?.startsWith('Bearer ') ? auth.slice(7) : null
 
   if (!token || token !== secret) {

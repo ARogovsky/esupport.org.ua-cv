@@ -15,7 +15,7 @@ export function createClaudeClient(config = {}) {
   const provider = getActiveProvider('claude')
   
   if (!provider) {
-    throw new Error('No Claude provider configured. Set AWS_BEDROCK_KEY or ANTHROPIC_API_KEY.')
+    throw new Error('No Claude provider configured. Set AWS_BEARER_TOKEN_BEDROCK or ANTHROPIC_API_KEY.')
   }
   
   return {
@@ -56,7 +56,7 @@ function createBedrockStreamWrapper(params) {
   let streamIterator = null
   let finalMessage = null
   let currentMessage = {
-    id: `msg_${Date.now()}`,
+    id: null,
     type: 'message',
     role: 'assistant',
     content: [],
@@ -65,6 +65,7 @@ function createBedrockStreamWrapper(params) {
     stop_sequence: null,
     usage: { input_tokens: 0, output_tokens: 0 },
   }
+  let currentTextBlock = null
   
   const stream = {
     // Async iterator for 'for await' loops
@@ -74,28 +75,33 @@ function createBedrockStreamWrapper(params) {
       }
       
       for await (const event of streamIterator) {
-        // Transform Bedrock events to Anthropic SDK format
-        if (event.type === 'content_block_delta' && event.delta?.text) {
-          yield {
-            type: 'content_block_delta',
-            index: 0,
-            delta: { type: 'text_delta', text: event.delta.text },
-          }
-          
-          // Accumulate text for finalMessage
-          if (!currentMessage.content[0]) {
-            currentMessage.content.push({ type: 'text', text: '' })
-          }
-          currentMessage.content[0].text += event.delta.text
+        // Emit events in Anthropic SDK format
+        yield event
+        
+        // Track message state for finalMessage()
+        if (event.type === 'message_start' && event.message) {
+          currentMessage.id = event.message.id
+          currentMessage.usage = event.message.usage || currentMessage.usage
         }
         
-        if (event.message) {
-          // Final message from Bedrock
-          finalMessage = {
-            ...currentMessage,
-            stop_reason: event.message.stop_reason,
-            usage: event.message.usage,
+        if (event.type === 'content_block_start' && event.content_block) {
+          currentTextBlock = { type: 'text', text: '' }
+          currentMessage.content.push(currentTextBlock)
+        }
+        
+        if (event.type === 'content_block_delta' && event.delta?.text) {
+          if (currentTextBlock) {
+            currentTextBlock.text += event.delta.text
           }
+        }
+        
+        if (event.type === 'message_delta' && event.delta) {
+          currentMessage.stop_reason = event.delta.stop_reason
+          currentMessage.stop_sequence = event.delta.stop_sequence
+        }
+        
+        if (event.type === 'message_stop') {
+          finalMessage = { ...currentMessage }
         }
       }
     },
