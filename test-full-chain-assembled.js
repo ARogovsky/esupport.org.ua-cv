@@ -203,6 +203,10 @@ async function searchPortfolio(query, trace, anthropicClient) {
   const retrievalSpan = trace?.span({ name: 'retrieval', metadata: { query } })
   try {
     const searchResult = await searchDocuments(query, embedding)
+    console.log('[DEBUG searchPortfolio] searchResult.chunks.length:', searchResult.chunks.length)
+    if (searchResult.chunks.length > 0) {
+      console.log('[DEBUG searchPortfolio] Top chunk similarity:', searchResult.chunks[0]?.similarity)
+    }
     result.metrics.retrievalMs = searchResult.latencyMs
     retrievalSpan?.end({
       metadata: {
