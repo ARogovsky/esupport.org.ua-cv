@@ -76,14 +76,23 @@ export function trackEvent(eventName: string, eventParams?: Record<string, unkno
  * Track Google Ads conversion for email contact
  * Fires when user clicks on email link
  * Uses event_callback to ensure conversion is sent before mailto opens
+ * @param url - The mailto URL to open after conversion is tracked
  */
-export function trackEmailConversion(): void {
+export function trackEmailConversion(url: string): void {
   if (!window.gtag) {
     console.warn('Google Analytics not initialized')
+    window.location.href = url
     return
+  }
+
+  const callback = function () {
+    if (typeof url !== 'undefined') {
+      window.location.href = url
+    }
   }
 
   window.gtag('event', 'conversion', {
     send_to: 'AW-10998062484/7gX2CJf2rqkcEJS7pPwo',
+    event_callback: callback,
   })
 }
