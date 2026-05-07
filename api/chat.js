@@ -220,7 +220,7 @@ export default async function handler(req) {
 // Stream a Claude response with SSE (for tool_result follow-up or no-RAG)
 // ---------------------------------------------------------------------------
 
-function streamResponse({
+async function streamResponse({
   systemBlocks, messages, tools, ragSources, ragDegraded, ragDegradedReason,
   canary, intentTags, trace, langfuse, lastUserMessage, t0,
   ragUsed, ragMetrics, ragUsage, toolDecisionMs, tdInputTokens, tdOutputTokens,
@@ -249,7 +249,7 @@ function streamResponse({
       _ragMetadata, // Pass metadata container for RAG
     }
     if (tools) streamParams.tools = tools
-    stream = claudeClient.messages.stream(streamParams)
+    stream = await claudeClient.messages.stream(streamParams)
   }
 
   const readableStream = new ReadableStream({
@@ -318,7 +318,7 @@ function streamResponse({
             fullOutput = ''
             try {
               // Create fresh stream for each attempt
-              const activeStream = attempt === 0 ? stream : claudeClient.messages.stream({
+              const activeStream = attempt === 0 ? stream : await claudeClient.messages.stream({
                 model: 'claude-sonnet-4-6',
                 max_tokens: 800,
                 system: systemBlocks,
@@ -354,17 +354,11 @@ function streamResponse({
               }
 
               if (!leakDetected) {
-                const finalMessage = await activeStream.finalMessage()
-                const genIn = finalMessage.usage?.input_tokens || 0
-                const genOut = finalMessage.usage?.output_tokens || 0
-                generationCost = calcCost('claude-sonnet-4-6', genIn, genOut)
+                // For async generators from model-router, we don't have usage info
                 generationSpan?.end({
                   metadata: {
-                    outputTokens: genOut,
-                    inputTokens: genIn,
                     latencyMs: Date.now() - t0,
                     attempt,
-                    cost: generationCost,
                   },
                 })
               }
@@ -394,14 +388,18 @@ function streamResponse({
         }
 
         if (!leakDetected) {
-          // Get RAG metadata from stream if available
-          if (stream?._ragMetadata) {
-            ragSources = stream._ragMetadata.sources || []
-            ragDegraded = stream._ragMetadata.degraded || false
-            ragDegradedReason = stream._ragMetadata.degradedReason || null
-            ragMetrics = stream._ragMetadata.metrics || {}
-            ragUsage = stream._ragMetadata.usage || {}
-            ragUsed = ragSources.length > 0
+          try {
+            // Get RAG metadata from container passed to stream
+            if (_ragMetadata) {
+              ragSources = _ragMetadata.sources || []
+              ragDegraded = _ragMetadata.degraded || false
+              ragDegradedReason = _ragMetadata.degradedReason || null
+              ragMetrics = _ragMetadata.metrics || {}
+              ragUsage = _ragMetadata.usage || {}
+              ragUsed = ragSources.length > 0
+            }
+          } catch (metadataError) {
+            // Continue without RAG metadata
           }
           
           // Calculate total cost across all spans
@@ -430,12 +428,6 @@ function streamResponse({
             },
           })
 
-          // Online scoring (Block 2): score every response asynchronously
-          // DISABLED: set ENABLE_ONLINE_SCORING=true to re-enable (saves ~$0.001/conversation)
-          if (process.env.ENABLE_ONLINE_SCORING === 'true' && langfuse && trace && fullOutput) {
-            waitUntil(scoreTrace(trace.id, lastUserMessage, fullOutput, ragUsed, langfuse, claudeClient))
-          }
-
           // Send source badges AFTER response
           // 1. RAG sources filtered to mentioned articles (deep-links to sections)
           // 2. Keyword-detected articles not covered by RAG (links to article root)
@@ -444,7 +436,6 @@ function streamResponse({
           let finalSources = ragSources.length > 0
             ? filterSourcesByResponse(ragSources, fullOutput)
             : []
-
           // Enrich with keyword-detected articles not already in RAG sources
           const ragArticleIds = new Set(finalSources.map(s => s.article_id))
           const detected = detectMentionedArticles(fullOutput)

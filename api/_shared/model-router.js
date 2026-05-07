@@ -429,7 +429,7 @@ async function convertJsonSchemaToZod(jsonSchema) {
 /**
  * Create Claude chat completion stream
  * @param {Object} params - Chat completion parameters (same as createChatCompletion)
- * @returns {AsyncIterable} - Stream of events
+ * @returns {Promise<AsyncIterable>} - Promise that resolves to stream of events
  */
 export async function createChatCompletionStream(params) {
   const provider = detectProvider('claude')
@@ -439,9 +439,9 @@ export async function createChatCompletionStream(params) {
   }
 
   if (provider === 'bedrock') {
-    return createChatCompletionStreamBedrock(params)
+    return await createChatCompletionStreamBedrock(params)
   } else {
-    return createChatCompletionStreamAnthropic(params)
+    return await createChatCompletionStreamAnthropic(params)
   }
 }
 
@@ -449,7 +449,7 @@ async function createChatCompletionStreamAnthropic(params) {
   throw new Error('Anthropic direct API not implemented. Use AWS Bedrock.')
 }
 
-async function* createChatCompletionStreamBedrock(params) {
+async function createChatCompletionStreamBedrock(params) {
   // Map model names to Bedrock inference profile IDs
   const modelMap = {
     'claude-sonnet-4-6': 'eu.anthropic.claude-sonnet-4-6',
@@ -498,25 +498,27 @@ async function* createChatCompletionStreamBedrock(params) {
     }),
   })
   
-  // Convert Vercel AI SDK stream to Anthropic-compatible format
-  // Use fullStream to get all events including tool calls
-  for await (const event of result.fullStream) {
-    // Only yield text deltas, skip tool call events
-    if (event.type === 'text-delta') {
-      yield {
-        type: 'content_block_delta',
-        index: 0,
-        delta: { type: 'text_delta', text: event.text },
-        provider: 'bedrock',
+  // Return async generator that converts Vercel AI SDK stream to Anthropic-compatible format
+  return (async function* () {
+    // Use fullStream to get all events including tool calls
+    for await (const event of result.fullStream) {
+      // Only yield text deltas, skip tool call events
+      if (event.type === 'text-delta') {
+        yield {
+          type: 'content_block_delta',
+          index: 0,
+          delta: { type: 'text_delta', text: event.text },
+          provider: 'bedrock',
+        }
       }
     }
-  }
-  
-  // Send final message_stop event
-  yield {
-    type: 'message_stop',
-    provider: 'bedrock',
-  }
+    
+    // Send final message_stop event
+    yield {
+      type: 'message_stop',
+      provider: 'bedrock',
+    }
+  })()
 }
 
 /**

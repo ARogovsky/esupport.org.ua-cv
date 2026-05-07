@@ -51,6 +51,7 @@ export function createClaudeClient(config = {}) {
 
 /**
  * Bedrock stream wrapper that emulates Anthropic SDK stream interface
+ * Returns async generator directly (Edge Runtime compatible)
  */
 async function createBedrockStreamWrapper(params) {
   // Check if we need to add RAG execute function
@@ -92,80 +93,12 @@ async function createBedrockStreamWrapper(params) {
     })
   }
   
-  let streamIterator = null
-  let finalMessage = null
-  let currentMessage = {
-    id: null,
-    type: 'message',
-    role: 'assistant',
-    content: [],
-    model: params.model,
-    stop_reason: null,
-    stop_sequence: null,
-    usage: { input_tokens: 0, output_tokens: 0 },
-  }
-  let currentTextBlock = null
+  // Get async generator from model-router
+  const streamIterator = await createChatCompletionStream(params)
   
-  const stream = {
-    // Async iterator for 'for await' loops
-    async *[Symbol.asyncIterator]() {
-      if (!streamIterator) {
-        streamIterator = await createChatCompletionStream(params)
-      }
-      
-      for await (const event of streamIterator) {
-        // Emit events in Anthropic SDK format
-        yield event
-        
-        // Track message state for finalMessage()
-        if (event.type === 'message_start' && event.message) {
-          currentMessage.id = event.message.id
-          currentMessage.usage = event.message.usage || currentMessage.usage
-        }
-        
-        if (event.type === 'content_block_start' && event.content_block) {
-          currentTextBlock = { type: 'text', text: '' }
-          currentMessage.content.push(currentTextBlock)
-        }
-        
-        if (event.type === 'content_block_delta' && event.delta?.text) {
-          if (currentTextBlock) {
-            currentTextBlock.text += event.delta.text
-          }
-        }
-        
-        if (event.type === 'message_delta' && event.delta) {
-          currentMessage.stop_reason = event.delta.stop_reason
-          currentMessage.stop_sequence = event.delta.stop_sequence
-        }
-        
-        if (event.type === 'message_stop') {
-          finalMessage = { ...currentMessage }
-        }
-      }
-    },
-    
-    // finalMessage() method (Anthropic SDK compatibility)
-    async finalMessage() {
-      // Consume the stream if not already consumed
-      if (!finalMessage) {
-        for await (const _ of this) {
-          // Just consume the stream
-        }
-      }
-      return finalMessage
-    },
-    
-    // on() method for event listeners (Anthropic SDK compatibility)
-    on(eventName, callback) {
-      // Not implemented for Bedrock
-      // This is used in some Anthropic SDK patterns
-      return this
-    },
-    
-    // Expose RAG metadata if available
-    _ragMetadata: params._ragMetadata,
-  }
+  // Return the async generator directly - Edge Runtime compatible
+  // Add metadata as property on the generator
+  streamIterator._ragMetadata = params._ragMetadata
   
-  return stream
+  return streamIterator
 }
