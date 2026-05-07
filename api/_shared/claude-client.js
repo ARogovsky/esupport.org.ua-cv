@@ -32,11 +32,11 @@ export function createClaudeClient(config = {}) {
        * Create a streaming chat completion
        * Compatible with Anthropic SDK client.messages.stream()
        */
-      stream(params) {
+      async stream(params) {
         // For Bedrock, we need to handle streaming differently
         // Return an async iterable that emulates Anthropic SDK stream
         if (provider === 'bedrock') {
-          return createBedrockStreamWrapper(params)
+          return await createBedrockStreamWrapper(params)
         } else {
           // For Anthropic direct API (not implemented yet)
           throw new Error('Anthropic streaming not implemented')
@@ -52,7 +52,46 @@ export function createClaudeClient(config = {}) {
 /**
  * Bedrock stream wrapper that emulates Anthropic SDK stream interface
  */
-function createBedrockStreamWrapper(params) {
+async function createBedrockStreamWrapper(params) {
+  // Check if we need to add RAG execute function
+  const hasRAGTool = params.tools?.some(t => t.name === 'search_portfolio')
+  
+  if (hasRAGTool) {
+    // Import RAG functions
+    const { searchPortfolio, formatChunksForContext } = await import('./rag.js')
+    
+    // Add execute function to search_portfolio tool
+    params.tools = params.tools.map(tool => {
+      if (tool.name === 'search_portfolio') {
+        return {
+          ...tool,
+          execute: async ({ query }) => {
+            // Use trace and client from params if available
+            const trace = params.trace || null
+            const client = params.client || null
+            
+            const ragResult = await searchPortfolio(query, trace, client)
+            
+            // Store RAG metadata for caller to access
+            if (params._ragMetadata) {
+              params._ragMetadata.sources = ragResult.sources || []
+              params._ragMetadata.degraded = ragResult.degraded || false
+              params._ragMetadata.degradedReason = ragResult.degradedReason || null
+              params._ragMetadata.metrics = ragResult.metrics || {}
+              params._ragMetadata.usage = ragResult.usage || {}
+            }
+            
+            if (ragResult.chunks && ragResult.chunks.length > 0) {
+              return formatChunksForContext(ragResult.chunks)
+            }
+            return 'No relevant content found in portfolio articles. You MUST NOT fabricate project details. Say you don\'t have that information and suggest contacting Andrey directly.'
+          },
+        }
+      }
+      return tool
+    })
+  }
+  
   let streamIterator = null
   let finalMessage = null
   let currentMessage = {
@@ -123,6 +162,9 @@ function createBedrockStreamWrapper(params) {
       // This is used in some Anthropic SDK patterns
       return this
     },
+    
+    // Expose RAG metadata if available
+    _ragMetadata: params._ragMetadata,
   }
   
   return stream

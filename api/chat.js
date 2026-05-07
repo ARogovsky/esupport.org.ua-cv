@@ -137,121 +137,43 @@ export default async function handler(req) {
     const cleanMessages = messages.map(m => ({ role: m.role, content: m.content }))
 
     // -----------------------------------------------------------------------
-    // Agentic RAG flow
+    // Agentic RAG flow with automatic tool execution
     // -----------------------------------------------------------------------
-
-    let ragSources = []
-    let ragDegraded = false
-    let ragDegradedReason = null
-    let ragUsed = false
-    let ragMetrics = {}
 
     const ragEnabled = isRagEnabled()
 
     if (ragEnabled) {
-      // First call: let Claude decide if it needs to search (non-streaming)
-      const toolDecisionSpan = trace?.span({ name: 'tool_decision' })
-      const td0 = Date.now()
-
-      const firstResponse = await client.messages.create({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 300,
-        system: systemBlocks,
-        messages: cleanMessages,
-        tools: [PORTFOLIO_TOOL],
-      })
-
-      const toolDecisionMs = Date.now() - td0
-      const tdInputTokens = firstResponse.usage?.input_tokens || 0
-      const tdOutputTokens = firstResponse.usage?.output_tokens || 0
-      toolDecisionSpan?.end({
-        metadata: {
-          stopReason: firstResponse.stop_reason,
-          toolUsed: firstResponse.stop_reason === 'tool_use',
-          inputTokens: tdInputTokens,
-          outputTokens: tdOutputTokens,
-          latencyMs: toolDecisionMs,
-          cost: calcCost('claude-sonnet-4-6', tdInputTokens, tdOutputTokens),
-        },
-      })
-
-      if (firstResponse.stop_reason === 'tool_use') {
-        ragUsed = true
-        const toolUseBlock = firstResponse.content.find(b => b.type === 'tool_use')
-        const searchQuery = toolUseBlock?.input?.query || lastUserMessage
-
-        // Execute RAG pipeline
-        const ragResult = await searchPortfolio(searchQuery, trace, client)
-        ragSources = ragResult.sources
-        ragDegraded = ragResult.degraded
-        ragDegradedReason = ragResult.degradedReason
-        ragMetrics = ragResult.metrics
-
-        // Build tool_result and make second call (streaming)
-        const toolResultContent = ragResult.chunks
-          ? formatChunksForContext(ragResult.chunks)
-          : 'No relevant content found in portfolio articles. You MUST NOT fabricate project details. Say you don\'t have that information and suggest contacting Andrey directly.'
-
-        const messagesWithTool = [
-          ...cleanMessages,
-          { role: 'assistant', content: firstResponse.content },
-          {
-            role: 'user',
-            content: [{
-              type: 'tool_result',
-              tool_use_id: toolUseBlock.id,
-              content: toolResultContent,
-            }],
-          },
-        ]
-
-        // Stream the final response (with fallback if streaming fails)
-        return streamResponse({
-          systemBlocks,
-          messages: messagesWithTool,
-          tools: null,
-          ragSources,
-          ragDegraded,
-          ragDegradedReason,
-          canary,
-          intentTags,
-          trace,
-          langfuse,
-          lastUserMessage,
-          t0,
-          ragUsed,
-          ragMetrics,
-          ragUsage: ragResult.usage,
-          toolDecisionMs,
-          tdInputTokens,
-          tdOutputTokens,
-          lang,
-          fallbackMessages: cleanMessages,
-          promptVersion,
-        })
+      // Create RAG metadata container for claude-client to populate
+      const ragMetadata = {
+        sources: [],
+        degraded: false,
+        degradedReason: null,
+        metrics: {},
+        usage: { embeddingTokens: 0, rerankInputTokens: 0, rerankOutputTokens: 0 },
       }
-
-      // Claude didn't use tool — stream the response we already have
+      
+      // Stream response with RAG tool (execute will be added by claude-client)
       return streamResponse({
         systemBlocks,
         messages: cleanMessages,
-        tools: null,
-        ragSources: [],
-        ragDegraded: false,
+        tools: [PORTFOLIO_TOOL],
+        trace,
+        claudeClient: client, // Pass client for reranking
+        _ragMetadata: ragMetadata, // Container for RAG metadata
+        ragSources: ragMetadata.sources, // Reference to sources array
+        ragDegraded: false, // Will be updated by execute
         ragDegradedReason: null,
         canary,
         intentTags,
-        trace,
         langfuse,
         lastUserMessage,
         t0,
-        ragUsed: false,
-        ragMetrics: {},
-        ragUsage: { embeddingTokens: 0, rerankInputTokens: 0, rerankOutputTokens: 0 },
-        toolDecisionMs,
-        tdInputTokens,
-        tdOutputTokens,
-        precomputedResponse: firstResponse,
+        ragUsed: false, // Will be set to true if tool is called
+        ragMetrics: ragMetadata.metrics,
+        ragUsage: ragMetadata.usage,
+        toolDecisionMs: 0,
+        tdInputTokens: 0,
+        tdOutputTokens: 0,
         lang,
         promptVersion,
       })
@@ -262,6 +184,7 @@ export default async function handler(req) {
       systemBlocks,
       messages: cleanMessages,
       tools: null,
+      claudeClient: client,
       ragSources: [],
       ragDegraded: false,
       ragDegradedReason: null,
@@ -301,7 +224,7 @@ function streamResponse({
   systemBlocks, messages, tools, ragSources, ragDegraded, ragDegradedReason,
   canary, intentTags, trace, langfuse, lastUserMessage, t0,
   ragUsed, ragMetrics, ragUsage, toolDecisionMs, tdInputTokens, tdOutputTokens,
-  precomputedResponse, lang, fallbackMessages, promptVersion,
+  precomputedResponse, lang, fallbackMessages, promptVersion, claudeClient, _ragMetadata,
 }) {
   const encoder = new TextEncoder()
   let fullOutput = ''
@@ -321,9 +244,12 @@ function streamResponse({
       max_tokens: 800,
       system: systemBlocks,
       messages,
+      trace, // Pass trace for RAG
+      client: claudeClient, // Pass client for RAG reranking
+      _ragMetadata, // Pass metadata container for RAG
     }
     if (tools) streamParams.tools = tools
-    stream = client.messages.stream(streamParams)
+    stream = claudeClient.messages.stream(streamParams)
   }
 
   const readableStream = new ReadableStream({
@@ -392,7 +318,7 @@ function streamResponse({
             fullOutput = ''
             try {
               // Create fresh stream for each attempt
-              const activeStream = attempt === 0 ? stream : client.messages.stream({
+              const activeStream = attempt === 0 ? stream : claudeClient.messages.stream({
                 model: 'claude-sonnet-4-6',
                 max_tokens: 800,
                 system: systemBlocks,
@@ -468,6 +394,16 @@ function streamResponse({
         }
 
         if (!leakDetected) {
+          // Get RAG metadata from stream if available
+          if (stream?._ragMetadata) {
+            ragSources = stream._ragMetadata.sources || []
+            ragDegraded = stream._ragMetadata.degraded || false
+            ragDegradedReason = stream._ragMetadata.degradedReason || null
+            ragMetrics = stream._ragMetadata.metrics || {}
+            ragUsage = stream._ragMetadata.usage || {}
+            ragUsed = ragSources.length > 0
+          }
+          
           // Calculate total cost across all spans
           const costBreakdown = {
             toolDecision: calcCost('claude-sonnet-4-6', tdInputTokens || 0, tdOutputTokens || 0),
@@ -497,7 +433,7 @@ function streamResponse({
           // Online scoring (Block 2): score every response asynchronously
           // DISABLED: set ENABLE_ONLINE_SCORING=true to re-enable (saves ~$0.001/conversation)
           if (process.env.ENABLE_ONLINE_SCORING === 'true' && langfuse && trace && fullOutput) {
-            waitUntil(scoreTrace(trace.id, lastUserMessage, fullOutput, ragUsed, langfuse))
+            waitUntil(scoreTrace(trace.id, lastUserMessage, fullOutput, ragUsed, langfuse, claudeClient))
           }
 
           // Send source badges AFTER response
@@ -538,7 +474,7 @@ function streamResponse({
         // Graceful degradation: retry without RAG context (just system prompt)
         if (fallbackMessages && !fullOutput) {
           try {
-            const fallbackStream = client.messages.stream({
+            const fallbackStream = claudeClient.messages.stream({
               model: 'claude-sonnet-4-6',
               max_tokens: 800,
               system: systemBlocks,
@@ -617,7 +553,7 @@ function streamResponse({
 // Zero added latency: runs after response is sent via waitUntil()
 // ---------------------------------------------------------------------------
 
-async function scoreTrace(traceId, userMessage, response, ragUsed, langfuse) {
+async function scoreTrace(traceId, userMessage, response, ragUsed, langfuse, claudeClient) {
   try {
     const scoringGen = langfuse.generation({
       traceId,
@@ -625,7 +561,7 @@ async function scoreTrace(traceId, userMessage, response, ragUsed, langfuse) {
       model: 'claude-haiku-4-5-20251001',
     })
 
-    const scoringResponse = await client.messages.create({
+    const scoringResponse = await claudeClient.messages.create({
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 200,
       messages: [{

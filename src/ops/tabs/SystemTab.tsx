@@ -1,3 +1,4 @@
+import React from 'react'
 import KpiCard from '../components/KpiCard'
 import { useOpsApi } from '../hooks/useOpsApi'
 import type { TabProps, OpsPromptVersion, OpsRagStats } from '../types'
@@ -16,6 +17,26 @@ export default function SystemTab({ stats, loading }: TabProps) {
   const { data: ragStats, loading: ragLoading } = useOpsApi<OpsRagStats>({
     endpoint: 'rag-stats',
   })
+
+  const [ragTestRunning, setRagTestRunning] = React.useState(false)
+  const [ragTestResult, setRagTestResult] = React.useState<any>(null)
+
+  const runRagTest = async () => {
+    setRagTestRunning(true)
+    setRagTestResult(null)
+    try {
+      const token = sessionStorage.getItem('ops_token')
+      const response = await fetch('/api/ops/test-rag', {
+        headers: { 'Authorization': `Bearer ${token}` },
+      })
+      const data = await response.json()
+      setRagTestResult(data)
+    } catch (error) {
+      setRagTestResult({ status: 'error', error: error instanceof Error ? error.message : 'Unknown error' })
+    } finally {
+      setRagTestRunning(false)
+    }
+  }
 
   const isLoading = loading || promptLoading || ragLoading
   const activeVersion = promptVersions?.find(v => v.isActive)
@@ -134,6 +155,76 @@ export default function SystemTab({ stats, loading }: TabProps) {
         ) : (
           <div className="py-6 text-center text-muted-foreground text-sm">
             {ragLoading ? 'Loading...' : 'No RAG documents indexed'}
+          </div>
+        )}
+      </div>
+
+      {/* RAG Debug Test */}
+      <div className="bg-card border border-white/[0.06] rounded-lg p-3 sm:p-4">
+        <div className="flex items-center justify-between mb-3 sm:mb-4">
+          <h3 className="text-[11px] sm:text-xs font-medium text-muted-foreground uppercase tracking-wider">RAG Debug Test</h3>
+          <button
+            onClick={runRagTest}
+            disabled={ragTestRunning}
+            className="px-3 py-1.5 bg-primary text-primary-foreground rounded-md text-sm font-medium hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            {ragTestRunning ? 'Running...' : 'Run Test'}
+          </button>
+        </div>
+        
+        {ragTestResult && (
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-muted-foreground">Status:</span>
+              <span className={`text-xs px-2 py-0.5 rounded-full ${
+                ragTestResult.status === 'completed' ? 'bg-green-500/20 text-green-400' :
+                ragTestResult.status === 'error' ? 'bg-red-500/20 text-red-400' :
+                'bg-yellow-500/20 text-yellow-400'
+              }`}>
+                {ragTestResult.status}
+              </span>
+              <span className="text-xs text-muted-foreground ml-auto">
+                {new Date(ragTestResult.timestamp).toLocaleTimeString()}
+              </span>
+            </div>
+
+            {/* Test Results */}
+            {ragTestResult.tests && (
+              <div className="space-y-2">
+                {ragTestResult.tests.map((test: any, idx: number) => (
+                  <div key={idx} className="bg-background/50 rounded p-2 text-xs">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className={`w-1.5 h-1.5 rounded-full ${
+                        test.status === 'success' ? 'bg-green-400' :
+                        test.status === 'error' ? 'bg-red-400' :
+                        'bg-yellow-400'
+                      }`} />
+                      <span className="font-medium text-foreground">{test.name}</span>
+                    </div>
+                    {test.details && (
+                      <pre className="text-[10px] text-muted-foreground overflow-x-auto mt-1 p-2 bg-background rounded">
+                        {JSON.stringify(test.details, null, 2)}
+                      </pre>
+                    )}
+                    {test.error && (
+                      <div className="text-red-400 text-[10px] mt-1">{test.error}</div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Logs */}
+            {ragTestResult.logs && ragTestResult.logs.length > 0 && (
+              <details className="bg-background/50 rounded p-2">
+                <summary className="text-xs font-medium text-muted-foreground cursor-pointer hover:text-foreground">
+                  View Logs ({ragTestResult.logs.length} entries)
+                </summary>
+                <pre className="text-[10px] text-muted-foreground overflow-x-auto mt-2 p-2 bg-background rounded max-h-96 overflow-y-auto">
+                  {ragTestResult.logs.join('\n')}
+                </pre>
+              </details>
+            )}
           </div>
         )}
       </div>

@@ -1,4 +1,5 @@
 import { Langfuse } from 'langfuse'
+import { createRealtimeSession, isRealtimeAvailable } from './_shared/model-router.js'
 
 export const config = {
   runtime: 'edge',
@@ -191,7 +192,7 @@ export default async function handler(req) {
     return new Response('Method not allowed', { status: 405 })
   }
 
-  if (!process.env.OPENAI_API_KEY) {
+  if (!isRealtimeAvailable()) {
     return new Response(JSON.stringify({ error: 'Voice mode not configured' }), {
       status: 503,
       headers: { 'Content-Type': 'application/json' },
@@ -220,48 +221,30 @@ export default async function handler(req) {
     const voiceAffect = lang === 'en' ? VOICE_AFFECT_EN : VOICE_AFFECT_UK
     const instructions = `${VOICE_BASE_PROMPT}\n\n${voiceAffect}`
 
-    // Request ephemeral token from OpenAI Realtime API
-    const response = await fetch('https://api.openai.com/v1/realtime/sessions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'gpt-realtime-2025-08-28',
-        voice: 'cedar',
-        modalities: ['audio', 'text'],
-        instructions,
-        input_audio_transcription: { model: 'whisper-1' },
-        turn_detection: { type: 'server_vad' },
-        tools: [{
-          type: 'function',
-          name: 'search_portfolio',
-          description: 'Search your own published case studies for project details, architectures, metrics, and technical decisions.',
-          parameters: {
-            type: 'object',
-            properties: {
-              query: {
-                type: 'string',
-                description: 'The search query to find relevant portfolio content',
-              },
+    // Request ephemeral token via model-router (supports both OpenAI and Azure)
+    const data = await createRealtimeSession({
+      model: 'gpt-realtime-2025-08-28',
+      voice: 'cedar',
+      modalities: ['audio', 'text'],
+      instructions,
+      inputAudioTranscription: { model: 'whisper-1' },
+      turnDetection: { type: 'server_vad' },
+      tools: [{
+        type: 'function',
+        name: 'search_portfolio',
+        description: 'Search your own published case studies for project details, architectures, metrics, and technical decisions.',
+        parameters: {
+          type: 'object',
+          properties: {
+            query: {
+              type: 'string',
+              description: 'The search query to find relevant portfolio content',
             },
-            required: ['query'],
           },
-        }],
-      }),
+          required: ['query'],
+        },
+      }],
     })
-
-    if (!response.ok) {
-      const errorText = await response.text()
-      console.error('OpenAI Realtime session error:', errorText)
-      return new Response(JSON.stringify({ error: 'Failed to create voice session' }), {
-        status: 502,
-        headers: { 'Content-Type': 'application/json' },
-      })
-    }
-
-    const data = await response.json()
 
     // Create Langfuse trace for this voice session
     const langfuse = getLangfuse()
@@ -278,9 +261,10 @@ export default async function handler(req) {
     }
 
     return new Response(JSON.stringify({
-      token: data.client_secret?.value,
+      token: data.token,
       traceId,
-      expiresAt: data.client_secret?.expires_at,
+      expiresAt: data.expiresAt,
+      provider: data.provider,
     }), {
       headers: { 'Content-Type': 'application/json' },
     })

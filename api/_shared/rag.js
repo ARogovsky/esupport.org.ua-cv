@@ -22,7 +22,11 @@ export function calcCost(model, inputTokens, outputTokens = 0) {
 // ---------------------------------------------------------------------------
 
 export function isRagEnabled() {
-  return !!(process.env.OPENAI_API_KEY && process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY)
+  return !!(
+    (process.env.AZURE_OPENAI_ENDPOINT && process.env.AZURE_OPENAI_API_KEY) &&
+    process.env.SUPABASE_URL && 
+    process.env.SUPABASE_SERVICE_ROLE_KEY
+  )
 }
 
 export const PORTFOLIO_TOOL = {
@@ -41,32 +45,17 @@ export const PORTFOLIO_TOOL = {
 }
 
 // ---------------------------------------------------------------------------
-// RAG: embed query via OpenAI REST API (Edge-compatible)
+// RAG: embed query via model-router (supports Azure OpenAI)
 // ---------------------------------------------------------------------------
 
+import { createEmbedding } from './model-router.js'
+
 export async function embedQuery(query) {
-  const t0 = Date.now()
-  const response = await fetch('https://api.openai.com/v1/embeddings', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: 'text-embedding-3-small',
-      input: query,
-    }),
-  })
-
-  if (!response.ok) {
-    throw new Error(`OpenAI embedding failed: ${response.status}`)
-  }
-
-  const data = await response.json()
+  const result = await createEmbedding(query)
   return {
-    embedding: data.data[0].embedding,
-    latencyMs: Date.now() - t0,
-    totalTokens: data.usage?.total_tokens || 0,
+    embedding: result.embedding,
+    latencyMs: result.latencyMs,
+    totalTokens: result.totalTokens,
   }
 }
 

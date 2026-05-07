@@ -302,28 +302,128 @@ async function createChatCompletionBedrock(params) {
   })
   
   // Use Vercel AI SDK generateText API
-  const { generateText } = await import('ai')
+  const { generateText, tool, stepCountIs } = await import('ai')
+  const { z } = await import('zod')
+  
+  // Convert Anthropic tools format to Vercel AI SDK format
+  let vercelTools = undefined
+  if (params.tools && params.tools.length > 0) {
+    vercelTools = {}
+    for (const anthropicTool of params.tools) {
+      const zodSchema = await convertJsonSchemaToZod(anthropicTool.input_schema)
+      vercelTools[anthropicTool.name] = tool({
+        description: anthropicTool.description,
+        inputSchema: zodSchema,
+        // No execute - tools will be handled by caller
+      })
+    }
+  }
   
   const result = await generateText({
     model,
     messages: params.messages,
     maxTokens: params.max_tokens,
+    ...(vercelTools && { 
+      tools: vercelTools,
+      stopWhen: stepCountIs(1), // Single step for non-streaming
+    }),
   })
+  
+  // Convert Vercel AI SDK response to Anthropic format
+  const content = []
+  
+  // Add text content
+  if (result.text) {
+    content.push({ type: 'text', text: result.text })
+  }
+  
+  // Add tool calls from the first step (if any)
+  if (result.steps && result.steps.length > 0) {
+    const firstStep = result.steps[0]
+    if (firstStep.toolCalls && firstStep.toolCalls.length > 0) {
+      for (const toolCall of firstStep.toolCalls) {
+        content.push({
+          type: 'tool_use',
+          id: toolCall.toolCallId,
+          name: toolCall.toolName,
+          input: toolCall.input,
+        })
+      }
+    }
+  }
+  
+  // Determine stop reason
+  let stopReason = 'end_turn'
+  if (result.steps && result.steps.length > 0) {
+    const lastStep = result.steps[result.steps.length - 1]
+    if (lastStep.toolCalls && lastStep.toolCalls.length > 0) {
+      stopReason = 'tool_use'
+    }
+  }
   
   // Return in Anthropic-compatible format
   return {
     id: `msg_${Date.now()}`,
     type: 'message',
     role: 'assistant',
-    content: [{ type: 'text', text: result.text }],
+    content,
     model: modelId,
-    stop_reason: 'end_turn',
+    stop_reason: stopReason,
     usage: {
       input_tokens: result.usage?.promptTokens || 0,
       output_tokens: result.usage?.completionTokens || 0,
     },
     provider: 'bedrock',
   }
+}
+
+// Helper to convert JSON Schema to Zod schema
+async function convertJsonSchemaToZod(jsonSchema) {
+  const { z } = await import('zod')
+  
+  if (!jsonSchema || jsonSchema.type !== 'object') {
+    return z.object({})
+  }
+  
+  const shape = {}
+  const properties = jsonSchema.properties || {}
+  const required = jsonSchema.required || []
+  
+  for (const [key, prop] of Object.entries(properties)) {
+    let zodType
+    
+    switch (prop.type) {
+      case 'string':
+        zodType = z.string()
+        break
+      case 'number':
+        zodType = z.number()
+        break
+      case 'boolean':
+        zodType = z.boolean()
+        break
+      case 'array':
+        zodType = z.array(z.any())
+        break
+      case 'object':
+        zodType = z.object({})
+        break
+      default:
+        zodType = z.any()
+    }
+    
+    if (prop.description) {
+      zodType = zodType.describe(prop.description)
+    }
+    
+    if (!required.includes(key)) {
+      zodType = zodType.optional()
+    }
+    
+    shape[key] = zodType
+  }
+  
+  return z.object(shape)
 }
 
 /**
@@ -364,21 +464,51 @@ async function* createChatCompletionStreamBedrock(params) {
   })
   
   // Use Vercel AI SDK streamText API
-  const { streamText } = await import('ai')
+  const { streamText, tool, stepCountIs } = await import('ai')
+  
+  // Convert Anthropic tools format to Vercel AI SDK format
+  let vercelTools = undefined
+  if (params.tools && params.tools.length > 0) {
+    vercelTools = {}
+    for (const anthropicTool of params.tools) {
+      const zodSchema = await convertJsonSchemaToZod(anthropicTool.input_schema)
+      
+      // Check if tool has execute function (for auto-execution like RAG)
+      const toolConfig = {
+        description: anthropicTool.description,
+        inputSchema: zodSchema,  // ← FIXED: inputSchema instead of parameters
+      }
+      
+      // If execute function is provided, use it
+      if (anthropicTool.execute) {
+        toolConfig.execute = anthropicTool.execute
+      }
+      
+      vercelTools[anthropicTool.name] = tool(toolConfig)
+    }
+  }
   
   const result = streamText({
     model,
     messages: params.messages,
     maxTokens: params.max_tokens,
+    ...(vercelTools && { 
+      tools: vercelTools,
+      stopWhen: stepCountIs(5), // Allow multiple tool calls for agentic RAG
+    }),
   })
   
   // Convert Vercel AI SDK stream to Anthropic-compatible format
-  for await (const chunk of result.textStream) {
-    yield {
-      type: 'content_block_delta',
-      index: 0,
-      delta: { type: 'text_delta', text: chunk },
-      provider: 'bedrock',
+  // Use fullStream to get all events including tool calls
+  for await (const event of result.fullStream) {
+    // Only yield text deltas, skip tool call events
+    if (event.type === 'text-delta') {
+      yield {
+        type: 'content_block_delta',
+        index: 0,
+        delta: { type: 'text_delta', text: event.text },
+        provider: 'bedrock',
+      }
     }
   }
   
