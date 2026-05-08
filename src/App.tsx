@@ -5,7 +5,6 @@ import { Mail, ExternalLink, Briefcase, GraduationCap, Award, Code, Users, Globe
 import { translations, seo, type Lang } from './i18n'
 import { useHomeSeo } from './articles/use-article-seo'
 import { getTechIcon } from './tech-icons'
-import { trackEmailConversion } from './analytics'
 
 
 function LinkedInLogo({ className = "w-4 h-4" }: { className?: string }) {
