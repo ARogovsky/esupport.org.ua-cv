@@ -2892,14 +2892,10 @@ function App() {
             <div className="flex flex-wrap justify-center gap-4">
               <a
                 href={`mailto:${t.email}`}
-                onClick={(e) => {
-                  e.preventDefault()
-                  trackEmailConversion(e.currentTarget.href)
-                }}
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-medium hover:brightness-110 hover:shadow-lg hover:shadow-primary/25 active:brightness-95 transition-all duration-200"
               >
                 <Mail className="w-4 h-4" />
-                {t.cta.contact}
+                Email
               </a>
               <a
                 href="https://t.me/andreyrogovsky"

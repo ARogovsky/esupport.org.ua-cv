@@ -666,9 +666,10 @@ function highlightLine(text: string, mode: 'code' | 'template' = 'code'): ReactN
     : /(##\s.*$|\{\{[^}]+\}\}|\$\('[^']+'\)[.\w]*|\b\d+\b)/gm
   let last = 0
   let match: RegExpExecArray | null
+  let keyCounter = 0
 
   while ((match = regex.exec(text)) !== null) {
-    if (match.index > last) parts.push(text.slice(last, match.index))
+    if (match.index > last) parts.push(<Fragment key={`t${keyCounter++}`}>{text.slice(last, match.index)}</Fragment>)
     const val = match[0]
     let cls: string
 
@@ -688,20 +689,20 @@ function highlightLine(text: string, mode: 'code' | 'template' = 'code'): ReactN
       } else if (val.startsWith("'") || val.startsWith('"') || val.startsWith('`')) {
         cls = CS // string
       } else {
-        parts.push(val)
+        parts.push(<Fragment key={`t${keyCounter++}`}>{val}</Fragment>)
         last = match.index + val.length
         continue
       }
     } else {
-      parts.push(val)
+      parts.push(<Fragment key={`t${keyCounter++}`}>{val}</Fragment>)
       last = match.index + val.length
       continue
     }
 
-    parts.push(<span key={match.index} className={cls}>{val}</span>)
+    parts.push(<span key={`s${keyCounter++}`} className={cls}>{val}</span>)
     last = match.index + val.length
   }
-  if (last < text.length) parts.push(text.slice(last))
+  if (last < text.length) parts.push(<Fragment key={`t${keyCounter++}`}>{text.slice(last)}</Fragment>)
   return parts
 }
 

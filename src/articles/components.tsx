@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Download, Copy, Check, ExternalLink, Clock } from 'lucide-react'
+import { Download, Copy, Check, ExternalLink, Clock, Mail } from 'lucide-react'
 import { EditorModeProvider, EditorLabel, H2, StepList, Accordion } from './content-types'
 
 // ---------------------------------------------------------------------------
@@ -222,28 +222,20 @@ export function ArticleFooter({ lang }: ArticleFooterProps) {
         {f.aboutLink}
       </Link>
       <div className="flex flex-wrap gap-3 mb-8">
-        <a 
+        <a
           href="mailto:esupport@esupport.org.ua"
           onClick={() => {
-            if (window.dataLayer) {
-              window.dataLayer.push({
-                event: 'email_click',
-                email_destination: 'esupport@esupport.org.ua'
-              })
-            }
+            window.location.href = 'mailto:esupport@esupport.org.ua'
           }}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary/10 border border-primary/20 text-sm font-medium text-primary hover:bg-primary/20 transition-colors"
         >
-          <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <rect width="20" height="16" x="2" y="4" rx="2"/>
-            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-          </svg>
+          <Mail className="w-4 h-4" />
           Email
         </a>
-        <a 
-          href="https://t.me/andreyrogovsky" 
-          target="_blank" 
-          rel="noopener noreferrer" 
+        <a
+          href="https://t.me/andreyrogovsky"
+          target="_blank"
+          rel="noopener noreferrer"
           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#0088cc]/10 border border-[#0088cc]/20 text-sm font-medium text-[#0088cc] hover:bg-[#0088cc]/20 transition-colors"
         >
           <svg viewBox="0 0 24 24" className="w-4 h-4" fill="currentColor">
