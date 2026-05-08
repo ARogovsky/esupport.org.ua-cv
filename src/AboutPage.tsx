@@ -317,10 +317,13 @@ export default function AboutPage({ lang = 'uk' }: { lang?: AboutLang }) {
 
           <a
             href={`mailto:${t.email}`}
+            onClick={() => {
+              window.location.href = `mailto:${t.email}`
+            }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-primary/90 transition-colors mb-4"
           >
             <Mail className="w-4 h-4" />
-            {t.email}
+            Email
           </a>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
