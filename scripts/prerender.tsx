@@ -161,7 +161,7 @@ let enPage = indexHtml
 const aboutJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ProfilePage',
-  dateModified: '2026-05-06',
+  dateModified: '2026-05-06T00:00:00+00:00',
   mainEntity: {
     '@type': 'Person',
     '@id': 'https://esupport.org.ua/#person',
