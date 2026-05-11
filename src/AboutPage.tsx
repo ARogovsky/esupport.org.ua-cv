@@ -42,7 +42,7 @@ export default function AboutPage({ lang = 'uk' }: { lang?: AboutLang }) {
     script.textContent = JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'ProfilePage',
-      dateModified: '2026-04-28',
+      dateModified: '2026-04-28T00:00:00+00:00',
       mainEntity: {
         '@type': 'Person',
         '@id': 'https://esupport.org.ua/#person',
