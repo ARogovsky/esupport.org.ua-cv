@@ -14,6 +14,7 @@ const MusicToggle = lazy(() => import('./MusicToggle'))
 const OpsDashboard = lazy(() => import('./ops/OpsDashboard'))
 const PrivacyPolicy = lazy(() => import('./PrivacyPolicy'))
 const AboutPage = lazy(() => import('./AboutPage'))
+const RuLanding = lazy(() => import('./RuLanding'))
 
 // Lazy-load article components from registry
 const articleComponents: Record<string, React.LazyExoticComponent<ComponentType<{ lang?: 'uk' | 'en' }>>> = {}
@@ -74,7 +75,7 @@ function GlobalChat() {
   const [hydrated, setHydrated] = useState(false)
   useEffect(() => setHydrated(true), [])
 
-  if (!hydrated || pathname.startsWith('/ops')) return null
+  if (!hydrated || pathname.startsWith('/ops') || pathname === '/ru') return null
 
   // Determine chat language from URL:
   // - /en or /-en suffix → English
@@ -188,6 +189,7 @@ const app = (
           <Routes>
             <Route path="/" element={<App />} />
             <Route path="/en" element={<App />} />
+            <Route path="/ru" element={<RuLanding />} />
             <Route path="/about" element={<AboutPage lang="uk" />} />
             <Route path="/about-en" element={<AboutPage lang="en" />} />
             <Route path="/ops" element={<OpsDashboard />} />
