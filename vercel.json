@@ -69,6 +69,7 @@
   "rewrites": [
     { "source": "/", "destination": "/index.html" },
     { "source": "/en", "destination": "/en/index.html" },
+    { "source": "/ru", "destination": "/index.html" },
     { "source": "/about", "destination": "/about/index.html" },
     { "source": "/about-en", "destination": "/about-en/index.html" },
     { "source": "/ai-tools-katalog-doslidzhennia", "destination": "/ai-tools-katalog-doslidzhennia/index.html" },
