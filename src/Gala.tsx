@@ -86,6 +86,16 @@ export default function Gala({ lang = 'uk' }: { lang?: Lang }) {
         <MetricsGrid items={s.mainResult.metrics} columns={4} />
 
         {/* ================================================================ */}
+        {/*  VALIDATION METHODOLOGY (FDE)                                    */}
+        {/* ================================================================ */}
+        <H2 id="validation">{s.validation.heading}</H2>
+        <Prose>{s.validation.body}</Prose>
+        <MetricsGrid items={s.validation.metrics} columns={4} />
+        <Callout className="bg-accent/10 border-accent/40">{s.validation.callout}</Callout>
+        <H3>{s.validation.insight.heading}</H3>
+        <Prose>{s.validation.insight.body}</Prose>
+
+        {/* ================================================================ */}
         {/*  GA4 DATA                                                        */}
         {/* ================================================================ */}
         <H2 id="ga4-data">{s.ga4Data.heading}</H2>

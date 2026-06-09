@@ -51,7 +51,7 @@ export default function AboutPage({ lang = 'uk' }: { lang?: AboutLang }) {
         url: 'https://esupport.org.ua',
         image: 'https://esupport.org.ua/foto-avatar.png',
         email: 'esupport@esupport.org.ua',
-        jobTitle: ['Senior AI Engineer', 'Lead DevOps Engineer', 'MLOps Engineer'],
+        jobTitle: ['Forward Deployed AI Engineer', 'Senior AI Engineer', 'Lead DevOps Engineer', 'MLOps Engineer'],
         knowsAbout: [
           { '@type': 'Thing', name: 'Artificial Intelligence' },
           { '@type': 'Thing', name: 'Machine Learning' },
@@ -195,19 +195,28 @@ export default function AboutPage({ lang = 'uk' }: { lang?: AboutLang }) {
             {t.sections.projectsHeading}
           </h2>
           <div className="space-y-2">
-            {t.sections.projects.map((project) => (
-              <Link
-                key={project.name}
-                to={project.href}
-                className="flex items-center justify-between p-3 rounded-lg bg-card border border-border hover:border-primary/30 hover:bg-primary/5 transition-all group"
-              >
-                <div>
-                  <p className="font-medium text-foreground text-sm group-hover:text-primary transition-colors">{project.name}</p>
-                  <p className="text-xs text-muted-foreground">{project.desc}</p>
-                </div>
-                <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0" />
-              </Link>
-            ))}
+            {t.sections.projects.map((project) => {
+              const isExternal = project.href.startsWith('http')
+              const cardClass = "flex items-center justify-between p-3 rounded-lg bg-card border border-border hover:border-primary/30 hover:bg-primary/5 transition-all group"
+              const inner = (
+                <>
+                  <div>
+                    <p className="font-medium text-foreground text-sm group-hover:text-primary transition-colors">{project.name}</p>
+                    <p className="text-xs text-muted-foreground">{project.desc}</p>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0" />
+                </>
+              )
+              return isExternal ? (
+                <a key={project.name} href={project.href} target="_blank" rel="noopener noreferrer" className={cardClass}>
+                  {inner}
+                </a>
+              ) : (
+                <Link key={project.name} to={project.href} className={cardClass}>
+                  {inner}
+                </Link>
+              )
+            })}
           </div>
         </section>
 

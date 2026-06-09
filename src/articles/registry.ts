@@ -437,6 +437,7 @@ export const articleRegistry: ArticleConfig[] = [
     sectionLabels: {
       uk: {
         'main-result': 'Головний Результат',
+        'validation': 'Методологія Валідації',
         'ga4-data': 'Дані GA4',
         'retention': 'Retention',
         'economics': 'Юніт-економіка',
@@ -447,6 +448,7 @@ export const articleRegistry: ArticleConfig[] = [
       },
       en: {
         'main-result': 'Main Result',
+        'validation': 'Validation Methodology',
         'ga4-data': 'GA4 Data',
         'retention': 'Retention',
         'economics': 'Unit Economics',

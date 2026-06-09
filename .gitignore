@@ -36,6 +36,10 @@ chatbot/audit/
 plan-*.md
 audit-*.md
 
+# Private call/PBX stats (contains phone numbers)
+stats-pbx-*.csv
+*-pbx-*.csv
+
 # Backups and drafts
 backup/
 _backup_*/

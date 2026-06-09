@@ -170,7 +170,7 @@ const aboutJsonLd = {
     url: 'https://esupport.org.ua',
     image: 'https://esupport.org.ua/foto-avatar.png',
     email: 'esupport@esupport.org.ua',
-    jobTitle: ['Senior AI Engineer', 'AI Solutions Architect', 'Full-Stack Developer'],
+    jobTitle: ['Forward Deployed AI Engineer', 'Senior AI Engineer', 'AI Solutions Architect', 'Full-Stack Developer'],
     knowsAbout: [
       { '@type': 'Thing', name: 'Artificial Intelligence', url: 'https://en.wikipedia.org/wiki/Artificial_intelligence' },
       { '@type': 'Thing', name: 'Machine Learning', url: 'https://en.wikipedia.org/wiki/Machine_learning' },

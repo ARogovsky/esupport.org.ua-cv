@@ -5,8 +5,8 @@
 ## Про Andrey
 
 **Профіль:**
-- Senior AI Engineer з 25 роками досвіду в хмарній інфраструктурі та безпеці
-- Зараз повністю зосереджений на production GenAI системах
+- Forward Deployed AI Engineer з 25 роками досвіду в хмарній інфраструктурі та безпеці
+- Вбудовується у команду клієнта і доводить GenAI до production
 - Будує агентні воркфлоу та RAG-пайплайни на LangGraph, LangChain, Agno — розгорнуті в 5+ комерційних продуктах
 - Засновник Bablo Digital Agency, co-founder E-lli.com
 - Локація: Німеччина (доступний для remote EU/USA)

@@ -1,23 +1,23 @@
 export const seo = {
   uk: {
     title:
-      'Andrii Rogovsky | Senior AI Engineer · GTM Engineer',
+      'Andrii Rogovsky | Forward Deployed AI Engineer · GTM Engineer',
     description:
-      'Senior AI Engineer з 25 роками досвіду. Будую production GenAI системи з agentic workflows та RAG pipelines. Засновник Bablo Digital Agency та co-founder E-lli.com.',
+      'Forward Deployed Engineer з 25 роками досвіду. Вбудовуюсь у команду клієнта і доводжу GenAI до production: agentic workflows, RAG pipelines, MLOps. Засновник Bablo, co-founder E-lli.com.',
   },
   en: {
     title:
-      'Andrii Rogovsky | Senior AI Engineer · GTM Engineer',
+      'Andrii Rogovsky | Forward Deployed AI Engineer · GTM Engineer',
     description:
-      'Senior AI Engineer with 25 years in cloud infrastructure and security. Building production GenAI systems with agentic workflows and RAG pipelines. Founder of Bablo Digital Agency and co-founder of E-lli.com.',
+      'Forward Deployed Engineer with 25 years of experience. I embed with customer teams and ship GenAI to production: agentic workflows, RAG pipelines, MLOps.',
   },
 };
 
 export const translations = {
   uk: {
-    greeting: 'хто будує AI, що виживає в production з MCP + RAG + K8S',
-    greetingRoles: ['Senior AI Engineer', 'MLOps Specialist', 'Cloud Infrastructure Expert'],
-    pillLabels: ['AI Engineer', 'MLOps'],
+    greeting: 'який доводить GenAI до production у клієнта: MCP + RAG + K8S',
+    greetingRoles: ['Forward Deployed AI Engineer', 'MLOps Specialist', 'Cloud Infrastructure Expert'],
+    pillLabels: ['FDE', 'AI Engineer', 'MLOps', 'GTM'],
     email: 'esupport@esupport.org.ua',
     role: '',
     story: {
@@ -55,6 +55,7 @@ export const translations = {
     taglines: [] as readonly string[],
     location: 'Німеччина · Remote',
     roles: [
+      'Forward Deployed Engineer',
       'Senior AI Engineer',
       'MLOps Engineer',
       'Cloud Infrastructure Architect',
@@ -65,9 +66,9 @@ export const translations = {
       p1Highlight: 'AI-автоматизацію',
       p1End:
         'та no/low-code платформи. Після масштабування та продажу бізнесу (going-concern sale, 2025), фокусуюсь на ролях, де вплив множиться: перетворення нечітких бізнес-цілей на безпечні, вимірювані, enterprise-ready продукти та workflows.',
-      p2: 'End-to-end ownership через',
+      p2: 'Forward-deployed підхід: вбудовуюсь у команду клієнта, веду',
       p2Highlight: 'discovery → prioritization → delivery → adoption',
-      p2End: ', тісна співпраця зі stakeholders та інженерами.',
+      p2End: ' поруч зі stakeholders та інженерами.',
       cards: [
         {
           title: 'Менталітет будівельника',
@@ -233,8 +234,8 @@ export const translations = {
         {
           title: 'GALA',
           badge: 'B2B Lead Gen',
-          badgeBuilding: '',
-          desc: 'Автономний B2B lead generation агент. RoBERTa classifier, пік 85 дзвінків/день, 90 активних користувачів.',
+          badgeBuilding: 'Forward Deployed',
+          desc: 'Автономний B2B lead generation агент, розгорнутий у клієнта. RoBERTa classifier, пік 85 дзвінків/день, 90 активних користувачів.',
           tech: ['PyTorch', 'RoBERTa', 'Playwright', 'FastAPI'],
           link: '',
           caseStudyUrl: '/gala-b2b-lead-generation',
@@ -251,103 +252,14 @@ export const translations = {
           caseStudyLabel: 'Case Study: Advogram',
         },
         {
-          title: '[PLACEHOLDER-FOR-REPLACE] E-lli.com',
-          badge: '[PLACEHOLDER-FOR-REPLACE]',
-          badgeBuilding: '',
-          desc: '[PLACEHOLDER-FOR-REPLACE] Опис проєкту E-lli.com',
-          tech: ['[PLACEHOLDER-FOR-REPLACE]'],
-          link: '',
-        },
-        {
-          title: '[PLACEHOLDER-FOR-REPLACE] Life OS',
-          badge: '[PLACEHOLDER-FOR-REPLACE]',
-          badgeBuilding: '',
-          desc: '[PLACEHOLDER-FOR-REPLACE] Опис проєкту Life OS',
-          tech: ['[PLACEHOLDER-FOR-REPLACE]'],
-          link: '',
-        },
-        {
           title: 'esupport.org.ua',
           badge: 'Це портфоліо',
           badgeBuilding: '',
           desc: 'Інтерактивне CV з AI-augmented SDLC. Побудовано на сучасному стеку, двомовний i18n та автоматизоване SEO.',
           tech: ['React 19', 'TypeScript', 'Tailwind', 'Vite', 'Motion', 'Vercel'],
-          link: 'github.com/[PLACEHOLDER-FOR-REPLACE]',
-          stars: '0',
-          forks: '0',
-        },
-        {
-          title: '[PLACEHOLDER-FOR-REPLACE] Self-Healing Chatbot',
-          badge: '[PLACEHOLDER-FOR-REPLACE]',
-          badgeBuilding: '',
-          desc: '[PLACEHOLDER-FOR-REPLACE] Опис Self-Healing Chatbot',
-          tech: ['[PLACEHOLDER-FOR-REPLACE]'],
-          link: '',
-          caseStudyUrl: '/offzmi-gtm-doslidzhennia',
-          caseStudyLabel: 'Case Study: offzmi GTM',
-        },
-        {
-          title: '[PLACEHOLDER-FOR-REPLACE] Claude Eye',
-          badge: '[PLACEHOLDER-FOR-REPLACE]',
-          badgeBuilding: '',
-          desc: '[PLACEHOLDER-FOR-REPLACE] Опис Claude Eye',
-          tech: ['[PLACEHOLDER-FOR-REPLACE]'],
-          link: '',
-          stars: '0',
-          isDependency: true,
-          dependencyRole: 'animations',
-        },
-        {
-          title: '[PLACEHOLDER-FOR-REPLACE] Claudeable',
-          badge: '[PLACEHOLDER-FOR-REPLACE]',
-          badgeBuilding: '',
-          desc: '[PLACEHOLDER-FOR-REPLACE] Опис Claudeable',
-          tech: ['[PLACEHOLDER-FOR-REPLACE]'],
-          link: '',
-          stars: '0',
-          isDependency: true,
-          dependencyRole: 'framework',
-        },
-        {
-          title: '[PLACEHOLDER-FOR-REPLACE] Claude Pulse',
-          badge: '[PLACEHOLDER-FOR-REPLACE]',
-          badgeBuilding: '',
-          desc: '[PLACEHOLDER-FOR-REPLACE] Опис Claude Pulse',
-          tech: ['[PLACEHOLDER-FOR-REPLACE]'],
-          link: '',
-          stars: '0',
-          isDependency: true,
-          dependencyRole: 'monitoring',
-        },
-        {
-          title: '[PLACEHOLDER-FOR-REPLACE] ProjectOS Predict',
-          badge: '[PLACEHOLDER-FOR-REPLACE]',
-          badgeBuilding: '',
-          desc: '[PLACEHOLDER-FOR-REPLACE] Опис ProjectOS Predict',
-          tech: ['[PLACEHOLDER-FOR-REPLACE]'],
           link: '',
         },
       ],
-      saPlaybook: {
-        title: '[PLACEHOLDER-FOR-REPLACE] AI Solutions Playbook',
-        badge: '[PLACEHOLDER-FOR-REPLACE] Приватно · За запитом',
-        tagline: '',
-        desc: '[PLACEHOLDER-FOR-REPLACE] Система продуктивності для Solutions Architects, які керують кількома DTC клієнтами. Миттєве перемикання контексту між проєктами, автоматичні guardrails для production та самогенерована документація.',
-        features: [
-          { icon: 'zap', text: '[PLACEHOLDER-FOR-REPLACE] Перемикання контексту з 30хв до 30сек' },
-          {
-            icon: 'shield',
-            text: '[PLACEHOLDER-FOR-REPLACE] Guardrails, що блокують деструктивні операції в prod',
-          },
-          {
-            icon: 'fileText',
-            text: '[PLACEHOLDER-FOR-REPLACE] Автогенерований SESSION_BRIEF при відкритті проєкту',
-          },
-          { icon: 'git', text: '[PLACEHOLDER-FOR-REPLACE] Повні ADRs та логування операцій' },
-        ],
-        footer: '[PLACEHOLDER-FOR-REPLACE] Доступно за запитом для релевантних можливостей',
-        cta: '[PLACEHOLDER-FOR-REPLACE] Запросити доступ',
-      },
     },
     claudeCode: {
       title: 'E-lli.com',
@@ -360,10 +272,10 @@ export const translations = {
         'Fine-tuning: Персоналізована адаптація моделі для індивідуальних стилів рефлексії',
       ],
       certs: [
-        { title: 'Vector DB', url: '#' },
-        { title: 'RAG', url: '#' },
-        { title: 'LLM', url: '#' },
-        { title: 'Fine-tuning', url: '#' },
+        { title: 'Vector DB', url: 'https://e-lli.com' },
+        { title: 'RAG', url: 'https://e-lli.com' },
+        { title: 'LLM', url: 'https://e-lli.com' },
+        { title: 'Fine-tuning', url: 'https://e-lli.com' },
       ],
     },
     experience: {
@@ -735,7 +647,7 @@ export const translations = {
     },
     cta: {
       title: 'Давайте поговоримо',
-      desc: 'Шукаю віддалену роль (ЄС / США) як Senior AI Engineer & GTM Engineer. Будую production GenAI системи з agentic workflows, RAG pipelines та валідацією go-to-market.',
+      desc: 'Шукаю віддалену роль (ЄС / США) як Forward Deployed Engineer / Senior AI Engineer. Вбудовуюсь у команду клієнта і перетворюю AI-модель на робочий production-результат всередині бізнесу.',
       contact: 'Контакт',
     },
     ui: {
@@ -796,9 +708,9 @@ export const translations = {
     },
   },
   en: {
-    greeting: 'who builds AI that survives production with MCP + RAG + K8S',
-    greetingRoles: ['Senior AI Engineer', 'MLOps Specialist', 'Cloud Infrastructure Expert'],
-    pillLabels: ['AI Engineer', 'MLOps'],
+    greeting: 'who ships GenAI to production inside the customer: MCP + RAG + K8S',
+    greetingRoles: ['Forward Deployed AI Engineer', 'MLOps Specialist', 'Cloud Infrastructure Expert'],
+    pillLabels: ['FDE', 'AI Engineer', 'MLOps', 'GTM'],
     email: 'esupport@esupport.org.ua',
     role: '',
     story: {
@@ -836,6 +748,7 @@ export const translations = {
     taglines: [] as readonly string[],
     location: 'Germany · Remote',
     roles: [
+      'Forward Deployed Engineer',
       'Senior AI Engineer',
       'MLOps Engineer',
       'Cloud Infrastructure Architect',
@@ -846,9 +759,9 @@ export const translations = {
       p1Highlight: 'AI-powered automation',
       p1End:
         'and no / low-code platforms. After scaling and selling my business (going-concern sale, 2025), I focus on roles where impact compounds: turning ambiguous business goals into secure, measurable, enterprise-ready products and workflows.',
-      p2: 'End-to-end ownership across',
+      p2: 'Forward-deployed approach: I embed with the customer team and run',
       p2Highlight: 'discovery → prioritization → delivery → adoption',
-      p2End: ', collaborating closely with stakeholders and engineering.',
+      p2End: ' alongside stakeholders and engineering.',
       cards: [
         {
           title: 'Builder Mindset',
@@ -1014,8 +927,8 @@ export const translations = {
         {
           title: 'GALA',
           badge: 'B2B Lead Gen',
-          badgeBuilding: '',
-          desc: 'Autonomous B2B lead generation agent. RoBERTa classifier, 85 calls/day peak, 90 active users.',
+          badgeBuilding: 'Forward Deployed',
+          desc: 'Autonomous B2B lead generation agent, deployed at the customer. RoBERTa classifier, 85 calls/day peak, 90 active users.',
           tech: ['PyTorch', 'RoBERTa', 'Playwright', 'FastAPI'],
           link: '',
           caseStudyUrl: '/gala-b2b-lead-generation',
@@ -1032,103 +945,14 @@ export const translations = {
           caseStudyLabel: 'Case Study: Advogram',
         },
         {
-          title: '[PLACEHOLDER-FOR-REPLACE] E-lli.com',
-          badge: '[PLACEHOLDER-FOR-REPLACE]',
-          badgeBuilding: '',
-          desc: '[PLACEHOLDER-FOR-REPLACE] Description for E-lli.com project',
-          tech: ['[PLACEHOLDER-FOR-REPLACE]'],
-          link: '',
-        },
-        {
-          title: '[PLACEHOLDER-FOR-REPLACE] Life OS',
-          badge: '[PLACEHOLDER-FOR-REPLACE]',
-          badgeBuilding: '',
-          desc: '[PLACEHOLDER-FOR-REPLACE] Description for Life OS project',
-          tech: ['[PLACEHOLDER-FOR-REPLACE]'],
-          link: '',
-        },
-        {
           title: 'esupport.org.ua',
           badge: 'This Portfolio',
           badgeBuilding: '',
           desc: 'Interactive CV with AI-augmented SDLC. Built with modern stack, bilingual i18n, and automated SEO.',
           tech: ['React 19', 'TypeScript', 'Tailwind', 'Vite', 'Motion', 'Vercel'],
-          link: 'github.com/[PLACEHOLDER-FOR-REPLACE]',
-          stars: '0',
-          forks: '0',
-        },
-        {
-          title: '[PLACEHOLDER-FOR-REPLACE] Self-Healing Chatbot',
-          badge: '[PLACEHOLDER-FOR-REPLACE]',
-          badgeBuilding: '',
-          desc: '[PLACEHOLDER-FOR-REPLACE] Description for Self-Healing Chatbot project',
-          tech: ['[PLACEHOLDER-FOR-REPLACE]'],
-          link: '',
-          caseStudyUrl: '/offzmi-gtm-case-study',
-          caseStudyLabel: 'Case Study: offzmi GTM',
-        },
-        {
-          title: '[PLACEHOLDER-FOR-REPLACE] Claude Eye',
-          badge: '[PLACEHOLDER-FOR-REPLACE]',
-          badgeBuilding: '',
-          desc: '[PLACEHOLDER-FOR-REPLACE] Description for Claude Eye project',
-          tech: ['[PLACEHOLDER-FOR-REPLACE]'],
-          link: '',
-          stars: '0',
-          isDependency: true,
-          dependencyRole: 'animations',
-        },
-        {
-          title: '[PLACEHOLDER-FOR-REPLACE] Claudeable',
-          badge: '[PLACEHOLDER-FOR-REPLACE]',
-          badgeBuilding: '',
-          desc: '[PLACEHOLDER-FOR-REPLACE] Description for Claudeable project',
-          tech: ['[PLACEHOLDER-FOR-REPLACE]'],
-          link: '',
-          stars: '0',
-          isDependency: true,
-          dependencyRole: 'framework',
-        },
-        {
-          title: '[PLACEHOLDER-FOR-REPLACE] Claude Pulse',
-          badge: '[PLACEHOLDER-FOR-REPLACE]',
-          badgeBuilding: '',
-          desc: '[PLACEHOLDER-FOR-REPLACE] Description for Claude Pulse project',
-          tech: ['[PLACEHOLDER-FOR-REPLACE]'],
-          link: '',
-          stars: '0',
-          isDependency: true,
-          dependencyRole: 'monitoring',
-        },
-        {
-          title: '[PLACEHOLDER-FOR-REPLACE] ProjectOS Predict',
-          badge: '[PLACEHOLDER-FOR-REPLACE]',
-          badgeBuilding: '',
-          desc: '[PLACEHOLDER-FOR-REPLACE] Description for ProjectOS Predict project',
-          tech: ['[PLACEHOLDER-FOR-REPLACE]'],
           link: '',
         },
       ],
-      saPlaybook: {
-        title: '[PLACEHOLDER-FOR-REPLACE] AI Solutions Playbook',
-        badge: '[PLACEHOLDER-FOR-REPLACE] Private · On Request',
-        tagline: '',
-        desc: '[PLACEHOLDER-FOR-REPLACE] Productivity system for Solutions Architects managing multiple DTC clients. Instant context switching between projects, automatic guardrails for production, and self-generating documentation.',
-        features: [
-          { icon: 'zap', text: '[PLACEHOLDER-FOR-REPLACE] Context switching from 30min to 30sec' },
-          {
-            icon: 'shield',
-            text: '[PLACEHOLDER-FOR-REPLACE] Guardrails blocking destructive ops in prod',
-          },
-          {
-            icon: 'fileText',
-            text: '[PLACEHOLDER-FOR-REPLACE] Auto-generated SESSION_BRIEF on project open',
-          },
-          { icon: 'git', text: '[PLACEHOLDER-FOR-REPLACE] Full ADRs and operation logging' },
-        ],
-        footer: '[PLACEHOLDER-FOR-REPLACE] Available on request for relevant opportunities',
-        cta: '[PLACEHOLDER-FOR-REPLACE] Request access',
-      },
     },
     claudeCode: {
       title: 'E-lli.com',
@@ -1141,10 +965,10 @@ export const translations = {
         'Fine-tuning: Personalized model adaptation for individual reflection styles',
       ],
       certs: [
-        { title: 'Vector DB', url: '#' },
-        { title: 'RAG', url: '#' },
-        { title: 'LLM', url: '#' },
-        { title: 'Fine-tuning', url: '#' },
+        { title: 'Vector DB', url: 'https://e-lli.com' },
+        { title: 'RAG', url: 'https://e-lli.com' },
+        { title: 'LLM', url: 'https://e-lli.com' },
+        { title: 'Fine-tuning', url: 'https://e-lli.com' },
       ],
     },
     experience: {
@@ -1516,7 +1340,7 @@ export const translations = {
     },
     cta: {
       title: "Let's talk",
-      desc: 'Looking for a remote role (EU / USA) as Senior AI Engineer & GTM Engineer. Building production GenAI systems with agentic workflows, RAG pipelines, and go-to-market validation.',
+      desc: 'Looking for a remote role (EU / USA) as Forward Deployed Engineer / Senior AI Engineer. I embed with the customer team and turn an AI model into a working production result inside the business.',
       contact: 'Contact',
     },
     ui: {

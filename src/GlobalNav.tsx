@@ -217,7 +217,7 @@ function NavControls({ altPath, altLabel, lang, isDark, toggleTheme }: {
         to={altPath}
         className="inline-flex items-center justify-center gap-1.5 w-[4.5rem] h-10 rounded-full bg-card border border-border text-sm font-medium text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors"
       >
-        {lang === 'uk' ? <FlagUK className="w-3.5 h-3.5" /> : <FlagEN className="w-3.5 h-3.5" />}
+        {lang === 'uk' ? <FlagEN className="w-3.5 h-3.5" /> : <FlagUK className="w-3.5 h-3.5" />}
         {altLabel}
       </Link>
       <button
@@ -239,7 +239,7 @@ export default function GlobalNav() {
   const activeSection = useActiveSection(pathname, !isHome)
 
   const altPath = ALT_PATH[pathname] || (lang === 'uk' ? '/en' : '/')
-  const altLabel = lang === 'uk' ? 'UK' : 'EN'
+  const altLabel = lang === 'uk' ? 'EN' : 'UK'
 
   const t = translations[lang]
   const hasBar = !isHome

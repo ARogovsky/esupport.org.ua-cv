@@ -7,16 +7,16 @@ export const galaContent = {
     readingTime: '12 хв читання',
     seo: {
       title: 'GALA: Автономний Агент B2B Лідогенерації — Case Study',
-      description: 'Автономний агент B2B лідогенерації з RoBERTa-класифікатором. 85 дзвінків/день, 90 активних користувачів, 15-25% економії навантаження браузера.',
+      description: 'Forward-deployed кейс: автономний B2B агент з RoBERTa, розгорнутий у клієнта. 85 дзвінків/день, 90 активних користувачів, 15-25% економії браузера.',
     },
     nav: {
       breadcrumbHome: 'Головна',
       breadcrumbCurrent: 'GALA',
     },
     header: {
-      kicker: 'Case Study: Запуск 16 квітня 2026',
+      kicker: 'Case Study · Forward Deployed · Запуск 16 квітня 2026',
       h1: 'GALA — Автономний Агент B2B Лідогенерації',
-      subtitle: 'Автономний агент, який заповнює контактні форми на сайтах для B2B лідогенерації. RoBERTa-класифікатор визначає стратегію до відкриття сторінки. Результат: пік 85 вхідних дзвінків на день та дві скарги на тиждень',
+      subtitle: 'Forward-deployed кейс: побудував агент і задеплоїв безпосередньо у клієнта. Автономний агент заповнює контактні форми на сайтах для B2B лідогенерації. RoBERTa-класифікатор визначає стратегію до відкриття сторінки. Результат: пік 85 вхідних дзвінків на день та 90 активних користувачів',
       date: '16 квіт 2026',
     },
     heroMetrics: [
@@ -34,13 +34,28 @@ export const galaContent = {
       },
       mainResult: {
         heading: 'Головний Результат',
-        body: 'Ці дзвінки — не трафік на сайт GALA. Це компанії, які отримали повідомлення від агента і телефонують у відповідь клієнтам. Колл-трекінг фіксує зворотний зв\'язок — пряме підтвердження того, що агент генерує живі ліди. До запуску GALA 16 квітня — три з половиною тижні тиші на Zadarma. Після запуску — через 2–4 дні пік 85 вхідних дзвінків на день. Стабільна база — 30–65 дзвінків/день. Гео дзвінків: 99.8% Україна, мобільний Інтертелеком. Це підтверджує, що агент генерує живі ліди на українському ринку, а не просто відправляє форми в порожнечу. Результат доведений реальними даними.',
+        body: 'Це найчистіший forward-deployed кейс: агент побудований і розгорнутий безпосередньо в інфраструктурі клієнта, інтегрований з його колл-трекінгом і CRM. Ці дзвінки — не трафік на сайт GALA. Це компанії, які отримали повідомлення від агента і телефонують у відповідь клієнтам. Колл-трекінг фіксує зворотний зв\'язок — пряме підтвердження того, що агент генерує живі ліди. До запуску GALA 16 квітня — три з половиною тижні тиші на Zadarma. Після запуску — через 2–4 дні пік 85 вхідних дзвінків на день. Стабільна база — 30–65 дзвінків/день. Гео дзвінків: 99.8% Україна, мобільний Інтертелеком. Це підтверджує, що агент генерує живі ліди на українському ринку, а не просто відправляє форми в порожнечу. Результат доведений реальними даними.',
         metrics: [
           { value: '85', label: 'Дзвінків/день (пік)' },
           { value: '30-65', label: 'Дзвінків/день (база)' },
           { value: '99.8%', label: 'Україна (гео)' },
           { value: '2-4', label: 'Дні до піку' },
         ],
+      },
+      validation: {
+        heading: 'Методологія: Дешева Кваліфікація Лідів Замість Дорогого Voice-AI',
+        body: 'Перед тим як будувати повноцінний voice-AI стек (Whisper STT + LLM-діалог + TTS-озвучка) для кваліфікації лідів — я перевірив гіпотезу найдешевшим методом. GALA генерувала IVR-меню, а зворотний дзвінок компанії і взаємодія з меню вже служили сигналом кваліфікації. Не потрібні були дорогі живі діалоги: сам факт callback доводить, що лід гарячий. За 8 днів пілота (1–8 червня) — близько 160 унікальних компаній передзвонили, 98% pickup rate. Це класичний forward-deployed підхід: спочатку найдешевший проксі для валідації попиту всередині бізнесу клієнта, і лише потім — інвестиції в дорогу інфраструктуру, якщо гіпотеза підтвердилась.',
+        metrics: [
+          { value: '~160', label: 'Унікальних компаній' },
+          { value: '98%', label: 'Pickup rate' },
+          { value: '8', label: 'Днів пілота' },
+          { value: '~$0', label: 'Voice-AI інфраструктура' },
+        ],
+        callout: 'Замість дорогого Whisper + TTS pipeline — дешевий IVR-проксі. Гіпотезу кваліфікації лідів підтверджено реальними даними до жодних інвестицій у voice-AI.',
+        insight: {
+          heading: 'Інсайт: Ефект Понеділка',
+          body: 'Дані пілота показали чіткий патерн: піки зворотних дзвінків припадають на понеділок (76 дзвінків проти 29–36 у будні), бо агент розсилає форми наприкінці тижня та у вихідні, а компанії передзвонюють на початку робочого тижня. 92% усіх дзвінків — у робочі години 09:00–18:00, пік 09:00–11:00. Готова продуктова оптимізація: синхронізувати розсилку під ранок понеділка.',
+        },
       },
       ga4Data: {
         heading: 'Дані GA4 (29 січня – 28 квітня 2026)',
@@ -162,16 +177,16 @@ export const galaContent = {
     readingTime: '12 min read',
     seo: {
       title: 'GALA: Autonomous B2B Lead Generation Agent — Case Study',
-      description: 'Autonomous B2B lead generation agent with RoBERTa classifier. 85 calls/day peak, 90 active users, 15-25% browser load savings.',
+      description: 'Forward-deployed case: autonomous B2B agent with RoBERTa, deployed inside the customer. 85 calls/day peak, 90 active users, 15-25% browser load savings.',
     },
     nav: {
       breadcrumbHome: 'Home',
       breadcrumbCurrent: 'GALA',
     },
     header: {
-      kicker: 'Case Study: Launched April 16, 2026',
+      kicker: 'Case Study · Forward Deployed · Launched April 16, 2026',
       h1: 'GALA — Autonomous B2B Lead Generation Agent',
-      subtitle: 'An autonomous agent that fills contact forms on websites for B2B lead generation. RoBERTa classifier determines strategy before opening the page. Result: peak of 85 inbound calls per day.',
+      subtitle: 'A forward-deployed case: I built the agent and deployed it directly inside the customer. An autonomous agent that fills contact forms on websites for B2B lead generation. RoBERTa classifier determines strategy before opening the page. Result: peak of 85 inbound calls per day and 90 active users.',
       date: 'Apr 16, 2026',
     },
     heroMetrics: [
@@ -189,13 +204,28 @@ export const galaContent = {
       },
       mainResult: {
         heading: 'Main Result',
-        body: 'These calls are not traffic to the GALA website. These are companies that received a message from the agent and are calling back clients. Call tracking captures feedback — direct confirmation that the agent generates live leads. Before GALA launch on April 16 — three and a half weeks of silence on Zadarma. After launch — within 2–4 days peak of 85 inbound calls per day. Stable baseline — 30–65 calls/day. Call geo: 99.8% Ukraine, mobile Intertelecom. This confirms that the agent generates live leads in the Ukrainian market, not just sending forms into the void.',
+        body: 'This is the cleanest forward-deployed case: the agent was built and deployed directly inside the customer\'s infrastructure, integrated with their call tracking and CRM. These calls are not traffic to the GALA website. These are companies that received a message from the agent and are calling back clients. Call tracking captures feedback — direct confirmation that the agent generates live leads. Before GALA launch on April 16 — three and a half weeks of silence on Zadarma. After launch — within 2–4 days peak of 85 inbound calls per day. Stable baseline — 30–65 calls/day. Call geo: 99.8% Ukraine, mobile Intertelecom. This confirms that the agent generates live leads in the Ukrainian market, not just sending forms into the void.',
         metrics: [
           { value: '85', label: 'Calls/day (peak)' },
           { value: '30-65', label: 'Calls/day (baseline)' },
           { value: '99.8%', label: 'Ukraine (geo)' },
           { value: '2-4', label: 'Days to peak' },
         ],
+      },
+      validation: {
+        heading: 'Methodology: Cheap Lead Qualification Instead of Expensive Voice-AI',
+        body: 'Before building a full voice-AI stack (Whisper STT + LLM dialogue + TTS voice) for lead qualification, I validated the hypothesis with the cheapest possible method. GALA generated an IVR menu, and the company\'s callback plus menu interaction already served as the qualification signal. No expensive live dialogues were needed: the callback itself proves the lead is hot. Over an 8-day pilot (June 1–8) — about 160 unique companies called back, 98% pickup rate. This is the classic forward-deployed approach: first the cheapest proxy to validate demand inside the customer\'s business, and only then invest in expensive infrastructure if the hypothesis holds.',
+        metrics: [
+          { value: '~160', label: 'Unique companies' },
+          { value: '98%', label: 'Pickup rate' },
+          { value: '8', label: 'Pilot days' },
+          { value: '~$0', label: 'Voice-AI infra' },
+        ],
+        callout: 'Instead of an expensive Whisper + TTS pipeline — a cheap IVR proxy. The lead-qualification hypothesis was validated with real data before any investment in voice-AI.',
+        insight: {
+          heading: 'Insight: The Monday Effect',
+          body: 'Pilot data revealed a clear pattern: callback peaks land on Monday (76 calls vs 29–36 on weekdays), because the agent sends forms at the end of the week and on weekends, and companies call back at the start of the work week. 92% of all calls happen during business hours 09:00–18:00, peak 09:00–11:00. A ready product optimization: sync the form dispatch to Monday morning.',
+        },
       },
       ga4Data: {
         heading: 'GA4 Data (Jan 29 – Apr 28, 2026)',
