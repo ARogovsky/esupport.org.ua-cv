@@ -141,7 +141,7 @@ export const galaContent = {
       resources: {
         heading: 'Ресурси',
         items: [
-          { label: 'GALA — Автономний агент B2B лідогенерації', url: 'https://gala.esupport.org.ua' },
+          { label: 'GALA — Автономний агент B2B лідогенерації', url: 'https://elektronink.org.ua/' },
         ],
       },
     },
@@ -311,7 +311,7 @@ export const galaContent = {
       resources: {
         heading: 'Resources',
         items: [
-          { label: 'GALA — Autonomous B2B lead generation agent', url: 'https://gala.esupport.org.ua' },
+          { label: 'GALA — Autonomous B2B lead generation agent', url: 'https://elektronink.org.ua/' },
         ],
       },
     },

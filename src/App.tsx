@@ -1523,10 +1523,8 @@ function App() {
                     {label}
                   </span>
                 ))}
-                <a
-                  href="https://gala.esupport.org.ua"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  to={lang === 'uk' ? '/gala-b2b-lidogeneratsiya' : '/gala-b2b-lead-generation'}
                   className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 backdrop-blur-sm ${
                     hydrated && roleIndex === 2
                       ? 'border border-[#20d6ee] bg-[#20d6ee]/15 text-foreground scale-105'
@@ -1537,7 +1535,7 @@ function App() {
                   <span className="text-xs opacity-70">B2B Lead Gen</span>
                   <span className="text-xs">·</span>
                   {/* Peak calls per day */}<span className="font-medium">85 calls/day</span>
-                </a>
+                </Link>
               </div>
 
             </motion.div>
@@ -1880,7 +1878,7 @@ function App() {
 
             {/* GenAI Marketing card */}
             <AnimatedSection delay={0.5}>
-              <Link to={t.experience.bablo.genAI.caseStudyUrl} className="block h-full p-5 rounded-2xl bg-card border border-border hover:border-primary/30 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/5 transition-all duration-200 flex flex-col group/card">
+              <a href={t.experience.bablo.genAI.caseStudyUrl} target="_blank" rel="noopener noreferrer" className="block h-full p-5 rounded-2xl bg-card border border-border hover:border-primary/30 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/5 transition-all duration-200 flex flex-col group/card">
                 <Sparkles className="w-5 h-5 text-primary mb-3" />
                 <p className="font-medium text-sm mb-1">{t.experience.bablo.genAI.title}</p>
                 <p className="text-sm text-muted-foreground">{t.experience.bablo.genAI.desc}</p>
@@ -1888,7 +1886,7 @@ function App() {
                   <span className="text-xs font-medium text-accent">{t.experience.bablo.genAI.metric}</span>
                   <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/0 group-hover/card:text-primary group-hover/card:translate-x-0.5 transition-all duration-200" />
                 </div>
-              </Link>
+              </a>
             </AnimatedSection>
           </div>
 

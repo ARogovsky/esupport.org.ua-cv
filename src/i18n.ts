@@ -156,25 +156,25 @@ export const translations = {
     projects: {
       title: 'Проєкти',
       agentInfra: {
-        title: 'DevOps Profit Booster для стартапів та малих команд',
-        subtitle: 'Перетворіть хаос на cashflow – без найму жодного додаткового DevOps інженера',
+        title: 'IT-Sprout — благодійна IT-освіта',
+        subtitle: 'Безкоштовне навчання DevOps для українських ветеранів та одиноких матерів. Я — Vice President фонду',
         cta: {
-          text: 'Забронювати зустріч',
-          url: 'https://www.it-sprout.org/enterprise',
+          text: 'Фінансова прозорість фонду',
+          url: 'https://www.it-sprout.org/financial-transparency',
         },
         agents: [
-          { 
-            icon: 'brain', 
-            name: 'overview', 
-            desc: 'Більшість стартапів витрачають 20-40 годин/тиждень на ручні деплої та гасіння пожеж. Цей 4-денний live спринт дає швидкі перемоги, які зменшують ваш cloud bill, прискорюють релізи та зупиняють burnout команди. Без води – лише реальний код, реальна інфраструктура, реальний ROI.', 
-            tag: 'оркестратор' 
+          {
+            icon: 'brain',
+            name: 'overview',
+            desc: 'CF IT-SPROUT — зареєстрований благодійний фонд в Україні. Місія: давати українським ветеранам та одиноким матерям безкоштовну IT-освіту для віддаленої роботи. Я Vice President фонду: відповідаю за освітню програму та менторство. За 5 років — понад 5000 випускників, попри війну.',
+            tag: 'місія'
           },
-          { icon: 'target', name: 'День 1 – Lift & Shift', desc: 'Знайдіть та усуньте найбільші витоки часу та грошей у вашій поточній системі', tag: '6 годин' },
-          { icon: 'zap', name: 'День 2 – Автоматизація та Workaround', desc: 'Розрахуйте реальний ROI кожної автоматизації та вирішіть, що варто робити, а що дешевше обійти', tag: '6 годин' },
-          { icon: 'gitMerge', name: 'День 3 – Managed vs Self-Hosted', desc: 'Припиніть гадати — ми розраховуємо 3-річний TCO live на вашому реальному стеку', tag: '6 годин' },
-          { icon: 'compass', name: 'День 4 – Roadmap & Leadership', desc: 'Побудуйте ваш 90-денний profit roadmap + як founder/CEO змушує команду його виконувати', tag: '6 годин' },
-          { icon: 'briefcase', name: 'Ціна', desc: '€12,000 фіксовано для перших 10 стартап-груп у 2026 (зазвичай €15,000). Приватне групове навчання для 5–8 осіб.', tag: 'обмежена пропозиція' },
-          { icon: 'trendingUp', name: 'Результати', desc: 'Заощадьте €5k–€25k на місяць. Отримайте 7–10 швидких автоматизацій, які окупають весь спринт за <3 місяці.', tag: 'гарантований roi' },
+          { icon: 'users', name: '5000+ випускників', desc: 'Навчили з нуля попри війну. Стартували з пілоту на 37 студентів п\'ять років тому', tag: '5 років' },
+          { icon: 'briefcase', name: '30+ університетів', desc: 'Контракти з понад 30 університетами-партнерами по всій Україні', tag: 'партнерства' },
+          { icon: 'target', name: '80% — стипендії', desc: 'З кожних ₴100 пожертв ₴80 йдуть напряму бенефіціарам: стипендії, обладнання, догляд за дітьми, працевлаштування', tag: 'прозорість' },
+          { icon: 'zap', name: '9 живих воркшопів', desc: 'Навчання через практику: теорія одразу закріплюється hands-on домашніми завданнями. 100% практики', tag: '100% hands-on' },
+          { icon: 'gitMerge', name: 'Державний нагляд', desc: 'Працюємо під наглядом Мінсоцполітики, Податкової служби та Мінцифри. Регулярні аудити та звітність', tag: 'підзвітність' },
+          { icon: 'compass', name: 'Екопроєкти', desc: 'Надлишок коштів інвестуємо в заліснення постраждалих від війни регіонів та чисту енергію для сіл', tag: 'сталий розвиток' },
         ],
       },
       githubLink: 'bablo.biz',
@@ -849,25 +849,25 @@ export const translations = {
     projects: {
       title: 'Projects',
       agentInfra: {
-        title: 'DevOps Profit Booster for Startups & Small Teams',
-        subtitle: 'Turn chaos into cashflow – without hiring a single extra DevOps engineer',
+        title: 'IT-Sprout — Charity IT Education',
+        subtitle: 'Free DevOps training for Ukrainian veterans and single mothers. I serve as the foundation\'s Vice President',
         cta: {
-          text: 'Book a Meeting',
-          url: 'https://www.it-sprout.org/enterprise',
+          text: 'Foundation Financial Transparency',
+          url: 'https://www.it-sprout.org/financial-transparency',
         },
         agents: [
-          { 
-            icon: 'brain', 
-            name: 'overview', 
-            desc: 'Most startups waste 20-40 hours/week on manual deploys and firefighting. This 4-day live sprint delivers quick wins that cut your cloud bill, speed up releases, and stop team burnout. No fluff – just real code, real infra, real ROI.', 
-            tag: 'orchestrator' 
+          {
+            icon: 'brain',
+            name: 'overview',
+            desc: 'CF IT-SPROUT is a registered charity foundation in Ukraine. Its mission: give Ukrainian veterans and single mothers free IT education for remote work. As Vice President I lead the educational program and mentorship. Over 5 years — more than 5,000 graduates, despite the war.',
+            tag: 'mission'
           },
-          { icon: 'target', name: 'Day 1 – Lift & Shift', desc: 'Find and kill the biggest time & money leaks in your current setup', tag: '6 hours' },
-          { icon: 'zap', name: 'Day 2 – Automation & Workaround', desc: 'Calculate real ROI on every automation and decide what\'s worth doing vs cheap workarounds', tag: '6 hours' },
-          { icon: 'gitMerge', name: 'Day 3 – Managed vs Self-Hosted', desc: 'Stop guessing — we run the 3-year TCO numbers live on your actual stack', tag: '6 hours' },
-          { icon: 'compass', name: 'Day 4 – Roadmap & Leadership', desc: 'Build your 90-day profit roadmap + how the founder/CEO forces the team to execute it', tag: '6 hours' },
-          { icon: 'briefcase', name: 'Pricing', desc: '€12,000 flat for first 10 startup groups in 2026 (normally €15,000). Private group training for 5–8 people.', tag: 'limited offer' },
-          { icon: 'trendingUp', name: 'Results', desc: 'Save €5k–€25k per month. Get 7–10 quick automations that pay for the whole sprint in <3 months.', tag: 'guaranteed roi' },
+          { icon: 'users', name: '5000+ graduates', desc: 'Trained from scratch despite the war. Started with a pilot of 37 students five years ago', tag: '5 years' },
+          { icon: 'briefcase', name: '30+ universities', desc: 'Contracts with over 30 partner universities across Ukraine', tag: 'partnerships' },
+          { icon: 'target', name: '80% — scholarships', desc: 'For every ₴100 donated, ₴80 goes directly to beneficiaries: scholarships, equipment, childcare, career placement', tag: 'transparency' },
+          { icon: 'zap', name: '9 living workshops', desc: 'Learning by doing: theory is locked in immediately through hands-on homework. 100% hands-on', tag: '100% hands-on' },
+          { icon: 'gitMerge', name: 'Government oversight', desc: 'We operate under the Ministry of Social Policy, State Tax Service, and Ministry of Digital Transformation. Regular audits and reporting', tag: 'accountability' },
+          { icon: 'compass', name: 'Eco projects', desc: 'Surplus funds are invested in reforestation of war-affected regions and clean energy for rural communities', tag: 'sustainability' },
         ],
       },
       githubLink: 'bablo.biz',
