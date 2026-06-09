@@ -1723,10 +1723,6 @@ function App() {
                   <ChevronRight className="w-4 h-4 group-hover/cta:translate-x-0.5 transition-transform duration-200" />
                 </Link>
                 <div className="flex items-center gap-3 pt-4">
-                  <a href={`https://github.com/${t.experience.bablo.jacobo.github}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-xs text-primary hover:underline">
-                    <Github className="w-4 h-4" />
-                    {lang === 'uk' ? 'Переглянути код' : 'View code'}
-                  </a>
                   <span className="flex items-center gap-1 text-xs text-muted-foreground"><Star className="w-3.5 h-3.5 text-yellow-500" />{t.experience.bablo.jacobo.stars}</span>
                   <span className="flex items-center gap-1 text-xs text-muted-foreground"><GitFork className="w-3.5 h-3.5" />{t.experience.bablo.jacobo.forks}</span>
                 </div>
@@ -1787,10 +1783,6 @@ function App() {
                   <ChevronRight className="w-4 h-4 group-hover/cta:translate-x-0.5 transition-transform duration-200" />
                 </Link>
                 <div className="flex items-center gap-3 pt-4">
-                  <a href={`https://github.com/${t.experience.bablo.webSeo.github}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-xs text-accent hover:underline">
-                    <Github className="w-4 h-4" />
-                    {lang === 'uk' ? 'Переглянути код' : 'View code'}
-                  </a>
                   <span className="flex items-center gap-1 text-xs text-muted-foreground"><Star className="w-3.5 h-3.5 text-yellow-500" />{t.experience.bablo.webSeo.stars}</span>
                   <span className="flex items-center gap-1 text-xs text-muted-foreground"><GitFork className="w-3.5 h-3.5" />{t.experience.bablo.webSeo.forks}</span>
                 </div>

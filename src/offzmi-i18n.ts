@@ -33,7 +33,6 @@ export const offzmiContent = {
       body: 'offzmi.com — проєкт для маркетологів. Питання перед запуском: які інструменти реально потрібні аудиторії? Замість опитувань я запустив AI-пошук ніш через MCP-browser, згенерував статейний контент і пустив платний трафік — щоб реальна поведінка пошуку дала відповідь.',
     },
     internalLinks: {
-      github: { text: 'offzmi на GitHub', href: 'https://github.com/offzmi' },
       website: { text: 'offzmi.com', href: 'https://offzmi.com' },
     },
     sections: {
@@ -391,8 +390,6 @@ const niches = await mcpBrowser.searchTrends({
     footer: {
       role: 'AI Engineer · GTM Engineer',
       bio: 'Побудував offzmi.com як живий GTM-експеримент — від AI-серфінгу ніш до підтвердженого ринкового сигналу. Застосовую ту саму методологію до наступного продукту.',
-      fellowAt: 'Open source at',
-      fellowLink: 'github.com/offzmi',
       copyright: 'Всі права захищені.',
     },
   },
@@ -428,7 +425,6 @@ const niches = await mcpBrowser.searchTrends({
       body: 'offzmi.com is a project for marketers. The question before launch: what tools does the audience actually need? Instead of surveys, I ran AI niche surfing via MCP-browser, generated article content, and ran paid traffic — letting real search behavior give the answer.',
     },
     internalLinks: {
-      github: { text: 'offzmi on GitHub', href: 'https://github.com/offzmi' },
       website: { text: 'offzmi.com', href: 'https://offzmi.com' },
     },
     sections: {
@@ -786,8 +782,6 @@ const niches = await mcpBrowser.searchTrends({
     footer: {
       role: 'AI Engineer · GTM Engineer',
       bio: 'Built offzmi.com as a live GTM experiment — from AI niche surfing to a confirmed market signal. Applying the same methodology to the next product.',
-      fellowAt: 'Open source at',
-      fellowLink: 'github.com/offzmi',
       copyright: 'All rights reserved.',
     },
   },
